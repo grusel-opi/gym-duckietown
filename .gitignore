@@ -6,4 +6,6 @@
 xvfb.log
 bin
 
+venv
+
 trained_models

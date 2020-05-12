@@ -27,9 +27,8 @@ for i in range(num_imgs):
     start = list(env.drivable_tiles[int(np.random.uniform(0, len(env.drivable_tiles)))]['coords'])
     env.user_tile_start = start
     env.reset()
-    imgs.append(env.render(mode='rgb_array'))
-    info = env.get_agent_info()['Simulator']
-    pos, angle, lane_pos = info['cur_pos'], info['cur_angle'], info['lane_position']
-    print("pos: %, angle: %, lane_pos: %", pos, angle, lane_pos)
+    lane_pos = env.get_agent_info()['Simulator']['lane_position']
+    label = (lane_pos.dist, lane_pos.dot_dir)
+    imgs.append((env.render(mode='rgb_array'), label))
 
-print(imgs[0].shape)
+

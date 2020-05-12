@@ -16,8 +16,6 @@ import gym_duckietown
 from gym_duckietown.envs import DuckietownEnv
 from gym_duckietown.wrappers import UndistortWrapper
 
-# from experiments.utils import save_img
-
 parser = argparse.ArgumentParser()
 parser.add_argument('--env-name', default=None)
 parser.add_argument('--map-name', default='udem1')
@@ -69,9 +67,11 @@ def on_key_press(symbol, modifiers):
     #     img = env.render('rgb_array')
     #     save_img('screenshot.png', img)
 
+
 # Register a keyboard handler
 key_handler = key.KeyStateHandler()
 env.unwrapped.window.push_handlers(key_handler)
+
 
 def update(dt):
     """
@@ -102,7 +102,6 @@ def update(dt):
     if key_handler[key.RETURN]:
         from PIL import Image
         im = Image.fromarray(obs)
-
         im.save('screen.png')
 
     if done:
@@ -111,6 +110,7 @@ def update(dt):
         env.render()
 
     env.render()
+
 
 pyglet.clock.schedule_interval(update, 1.0 / env.unwrapped.frame_rate)
 

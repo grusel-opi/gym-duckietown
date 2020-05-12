@@ -410,7 +410,7 @@ class Simulator(gym.Env):
         self.cam_fov_y = self._perturb(CAMERA_FOV_Y, 0.2)
 
         # Camera offset for use in free camera mode
-        self.cam_offset = np.array([0, 0, 0])
+        self.cam_offset = np.array([0, 0, 0], dtype=float)
 
         # Create the vertex list for the ground/noise triangles
         # These are distractors, junk on the floor
@@ -1293,7 +1293,6 @@ class Simulator(gym.Env):
         # this was before but obviously doesn't work for grid_height = 1
         # cp = [gx, (grid_height - 1) * tile_size - gz]
         cp = [gx, grid_height * tile_size - gz]
-
 
         return geometry.SE2_from_translation_angle(cp, angle)
 

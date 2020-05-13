@@ -17,7 +17,7 @@ from gym_duckietown.envs import DuckietownEnv
 from gym_duckietown.wrappers import UndistortWrapper
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--env-name', default=None)
+parser.add_argument('--env-name', default='Duckietown-straight_road-v0')
 parser.add_argument('--map-name', default='udem1')
 parser.add_argument('--distortion', default=False, action='store_true')
 parser.add_argument('--draw-curve', action='store_true', help='draw the lane following curve')
@@ -31,7 +31,7 @@ if args.env_name and args.env_name.find('Duckietown') != -1:
     env = DuckietownEnv(
         seed = args.seed,
         map_name = args.map_name,
-        draw_curve = args.draw_curve,
+        draw_curve = True,
         draw_bbox = args.draw_bbox,
         domain_rand = args.domain_rand,
         frame_skip = args.frame_skip,
@@ -97,7 +97,8 @@ def update(dt):
         action *= 1.5
 
     obs, reward, done, info = env.step(action)
-    print('step_count = %s, reward=%.3f' % (env.unwrapped.step_count, reward))
+    print(env.get_lane_pos2(env.cur_pos, env.cur_angle))
+    #print('step_count = %s, reward=%.3f' % (env.unwrapped.step_count, reward))
 
     if key_handler[key.RETURN]:
         from PIL import Image

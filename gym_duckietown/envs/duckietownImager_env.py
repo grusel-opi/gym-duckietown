@@ -67,16 +67,21 @@ class DuckietownImager(Simulator):
 
     def get_images(self, num_imgs):
 
-        images = list()
-        for _ in range(num_imgs):
+        images = np.zeros(shape=(num_imgs, 3, WINDOW_HEIGHT, WINDOW_WIDTH), dtype=np.uint8)
+        labels = np.zeros(shape=(num_imgs, 2), dtype=np.float32)
+
+        for i in range(num_imgs):
+
             start = list(self.drivable_tiles[int(np.random.uniform(0, len(self.drivable_tiles)))]['coords'])
             self.user_tile_start = start
             self.reset()
             dist = self.get_agent_info()['Simulator']['lane_position']['dist']
             dot_dir = self.get_agent_info()['Simulator']['lane_position']['dot_dir']
-            images.append((self.render(mode='rgb_array'), (dist, dot_dir)))
+            img = self.render(mode='rgb_array')
+            images[i] = img
+            labels[i] = np.array([dist, dot_dir])
 
-        return images
+        return np.array(images, labels)
 
     def get_own_curves(self, tile):
         """

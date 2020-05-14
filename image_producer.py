@@ -2,19 +2,20 @@ import numpy as np
 import os
 from gym_duckietown.envs import DuckietownImager
 from matplotlib import pyplot as plt
+from numpy import save
+from numpy import load
 
 
 def save_images(images):
-    path = "./pictures/"
+    path = "./generated/"
 
     try:
         os.mkdir(path)
     except OSError:
-        print("./pictures may already be there..")
+        print(path + " may already be there..")
         return
 
-    for img, label in images:
-        plt.imsave(path + str(label) + ".png", img)
+    save("data.npy", images)
 
 
 if __name__ == '__main__':
@@ -22,7 +23,7 @@ if __name__ == '__main__':
     num_imgs = 100
 
     env = DuckietownImager()
-    imgs = env.get_images(num_imgs)
+    labled_imgs = env.get_images(num_imgs)
 
-    save_images(imgs)
+    save_images(labled_imgs)
 

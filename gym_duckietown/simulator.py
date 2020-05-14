@@ -448,13 +448,13 @@ class Simulator(gym.Env):
 
         # If the map specifies a starting tile
         if self.user_tile_start:
-            logger.info('using user tile start: %s' % self.user_tile_start)
+            # logger.info('using user tile start: %s' % self.user_tile_start)
             i, j = self.user_tile_start
             tile = self._get_tile(i, j)
             if tile is None:
                 msg = 'The tile specified does not exist.'
                 raise Exception(msg)
-            logger.debug('tile: %s' % tile)
+            # logger.debug('tile: %s' % tile)
         else:
             if self.start_tile is not None:
                 tile = self.start_tile
@@ -513,7 +513,7 @@ class Simulator(gym.Env):
         self.cur_pos = propose_pos
         self.cur_angle = propose_angle
 
-        logger.info('Starting at %s %s' % (self.cur_pos, self.cur_angle))
+        # logger.info('Starting at %s %s' % (self.cur_pos, self.cur_angle))
 
         # Generate the first camera image
         obs = self.render_obs()

@@ -12,7 +12,7 @@ class DuckietownImager(Simulator):
         self.full_transparency = True
         self.accept_start_angle_deg = 180
         self.num_imgs = num_imgs
-        self.images = np.zeros(shape=(num_imgs, WINDOW_HEIGHT, WINDOW_WIDTH, 3), dtype=np.uint8)
+        self.images = np.zeros(shape=self.observation_space.shape, dtype=self.observation_space.dtype)
         self.labels = np.zeros(shape=(num_imgs, 2), dtype=np.float32)
         # self.own_curves = [self.get_own_curves(t) for t in self.grid]
 
@@ -22,11 +22,10 @@ class DuckietownImager(Simulator):
 
             start = list(self.drivable_tiles[int(np.random.uniform(0, len(self.drivable_tiles)))]['coords'])
             self.user_tile_start = start
-            self.reset()
+            obs = self.reset()
             dist = self.get_agent_info()['Simulator']['lane_position']['dist'] / self.road_tile_size
             dot_dir = self.get_agent_info()['Simulator']['lane_position']['dot_dir']
-            img = self.render(mode='rgb_array')
-            self.images[i] = img
+            self.images[i] = obs
             self.labels[i] = np.array([dist, dot_dir])
 
     # def get_lane_pos3(self, pos, angle):

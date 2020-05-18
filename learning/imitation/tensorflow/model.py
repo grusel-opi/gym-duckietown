@@ -1,18 +1,20 @@
 import numpy as np
 import tensorflow as tf
 
-from imitation.tensorflow._layers import one_residual
+from learning.imitation.tensorflow._layers import one_residual
 
 
 class TensorflowModel:
     def __init__(self, observation_shape, action_shape, graph_location, seed=1234):
+        tf.compat.v1.disable_eager_execution()
+
         # model definition
         self._observation = None
         self._action = None
         self._computation_graph = None
         self._optimization_op = None
 
-        self.tf_session = tf.InteractiveSession()
+        self.tf_session = tf.compat.v1.InteractiveSession()
 
         # restoring
         self.tf_checkpoint = None
@@ -40,19 +42,19 @@ class TensorflowModel:
 
     def computation_graph(self):
         model = one_residual(self._preprocessed_state, seed=self.seed)
-        model = tf.layers.dense(model, units=64, activation=tf.nn.relu,
-                                kernel_initializer=tf.contrib.layers.xavier_initializer(uniform=False, seed=self.seed),
-                                bias_initializer=tf.contrib.layers.xavier_initializer(uniform=False, seed=self.seed))
-        model = tf.layers.dense(model, units=32, activation=tf.nn.relu,
-                                kernel_initializer=tf.contrib.layers.xavier_initializer(uniform=False, seed=self.seed),
-                                bias_initializer=tf.contrib.layers.xavier_initializer(uniform=False, seed=self.seed))
+        model = tf.compat.v1.layers.dense(model, units=64, activation=tf.nn.relu,
+                                kernel_initializer=tf.keras.initializers.GlorotNormal(seed=self.seed),
+                                bias_initializer=tf.keras.initializers.GlorotNormal(seed=self.seed))
+        model = tf.compat.v1.layers.dense(model, units=32, activation=tf.nn.relu,
+                                kernel_initializer=tf.keras.initializers.GlorotNormal(seed=self.seed),
+                                bias_initializer=tf.keras.initializers.GlorotNormal(seed=self.seed))
 
-        model = tf.layers.dense(model, self._action.shape[1])
+        model = tf.compat.v1.layers.dense(model, self._action.shape[1])
 
         return model
 
     def _optimizer(self):
-        return tf.train.AdamOptimizer()
+        return tf.compat.v1.train.AdamOptimizer()
 
     def _loss_function(self):
         return tf.losses.mean_squared_error(self._action, self._computation_graph)
@@ -61,16 +63,16 @@ class TensorflowModel:
         if not self._computation_graph:
             self._create(input_shape, action_shape)
             self._storing(storage_location)
-            self.tf_session.run(tf.global_variables_initializer())
+            self.tf_session.run(tf.compat.v1.global_variables_initializer())
 
     def _pre_process(self):
-        resize = tf.map_fn(lambda frame: tf.image.resize_images(frame, (60, 80)), self._observation)
+        resize = tf.map_fn(lambda frame: tf.image.resize(frame, (60, 80)), self._observation)
         and_standardize = tf.map_fn(lambda frame: tf.image.per_image_standardization(frame), resize)
         self._preprocessed_state = and_standardize
 
     def _create(self, input_shape, output_shape):
-        self._observation = tf.placeholder(dtype=tf.float32, shape=input_shape, name='state')
-        self._action = tf.placeholder(dtype=tf.float32, shape=output_shape, name='action')
+        self._observation = tf.compat.v1.placeholder(dtype=tf.float32, shape=input_shape, name='state')
+        self._action = tf.compat.v1.placeholder(dtype=tf.float32, shape=output_shape, name='action')
         self._pre_process()
 
         self._computation_graph = self.computation_graph()
@@ -78,7 +80,7 @@ class TensorflowModel:
         self._optimization_op = self._optimizer().minimize(self._loss)
 
     def _storing(self, location):
-        self.tf_saver = tf.train.Saver()
+        self.tf_saver = tf.compat.v1.train.Saver()
 
         self.tf_checkpoint = tf.train.latest_checkpoint(location)
         if self.tf_checkpoint:

@@ -4,12 +4,13 @@ import argparse
 import sys
 import numpy as np
 
-from utils.teacher import PurePursuitExpert
-from utils.env import launch_env
-from utils.wrappers import NormalizeWrapper, \
+from learning.utils.teacher import PurePursuitExpert
+from learning.utils.env import launch_env
+from learning.utils.wrappers import NormalizeWrapper, \
     DtRewardWrapper, ActionWrapper, ResizeWrapper
 
-from imitation.tensorflow.model import TensorflowModel
+from learning.imitation.tensorflow.model import TensorflowModel
+
 
 def _train(args):
     print("Running Expert for {} Episodes of {} Steps".format(args.episodes, args.steps))
@@ -22,7 +23,7 @@ def _train(args):
     env = DtRewardWrapper(env)
     print("Initialized Wrappers")
 
-    observation_shape = (None, ) + env.observation_space.shape
+    observation_shape = (args.batch_size, ) + env.observation_space.shape
     action_shape = (None, ) + env.action_space.shape
 
     # Create an imperfect demonstrator

@@ -2,6 +2,7 @@ from gym_duckietown.simulator import *
 from gym_duckietown.graphics import *
 from numpy import save, load
 from matplotlib import pyplot as plt
+from scipy.stats import truncnorm
 
 
 class DuckietownImager(Simulator):
@@ -12,7 +13,7 @@ class DuckietownImager(Simulator):
         self.domain_rand = True
         self.draw_bbox = False
         self.full_transparency = True
-        self.accept_start_angle_deg = 180
+        self.accept_start_angle_deg = 90
         self.num_imgs = num_imgs
         self.images = np.zeros(shape=(num_imgs, *self.observation_space.shape), dtype=self.observation_space.dtype)
         self.labels = np.zeros(shape=(num_imgs, 2), dtype=np.float32)
@@ -173,11 +174,13 @@ class DuckietownImager(Simulator):
             z = self.np_random.uniform(j, j + 1) * self.road_tile_size
             propose_pos = np.array([x, 0, z])
 
-            # Choose a random direction
+            # TODO: use normal instead of uniform?
             propose_angle = self.np_random.uniform(0, 2 * math.pi)
+            # propose_angle = get_truncated_normal(mean=0, sd=360/8, low=-90, upp=90)
 
             p, t = self.closest_curve_point(propose_pos, propose_angle)
 
+            # normal distribution instead of uniform
             propose_pos = self.new_position(p, t)
 
             # If this is too close to an object or not a valid pose, retry
@@ -224,9 +227,9 @@ class DuckietownImager(Simulator):
         if not math.isclose(np.linalg.norm(tangent), 1):
             tangent = tangent / np.linalg.norm(tangent)
         tangent = tangent * self.road_tile_size / 4
-        t1, t2 = rotY(90) @ tangent, rotY(270) @ tangent
+        t1, t2 = rot_y(90) @ tangent, rot_y(270) @ tangent
         p1, p2 = pos + t1, pos + t2
-        u = np.random.normal(loc=0, scale=0.5)
+        u = get_truncated_normal().rvs()
         return (1 - u) * p1 + u * p2
 
 
@@ -234,17 +237,24 @@ def load_data(set_no, path="./generated/"):
     return load(path + "data" + str(set_no) + ".npy"), load(path + "labels" + str(set_no) + ".npy")
 
 
-def rotY(deg):
+def rot_y(deg):
     rad = np.deg2rad(deg)
     c = math.cos(rad)
     s = math.sin(rad)
-    return np.array([[c, 0, s], [0, 1, 0], [-s, 0, c]])
+    return np.array([[c, 0, s],
+                     [0, 1, 0],
+                     [-s, 0, c]])
+
+
+def get_truncated_normal(mean=0.5, sd=1/4, low=0, upp=1):
+    return truncnorm(
+        (low - mean) / sd, (upp - mean) / sd, loc=mean, scale=sd)
 
 
 if __name__ == '__main__':
+
     env = DuckietownImager(10)
     env.produce_images()
     for j in range(10):
-        plt.figure()
         plt.imshow(env.images[j])
-    plt.show()
+        plt.show()

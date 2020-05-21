@@ -14,6 +14,7 @@ class DuckietownImager(Simulator):
         self.draw_bbox = False
         self.full_transparency = True
         self.accept_start_angle_deg = 90
+        self.pos_bounds_fac = 0.4  # factor in road tile size for bounds of distribution
         self.num_imgs = num_imgs
         self.images = np.zeros(shape=(num_imgs, *self.observation_space.shape), dtype=self.observation_space.dtype)
         self.labels = np.zeros(shape=(num_imgs, 2), dtype=np.float32)
@@ -175,7 +176,7 @@ class DuckietownImager(Simulator):
             propose_pos = np.array([x, 0, z])
 
             # normal instead of uniform
-            propose_angle = get_truncated_normal(mean=0, sd=360 / 8, low=-90, upp=90).rvs()
+            propose_angle = get_truncated_normal(mean=0, sd=360 / 32, low=-90, upp=90).rvs()
             propose_angle = np.deg2rad(propose_angle)
             if propose_angle < 0:
                 propose_angle += 2 * np.pi
@@ -226,13 +227,16 @@ class DuckietownImager(Simulator):
         return obs
 
     def new_position(self, pos, tangent):
-        if not math.isclose(np.linalg.norm(tangent), 1):
-            tangent = tangent / np.linalg.norm(tangent)
-        tangent = tangent * self.road_tile_size / 4
+        tangent = tangent * self.road_tile_size * self.pos_bounds_fac
         t1, t2 = rot_y(90) @ tangent, rot_y(270) @ tangent
         p1, p2 = pos + t1, pos + t2
         u = get_truncated_normal().rvs()
-        return (1 - u) * p1 + u * p2
+        new_p = (1 - u) * p1 + u * p2
+        if new_p[0] >= round(pos[0]) + 1:
+            new_p[0] = round(pos[0]) + 1
+        if new_p[2] >= round(pos[2]) + 1:
+            new_p[2] = round(pos[0]) + 1
+        return new_p
 
 
 def load_data(set_no, path="./generated/"):
@@ -254,12 +258,12 @@ def get_truncated_normal(mean=0.5, sd=1 / 4, low=0, upp=1):
 
 
 if __name__ == '__main__':
-
-    pass
-    # env = DuckietownImager(10)
-    # env.produce_images()
-    # for j in range(10):
-    #     plt.figure()
-    #     plt.imshow(env.images[j])
-    #
+    # plt.hist(get_truncated_normal(mean=0, sd=360 / 32, low=-90, upp=90).rvs(10000))
     # plt.show()
+
+    imgs = 30
+    env = DuckietownImager(imgs)
+    env.produce_images()
+    for j in range(imgs):
+        plt.imshow(env.images[j])
+        plt.show()

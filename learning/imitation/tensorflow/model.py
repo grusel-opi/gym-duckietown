@@ -1,7 +1,7 @@
 import numpy as np
 import tensorflow as tf
 
-from imitation.tensorflow._layers import one_residual
+from learning.imitation.tensorflow._layers import one_residual
 
 
 class TensorflowModel:

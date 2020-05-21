@@ -43,7 +43,7 @@ class DuckietownImager(Simulator):
 
     def reset_own(self):
         """
-                Same as Simulator.reset() but own position distribution
+                Same as Simulator.reset() but own pose distribution (normal instead of uniform)
                 Reset the simulation at the start of a new episode
                 This also randomizes many environment parameters (domain randomization)
                 """
@@ -175,8 +175,6 @@ class DuckietownImager(Simulator):
             propose_pos = np.array([x, 0, z])
 
             # normal instead of uniform
-            # TODO: test this!
-            # propose_angle = self.np_random.uniform(0, 2 * math.pi)
             propose_angle = get_truncated_normal(mean=0, sd=360 / 8, low=-90, upp=90).rvs()
             propose_angle = np.deg2rad(propose_angle)
             if propose_angle < 0:

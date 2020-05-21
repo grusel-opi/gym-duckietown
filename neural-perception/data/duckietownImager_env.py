@@ -174,9 +174,13 @@ class DuckietownImager(Simulator):
             z = self.np_random.uniform(j, j + 1) * self.road_tile_size
             propose_pos = np.array([x, 0, z])
 
-            # TODO: use normal instead of uniform?
-            propose_angle = self.np_random.uniform(0, 2 * math.pi)
-            # propose_angle = get_truncated_normal(mean=0, sd=360/8, low=-90, upp=90)
+            # normal instead of uniform
+            # TODO: test this!
+            # propose_angle = self.np_random.uniform(0, 2 * math.pi)
+            propose_angle = get_truncated_normal(mean=0, sd=360 / 8, low=-90, upp=90)
+            propose_angle = np.deg2rad(propose_angle)
+            if propose_angle < 0:
+                propose_angle += 2 * np.pi
 
             p, t = self.closest_curve_point(propose_pos, propose_angle)
 
@@ -246,7 +250,7 @@ def rot_y(deg):
                      [-s, 0, c]])
 
 
-def get_truncated_normal(mean=0.5, sd=1/4, low=0, upp=1):
+def get_truncated_normal(mean=0.5, sd=1 / 4, low=0, upp=1):
     return truncnorm(
         (low - mean) / sd, (upp - mean) / sd, loc=mean, scale=sd)
 

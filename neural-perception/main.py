@@ -18,7 +18,6 @@ def main():
     try:
         args = get_args()
         config = process_config(args.config)
-
     except:
         print("missing or invalid arguments")
         exit(0)
@@ -27,17 +26,16 @@ def main():
     create_dirs([config.summary_dir, config.checkpoint_dir])
     # create tensorflow session
     sess = tf.Session()
-    # create your data generator
-    data = DataLoader(config)
-    print(data)
-    exit(0)
+
+    data_loader = DataLoader(config)
+    print(data_loader.data)
 
     # create an instance of the model you want
     model = PoseRegress(config)
     # create tensorboard logger
     logger = Logger(sess, config)
     # create trainer and pass all the previous components to it
-    trainer = Train(sess, model, data, config, logger)
+    trainer = Train(sess, model, data_loader, config, logger)
     # load model if exists
     model.load(sess)
     # here you train your model

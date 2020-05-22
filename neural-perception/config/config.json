@@ -1,0 +1,10 @@
+{
+  "exp_name": "duckietown-gym",
+  "num_epochs": 10,
+  "num_episodes": 10,
+  "learning_rate": 0.001,
+  "batch_size": 16,
+  "data_dir": "",
+  "summary_dir": "",
+  "comet_api_key": "i1gniAI6Q1bavCSyZYMMi4wRG"
+}

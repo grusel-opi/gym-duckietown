@@ -1,27 +1,73 @@
 import tensorflow as tf
+import sys
+import numpy as np
+
+sys.path.append('../data/')
+
+import data_generator
 
 
-def do_tf():
-    mnist = tf.keras.datasets.mnist
-    (x_train, y_train), (x_test, y_test) = mnist.load_data()
-    x_train, x_test = x_train / 255.0, x_test / 255.0
+class PoseRegress(tf.keras.Model):
+    def __init__(self):
+        super(PoseRegress, self).__init__()
 
-    model = tf.keras.models.Sequential([
-        tf.keras.layers.Flatten(input_shape=(28, 28)),
-        tf.keras.layers.Dense(128, activation='relu'),
-        tf.keras.layers.Dropout(0.2),
-        tf.keras.layers.Dense(10)
-    ])
+        # encoder: fully convolutional
+        self.conv1 = tf.keras.layers.Conv2D(64, kernel_size=3, padding='same', activation='relu')
+        self.conv2 = tf.keras.layers.Conv2D(128, kernel_size=3, strides=2, padding='same', activation='relu')
 
-    predictions = model(x_train[:1]).numpy()
-    tf.nn.softmax(predictions).numpy()
-    loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
-    model.compile(optimizer='adam', loss=loss_fn, metrics=['accuracy'])
+        self.conv3 = tf.keras.layers.Conv2D(128, kernel_size=3, strides=2, padding='same', activation='relu')
 
-    model.fit(x_train, y_train, epochs=5)
-    model.evaluate(x_test, y_test, verbose=2)
+        self.conv4 = tf.keras.layers.Conv2D(256, kernel_size=3, padding='same', activation='relu')
+        self.conv5 = tf.keras.layers.Conv2D(256, kernel_size=3, strides=2, padding='same', activation='relu')
+
+        self.conv6 = tf.keras.layers.Conv2D(512, kernel_size=3, padding='same', activation='relu')
+        self.conv7 = tf.keras.layers.Conv2D(512, kernel_size=3, padding='same', activation='relu')
+        self.conv8 = tf.keras.layers.Conv2D(512, kernel_size=3, padding='same', activation='relu')
+
+        self.conv8 = tf.keras.layers.Conv2D(512, kernel_size=3, padding='same', activation='relu')
+
+        self.conv9 = tf.keras.layers.Conv2D(4096, kernel_size=1, activation='relu')
+
+        self.flatter = tf.keras.layers.Flatten()
+
+        self.localizer = tf.keras.layers.Dense(512)
+
+        self.regressor_d = tf.keras.layers.Dense(512)
+        self.regressor_a = tf.keras.layers.Dense(512)
+
+        self.out_d = tf.keras.layers.Dense(1)
+        self.out_a = tf.keras.layers.Dense(1)
+
+    def call(self, inputs, **kwargs):
+        x = self.conv1(inputs)
+        x = self.conv2(x)
+        x = self.conv3(x)
+        x = self.conv4(x)
+        x = self.conv5(x)
+
+        # x = self.conv6(x)
+        # x = self.conv7(x)
+        # x = self.conv8(x)
+
+        x = self.flatter(x)
+        x = self.localizer(x)
+
+        d = self.regressor_d(x)
+        a = self.regressor_d(x)
+
+        d = self.out_d(d)
+        a = self.out_a(a)
+        return d, a
 
 
 if __name__ == '__main__':
-    print(tf.version.VERSION)
-    tf.config.list_physical_devices('GPU')
+    data, _ = data_generator.get_in_ram_sample(10)
+    data = data / 255.
+    data = data[:1]
+    model = PoseRegress()
+    out_d, out_a = model.call(data[:2])
+    print(str(out_d.shape))
+    print(str(out_a.shape))
+    print(out_d)
+    print(out_a)
+

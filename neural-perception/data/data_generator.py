@@ -14,6 +14,7 @@ class DuckietownImager(Simulator):
         self.draw_bbox = False
         self.full_transparency = True
         self.accept_start_angle_deg = 90
+        self.angle_variance = 20
         self.pos_bounds_fac = 0.4  # factor in road tile size for bounds of distribution
         self.num_imgs = num_imgs
         self.images = np.zeros(shape=(num_imgs, *self.observation_space.shape), dtype=self.observation_space.dtype)
@@ -176,7 +177,10 @@ class DuckietownImager(Simulator):
             propose_pos = np.array([x, 0, z])
 
             # normal instead of uniform
-            propose_angle = get_truncated_normal(mean=0, sd=360 / 32, low=-90, upp=90).rvs()
+            propose_angle = get_truncated_normal(mean=0,
+                                                 sd=self.angle_variance,
+                                                 low=-1 * self.accept_start_angle_deg,
+                                                 upp=self.accept_start_angle_deg).rvs()
             propose_angle = np.deg2rad(propose_angle)
             if propose_angle < 0:
                 propose_angle += 2 * np.pi
@@ -243,6 +247,12 @@ def load_data(set_no, path="./generated/"):
     return load(path + "data" + str(set_no) + ".npy"), load(path + "labels" + str(set_no) + ".npy")
 
 
+def get_in_ram_sample(num):
+    env = DuckietownImager(num)
+    env.produce_images()
+    return env.images, env.labels
+
+
 def rot_y(deg):
     rad = np.deg2rad(deg)
     c = math.cos(rad)
@@ -263,7 +273,7 @@ if __name__ == '__main__':
 
     imgs = 30
     env = DuckietownImager(imgs)
-    env.generate_and_save(imgs)
-    # for j in range(imgs):
-    #     plt.imshow(env.images[j])
-    #     plt.show()
+    env.produce_images()
+    for j in range(imgs):
+        plt.imshow(env.images[j])
+        plt.show()

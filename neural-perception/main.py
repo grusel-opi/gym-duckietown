@@ -1,7 +1,10 @@
 import tensorflow as tf
+import sys
+
+sys.path.append('.')
 
 from .data.data_loader import DataLoader
-from .model.model import PoseRegress
+# from model.model import Model
 from .train.train import Train
 from .util.config import process_config
 from .util.dirs import create_dirs
@@ -26,6 +29,8 @@ def main():
     sess = tf.Session()
     # create your data generator
     data = DataLoader(config)
+    print(data)
+    exit(0)
 
     # create an instance of the model you want
     model = PoseRegress(config)

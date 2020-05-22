@@ -1,12 +1,12 @@
 import tensorflow as tf
 
-from .data.data_loader import DataLoader
-from .model.model import PoseRegress
-from .train.train import Train
-from .util.config import process_config
-from .util.dirs import create_dirs
-from .util.logger import Logger
-from .util.args import get_args
+from data.data_loader import DataLoader
+# from model.model import Model
+from train.train import Train
+from util.config import process_config
+from util.dirs import create_dirs
+from util.logger import Logger
+from util.args import get_args
 
 
 def main():
@@ -26,6 +26,8 @@ def main():
     sess = tf.Session()
     # create your data generator
     data = DataLoader(config)
+    print(data)
+    exit(0)
 
     # create an instance of the model you want
     model = Model(config)

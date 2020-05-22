@@ -6,7 +6,7 @@ def get_args():
     argparser.add_argument(
         '-c', '--config',
         metavar='C',
-        default='None',
+        default='neural-perception/config/config.json',
         help='The Configuration file')
     args = argparser.parse_args()
     return args

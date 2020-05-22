@@ -8,7 +8,7 @@ import data_generator
 
 
 class PoseRegress(tf.keras.Model):
-    def __init__(self):
+    def __init__(self, config):
         super(PoseRegress, self).__init__()
 
         # encoder: fully convolutional
@@ -64,7 +64,7 @@ if __name__ == '__main__':
     data, _ = data_generator.get_in_ram_sample(10)
     data = data / 255.
     data = data[:1]
-    model = PoseRegress()
+    model = PoseRegress(config=None)
     out_d, out_a = model.call(data[:2])
     print(str(out_d.shape))
     print(str(out_a.shape))

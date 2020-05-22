@@ -28,7 +28,7 @@ def main():
     data = DataLoader(config)
 
     # create an instance of the model you want
-    model = Model(config)
+    model = PoseRegress(config)
     # create tensorboard logger
     logger = Logger(sess, config)
     # create trainer and pass all the previous components to it

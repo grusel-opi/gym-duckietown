@@ -4,7 +4,7 @@ import sys
 sys.path.append('.')
 
 from .data.data_loader import DataLoader
-# from model.model import Model
+from .model.model import PoseRegress
 from .train.train import Train
 from .util.config import process_config
 from .util.dirs import create_dirs

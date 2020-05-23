@@ -1,8 +1,10 @@
 import tensorflow as tf
 import sys
-import numpy as np
 
 sys.path.append('../data/')
+
+# TODO: we should handle imports in a better way, so that we can call the model from other files without chaning the
+#         import! (import data.data_generator fix the issue but then we cannot run the main file here)
 
 import data_generator
 
@@ -70,4 +72,3 @@ if __name__ == '__main__':
     print(str(out_a.shape))
     print(out_d)
     print(out_a)
-

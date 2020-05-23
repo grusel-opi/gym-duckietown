@@ -9,3 +9,4 @@ bin
 venv
 
 trained_models
+neural-perception/data/generated

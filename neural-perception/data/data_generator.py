@@ -7,7 +7,7 @@ from scipy.stats import truncnorm
 
 class DuckietownImager(Simulator):
 
-    def __init__(self, num_imgs, **kwargs):
+    def __init__(self, **kwargs):
         Simulator.__init__(self, **kwargs)
         self.map_name = 'udem1'
         self.domain_rand = True
@@ -16,32 +16,43 @@ class DuckietownImager(Simulator):
         self.accept_start_angle_deg = 90
         self.angle_variance = 20
         self.pos_bounds_fac = 0.4  # factor in road tile size for bounds of distribution
-        self.num_imgs = num_imgs
-        self.images = np.zeros(shape=(num_imgs, *self.observation_space.shape), dtype=self.observation_space.dtype)
-        self.labels = np.zeros(shape=(num_imgs, 2), dtype=np.float32)
+        self.set_size = 1000
+        self.path = "../../../generated/"
+        self.images = np.zeros(shape=(self.set_size, *self.observation_space.shape), dtype=self.observation_space.dtype)
+        self.labels = np.zeros(shape=(self.set_size, 2), dtype=np.float32)
 
     def produce_images(self):
-
-        for i in range(self.num_imgs):
+        for i in range(self.set_size):
             obs = self.reset_own()
             dist = self.get_agent_info()['Simulator']['lane_position']['dist'] / self.road_tile_size
             dot_dir = self.get_agent_info()['Simulator']['lane_position']['dot_dir']
             self.images[i] = obs
             self.labels[i] = np.array([dist, dot_dir])
 
-    def generate_and_save(self, sets=30, path="./generated/"):
-
+    def generate_and_save(self, sets=30):
         for i in range(sets):
-
             self.produce_images()
-
             try:
-                os.mkdir(path)
+                os.mkdir(self.path)
             except OSError:
                 pass
+            save(self.path + "data" + str(i) + ".npy", self.images)
+            save(self.path + "labels" + str(i) + ".npy", self.labels)
 
-            save(path + "data" + str(i) + ".npy", self.images)
-            save(path + "labels" + str(i) + ".npy", self.labels)
+    def load_data(self, set_no):
+        return load(self.path + "data" + str(set_no) + ".npy"), load(self.path + "labels" + str(set_no) + ".npy")
+
+    def new_position(self, pos, tangent):
+        tangent = tangent * self.road_tile_size * self.pos_bounds_fac
+        t1, t2 = rot_y(90) @ tangent, rot_y(270) @ tangent
+        p1, p2 = pos + t1, pos + t2
+        u = get_truncated_normal().rvs()
+        new_p = (1 - u) * p1 + u * p2
+        if new_p[0] >= round(pos[0]) + 1:
+            new_p[0] = round(pos[0]) + 1
+        if new_p[2] >= round(pos[2]) + 1:
+            new_p[2] = round(pos[0]) + 1
+        return new_p
 
     def reset_own(self):
         """
@@ -230,25 +241,9 @@ class DuckietownImager(Simulator):
         # Return first observation
         return obs
 
-    def new_position(self, pos, tangent):
-        tangent = tangent * self.road_tile_size * self.pos_bounds_fac
-        t1, t2 = rot_y(90) @ tangent, rot_y(270) @ tangent
-        p1, p2 = pos + t1, pos + t2
-        u = get_truncated_normal().rvs()
-        new_p = (1 - u) * p1 + u * p2
-        if new_p[0] >= round(pos[0]) + 1:
-            new_p[0] = round(pos[0]) + 1
-        if new_p[2] >= round(pos[2]) + 1:
-            new_p[2] = round(pos[0]) + 1
-        return new_p
-
-
-def load_data(set_no, path="./generated/"):
-    return load(path + "data" + str(set_no) + ".npy"), load(path + "labels" + str(set_no) + ".npy")
-
 
 def get_in_ram_sample(num):
-    env = DuckietownImager(num)
+    env = DuckietownImager(set_size=num)
     env.produce_images()
     return env.images, env.labels
 
@@ -265,3 +260,7 @@ def rot_y(deg):
 def get_truncated_normal(mean=0.5, sd=1 / 4, low=0, upp=1):
     return truncnorm(
         (low - mean) / sd, (upp - mean) / sd, loc=mean, scale=sd)
+
+if __name__ == '__main__':
+    env = DuckietownImager()
+    env.generate_and_save(sets=10)

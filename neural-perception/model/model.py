@@ -1,8 +1,5 @@
 import tensorflow as tf
 
-# TODO: we should handle imports in a better way, so that we can call the model from other files without chaning the
-#         import! (import data.data_generator fix the issue but then we cannot run the main file here)
-
 
 class PoseRegress(tf.keras.Model):
     def __init__(self, config):

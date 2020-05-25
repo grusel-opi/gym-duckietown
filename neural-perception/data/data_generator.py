@@ -265,15 +265,3 @@ def rot_y(deg):
 def get_truncated_normal(mean=0.5, sd=1 / 4, low=0, upp=1):
     return truncnorm(
         (low - mean) / sd, (upp - mean) / sd, loc=mean, scale=sd)
-
-
-if __name__ == '__main__':
-    # plt.hist(get_truncated_normal(mean=0, sd=360 / 32, low=-90, upp=90).rvs(10000))
-    # plt.show()
-
-    imgs = 30
-    env = DuckietownImager(imgs)
-    env.produce_images()
-    for j in range(imgs):
-        plt.imshow(env.images[j])
-        plt.show()

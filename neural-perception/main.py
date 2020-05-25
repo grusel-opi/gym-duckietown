@@ -1,6 +1,7 @@
 import tensorflow as tf
 
 from data.data_loader import DataLoader
+from data import data_generator
 from model.model import PoseRegress
 from trainer.trainer import Trainer
 from util.config import process_config
@@ -37,4 +38,23 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+
+    observations = 16
+    batches = 1
+
+    model = PoseRegress(config=None)
+    data, _ = data_generator.get_in_ram_sample(observations)
+    data = data / 255.
+    batch_size = int(len(data) / batches)
+
+    results = []
+
+    print("batch size: %d" % batch_size)
+
+    for b in range(batches):
+        print("batch no. %d" % b)
+        batch = data[b*batch_size:b*(batch_size + 1)]
+        results.append(model(batch))
+
+    for r in results:
+        print(r)

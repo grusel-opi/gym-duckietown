@@ -3,7 +3,7 @@ from gym_duckietown.graphics import *
 from numpy import save, load
 from matplotlib import pyplot as plt
 from scipy.stats import truncnorm
-
+import os
 
 class DuckietownImager(Simulator):
 
@@ -30,14 +30,18 @@ class DuckietownImager(Simulator):
             self.labels[i] = np.array([dist, dot_dir])
 
     def generate_and_save(self, sets=30):
-        for i in range(sets):
-            self.produce_images()
-            try:
-                os.mkdir(self.path)
-            except OSError:
+        try:
+            os.mkdir(self.path)
+        except OSError:
+            if os.path.isdir(self.path):
                 pass
-            save(self.path + "data" + str(i) + ".npy", self.images)
-            save(self.path + "labels" + str(i) + ".npy", self.labels)
+            else:
+                return
+        for _ in range(sets):
+            self.produce_images()
+            for i in range(self.set_size):
+                plt.imsave(self.path + str(self.labels[i]) + '.png', self.images[i])
+
 
     def load_data(self, set_no):
         return load(self.path + "data" + str(set_no) + ".npy"), load(self.path + "labels" + str(set_no) + ".npy")
@@ -261,6 +265,7 @@ def get_truncated_normal(mean=0.5, sd=1 / 4, low=0, upp=1):
     return truncnorm(
         (low - mean) / sd, (upp - mean) / sd, loc=mean, scale=sd)
 
+
 if __name__ == '__main__':
     env = DuckietownImager()
-    env.generate_and_save(sets=10)
+    env.generate_and_save(sets=30)

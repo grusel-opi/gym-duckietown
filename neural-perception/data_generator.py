@@ -17,7 +17,7 @@ class DuckietownImager(Simulator):
         self.angle_variance = 20
         self.pos_bounds_fac = 0.4  # factor in road tile size for bounds of distribution
         self.set_size = 1000
-        self.path = "../../../generated_small/"
+        self.path = "../../generated_small/"
         self.images = np.zeros(shape=(self.set_size, *self.observation_space.shape), dtype=self.observation_space.dtype)
         self.labels = np.zeros(shape=(self.set_size, 2), dtype=np.float32)
 

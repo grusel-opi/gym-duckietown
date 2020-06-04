@@ -17,7 +17,7 @@ class DuckietownImager(Simulator):
         self.angle_variance = 20
         self.pos_bounds_fac = 0.4  # factor in road tile size for bounds of distribution
         self.set_size = 1000
-        self.path = "../../../generated/"
+        self.path = "../../../generated_small/"
         self.images = np.zeros(shape=(self.set_size, *self.observation_space.shape), dtype=self.observation_space.dtype)
         self.labels = np.zeros(shape=(self.set_size, 2), dtype=np.float32)
 
@@ -268,4 +268,4 @@ def get_truncated_normal(mean=0.5, sd=1 / 4, low=0, upp=1):
 
 if __name__ == '__main__':
     env = DuckietownImager()
-    env.generate_and_save(sets=30)
+    env.generate_and_save(sets=1)

@@ -6,7 +6,6 @@ import numpy as np
 import gym
 from gym_duckietown.envs import DuckietownEnv
 import threading
-
 #include <X11/Xlib.h>
 
 
@@ -18,86 +17,87 @@ parser.add_argument('--no-pause', action='store_true', help="don't pause on fail
 args = parser.parse_args()
 
 
-if args.env_name is None:
-    env = DuckietownEnv(
-        map_name = args.map_name,
-        domain_rand = False,
-        draw_bbox = False
-    )
-else:
-    env = gym.make(args.env_name)
+class Particle():
 
-class Particle:
-    @staticmethod
-    def makeParticle():
+    def __init__(self, env:DuckietownEnv):
+        self.env = env
+        self.env.reset()
+        self.start_pos = self.env.cur_pos
+        self.dist_to_centre = None
+        self.angle_to_centre = None
+        self.weight = None
 
-        def __init__(self, speed, steering):
-            #self.x_global = x_global
-            #self.y_global = y_global
-            #self.lane_angle_rad = lane_angle_rad
-            self.speed = speed
-            self.steering = steering
+    def step(self, aktion):
+        obs, reward, done, info = self.env.step(aktion)
+        if not done:
+            lane_pose = self.env.get_lane_pos2(self.env.cur_pos, self.env.cur_angle)
+            self.dist_to_centre = lane_pose.dist
+            self.angle_to_centre = lane_pose.angle_rad
+        return done
 
-        env_new = DuckietownEnv(DuckietownEnv(
-            map_name = args.map_name,
-            domain_rand = False,
-            draw_bbox = False
+    def weight_to_robot(self, dist_to_centre):
+        self.weight = 1 - (abs(dist_to_centre - self.dist_to_centre) / dist_to_centre)
+
+
+def get_random_particles_list(count):
+
+    p_list = list()
+    i = 0
+    while i < count:
+        a_particle = Particle(DuckietownEnv(
+            map_name=args.map_name,
+            domain_rand=False,
+            draw_bbox=False
         ))
-        obs = env.reset()
-        env_new.reset()
-        env.render()
-        n = 0
-        total_reward = 0
-        while True:
+        p_list.append(a_particle)
+        i += 1
 
-            lane_pose_new = env_new.get_lane_pos2(env_new.cur_pos, env_new.cur_angle)
-            print('env_new lane_position: ', lane_pose_new)
-            distance_to_road_center_new = lane_pose_new.dist
-            print('distance_to_road_center_new: ', distance_to_road_center_new)
+    return p_list
 
-            lane_pose = env.get_lane_pos2(env.cur_pos, env.cur_angle)
-            distance_to_road_center = lane_pose.dist
-            angle_from_straight_in_rads = lane_pose.angle_rad
+def paint_weight_graph(x_array=None,y_array=None,weight=None):
+    import matplotlib.pyplot as plt
+    from mpl_toolkits.mplot3d import Axes3D
+    x = x_array
+    y = y_array
 
-            ###### Start changing the code here.
-            # TODO: Decide how to calculate the speed and direction.
+    X, Y = np.meshgrid(x, y)
+    Z = weight
 
-            k_p = 10
-            k_d = 1
-
-            env_new.reset()
-
-            # The speed is a value between [0, 1] (which corresponds to a real speed between 0m/s and 1.2m/s)
-
-            speed = 0.2  # TODO: You should overwrite this value
-
-            # angle of the steering wheel, which corresponds to the angular velocity in rad/s
-            steering = k_p * distance_to_road_center + k_d * angle_from_straight_in_rads  # TODO: You should overwrite this value
-
-            ###### No need to edit code below.
-
-            obs, reward, done, info = env.step([speed, steering])
-
-            #obs1, reward1, done1, info1 = env_new.step([speed, steering])
-
-            total_reward += reward
-
-            print('Steps = %s, Timestep Reward=%.3f, Total Reward=%.3f' % (env.step_count, reward, total_reward))
-            print('Distance to road center: ', distance_to_road_center)
-
-            env.render()
-            if done:
-                if reward < 0:
-                    print('*** CRASHED ***')
-                print ('Final Reward = %.3f' % total_reward)
-                break
+    fig = plt.figure()
+    ax = plt.axes(projection='3d')
+    ax.contour3D(X, Y, Z, 50, cmap='binary')
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.set_zlabel('weight')
+    plt.show()
 
 if __name__ == '__main__':
 
-    thread0 = threading.Thread(target=Particle.makeParticle)
-    thread1 = threading.Thread(target=Particle.makeParticle)
-    thread0.start()
-    thread1.start()
-    thread0.join()
-    thread1.join()
+    # thread0 = threading.Thread(target=Particle.makeParticle)
+    # thread1 = threading.Thread(target=Particle.makeParticle)
+    # thread0.start()
+    # thread1.start()
+    # thread0.join()
+    # thread1.join()
 
+    a_list = (get_random_particles_list(10))
+    x_array =[]
+    y_array = []
+    z_array = []
+    print(a_list)
+    speed = 0.2
+    steering = 0
+    i = 0
+    while i < 200:
+        for p in a_list:
+            x_array.append(p.start_pos[0])
+            y_array.append(p.start_pos[2])
+            if p.step([speed, steering]):
+                print("Particle ", a_list.index(p), "is dead")
+                a_list.remove(p)
+            else:
+                p.weight_to_robot(2.0)
+                z_array.append(p.weight)
+                print("particle ", a_list.index(p), " has weight ", p.weight)
+        i += 1
+        #paint_weight_graph(x_array,y_array,z_array)

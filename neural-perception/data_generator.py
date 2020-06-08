@@ -1,11 +1,65 @@
 from gym_duckietown.simulator import *
 from gym_duckietown.graphics import *
+from gym_duckietown.envs import DuckietownEnv
 from numpy import save, load
 from matplotlib import pyplot as plt
 from scipy.stats import truncnorm
 import os
 
-class DuckietownImager(Simulator):
+
+class ControlledDuckietownImager(DuckietownEnv):
+    def __init__(self, **kwargs):
+        DuckietownEnv.__init__(self, **kwargs)
+        self.max_steps = math.inf
+        self.map_name = 'udem1'
+        self.domain_rand = True
+        self.draw_bbox = False
+        self.full_transparency = True
+        self.set_size = 1000
+        self.path = "../../generated_controlled/"
+        self.k_p = 10
+        self.k_d = 1
+        self.action_speed = 0.2
+        self.images = np.zeros(shape=(self.set_size, *self.observation_space.shape),
+                               dtype=self.observation_space.dtype)
+        self.labels = np.zeros(shape=(self.set_size, 2), dtype=np.float32)
+
+    def produce_images(self):
+        obs = self.reset()
+        for i in range(self.set_size):
+            # for _ in range(10):  # do 10 steps for every image
+            try:
+                lp = self.get_lane_pos2(self.cur_pos, self.cur_angle)
+            except NotInLane:
+                self.reset()
+                continue
+            distance_to_road_center = lp.dist
+            angle_from_straight_in_rads = lp.angle_rad
+            steering = self.k_p * distance_to_road_center + self.k_d * angle_from_straight_in_rads
+            action = np.array([self.action_speed, steering])
+            obs, reward, done, info = self.step(action)
+            if done:
+                print("***DONE***")
+                self.reset()
+
+            self.images[i] = obs
+            self.labels[i] = np.array([distance_to_road_center, angle_from_straight_in_rads])
+
+    def generate_and_save(self, sets=30):
+        try:
+            os.mkdir(self.path)
+        except OSError:
+            if os.path.isdir(self.path):
+                pass
+            else:
+                return
+        for _ in range(sets):
+            self.produce_images()
+            for i in range(self.set_size):
+                plt.imsave(self.path + str(self.labels[i]) + '.png', self.images[i])
+
+
+class RandomDuckietownImager(Simulator):
 
     def __init__(self, **kwargs):
         Simulator.__init__(self, **kwargs)
@@ -41,7 +95,6 @@ class DuckietownImager(Simulator):
             self.produce_images()
             for i in range(self.set_size):
                 plt.imsave(self.path + str(self.labels[i]) + '.png', self.images[i])
-
 
     def load_data(self, set_no):
         return load(self.path + "data" + str(set_no) + ".npy"), load(self.path + "labels" + str(set_no) + ".npy")
@@ -247,7 +300,7 @@ class DuckietownImager(Simulator):
 
 
 def get_in_ram_sample(num):
-    env = DuckietownImager(set_size=num)
+    env = RandomDuckietownImager(set_size=num)
     env.produce_images()
     return env.images, env.labels
 
@@ -267,5 +320,5 @@ def get_truncated_normal(mean=0.5, sd=1 / 4, low=0, upp=1):
 
 
 if __name__ == '__main__':
-    env = DuckietownImager()
-    env.generate_and_save(sets=1)
+    env = ControlledDuckietownImager()
+    env.generate_and_save(sets=10)

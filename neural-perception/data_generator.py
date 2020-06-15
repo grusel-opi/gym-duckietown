@@ -321,4 +321,4 @@ def get_truncated_normal(mean=0.5, sd=1 / 4, low=0, upp=1):
 
 if __name__ == '__main__':
     env = ControlledDuckietownImager()
-    env.generate_and_save(sets=10)
+    env.generate_and_save(sets=50)

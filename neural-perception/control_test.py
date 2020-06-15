@@ -16,8 +16,11 @@ from data_loader import TARGET_IMG_HEIGHT, TARGET_IMG_WIDTH
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 
-def preprocess(data):
-    return np.array([cv2.resize(data, (TARGET_IMG_WIDTH, TARGET_IMG_HEIGHT))])
+def preprocess(img):
+    img = tf.image.convert_image_dtype(img, tf.float32)
+    img = tf.image.per_image_standardization(img)
+    img = tf.image.resize(img, [TARGET_IMG_HEIGHT, TARGET_IMG_WIDTH])
+    return np.array([img])
 
 
 env = DuckietownEnv()
@@ -27,7 +30,7 @@ obs = preprocess(obs)
 
 env.render()
 total_reward = 0
-model = tf.keras.models.load_model('./saved_model/07.06.2020-14:45:20/')
+model = tf.keras.models.load_model('./saved_model/08.06.2020-18:54:20/')
 k_p = 10
 k_d = 1
 speed = 0.2

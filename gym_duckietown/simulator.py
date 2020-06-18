@@ -1057,13 +1057,17 @@ class Simulator(gym.Env):
 
         # Compute the signed distance to the curve
         # Right of the curve is negative, left is positive
+
+        # TODO: checking the direction of this vector
         posVec = pos - point
+        # posVec = point - pos
         upVec = np.array([0, 1, 0])
         rightVec = np.cross(tangent, upVec)
         signedDist = np.dot(posVec, rightVec)
 
         # Compute the signed angle between the direction and curve tangent
         # Right of the tangent is negative, left is positive
+        # TODO: No..? right is positive, left is negative
         angle_rad = math.acos(dotDir)
 
         if np.dot(dirVec, rightVec) < 0:

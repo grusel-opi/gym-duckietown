@@ -14,7 +14,7 @@ from gym_duckietown.envs import DuckietownEnv
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--env-name', default=None)
-parser.add_argument('--map-name', default='own_test')
+parser.add_argument('--map-name', default='udem1')
 parser.add_argument('--no-pause', action='store_true', help="don't pause on failure")
 args = parser.parse_args()
 
@@ -66,4 +66,4 @@ while True:
         if reward < 0:
             print('*** CRASHED ***')
         print ('Final Reward = %.3f' % total_reward)
-        break
+        env.reset()

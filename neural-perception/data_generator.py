@@ -5,7 +5,20 @@ from numpy import save, load
 from matplotlib import pyplot as plt
 from scipy.stats import truncnorm
 from scipy.spatial.transform import Rotation
+from collections import namedtuple
 import os
+
+OwnLanePosition0 = namedtuple('OwnLanePosition', 'dist dist_to_edge dot_dir angle_deg angle_rad')
+
+
+class OwnLanePosition(OwnLanePosition0):
+    def as_json_dict(self):
+        """ Serialization-friendly format. """
+        return dict(dist=self.dist,
+                    dist_to_edge=self.dist_to_edge,
+                    dot_dir=self.dot_dir,
+                    angle_deg=self.angle_deg,
+                    angle_rad=self.angle_rad)
 
 
 class ControlledDuckietownImager(DuckietownEnv):
@@ -16,8 +29,8 @@ class ControlledDuckietownImager(DuckietownEnv):
         self.domain_rand = True
         self.draw_bbox = False
         self.full_transparency = True
-        self.set_size = 1000
-        self.path = "../../generated_controlled/"
+        self.set_size = 100
+        self.path = "../../generated_controlled_dist_to_edge/"
         self.k_p = 10
         self.k_d = 1
         self.action_speed = 0.2
@@ -40,36 +53,42 @@ class ControlledDuckietownImager(DuckietownEnv):
         rot_tangent = rot.apply(tangent * a)
         new_point = point + rot_tangent
 
-        dirVec = get_dir_vec(angle)
-        dotDir = np.dot(dirVec, tangent)
-        dotDir = max(-1, min(1, dotDir))
+        dir_vec = get_dir_vec(angle)
+        dot_dir = np.dot(dir_vec, tangent)
+        dot_dir = max(-1, min(1, dot_dir))
 
-        posVec = pos - new_point
-        upVec = np.array([0, 1, 0])
-        rightVec = np.cross(tangent, upVec)
-        signedDist = np.dot(posVec, rightVec)
+        # Compute the signed distance to the curve
+        # Right of the curve is negative, left is positive
+        new_pos_vec = pos - new_point
+        pos_vec = pos - point
+        up_vec = np.array([0, 1, 0])
+        right_vec = np.cross(tangent, up_vec)
+        signed_dist_egde = np.dot(new_pos_vec, right_vec)
+        signed_dist_center = np.dot(pos_vec, right_vec)
 
-        angle_rad = math.acos(dotDir)
+        angle_rad = math.acos(dot_dir)
 
-        if np.dot(dirVec, rightVec) < 0:
+        if np.dot(dir_vec, right_vec) < 0:
             angle_rad *= -1
 
         angle_deg = np.rad2deg(angle_rad)
 
-        return LanePosition(dist=signedDist, dot_dir=dotDir, angle_deg=angle_deg,
-                            angle_rad=angle_rad)
+        return OwnLanePosition(dist=signed_dist_center, dist_to_edge=signed_dist_egde, dot_dir=dot_dir,
+                               angle_deg=angle_deg,
+                               angle_rad=angle_rad)
 
     def produce_images(self):
         obs = self.reset()
         for i in range(self.set_size):
             # for _ in range(10):  # do 10 steps for every image
             try:
-                print("JETZT!")
                 lp = self.get_lane_pos2(self.cur_pos, self.cur_angle)
             except NotInLane:
                 self.reset()
                 continue
+            dot_dir = lp.dot_dir
             distance_to_road_center = lp.dist
+            distance_to_road_edge = lp.dist_to_edge
             angle_from_straight_in_rads = lp.angle_rad
             steering = self.k_p * distance_to_road_center + self.k_d * angle_from_straight_in_rads
             action = np.array([self.action_speed, steering])
@@ -79,7 +98,7 @@ class ControlledDuckietownImager(DuckietownEnv):
                 self.reset()
 
             self.images[i] = obs
-            self.labels[i] = np.array([distance_to_road_center, angle_from_straight_in_rads])
+            self.labels[i] = np.array([distance_to_road_edge, lp.angle_deg])
 
     def generate_and_save(self, sets=30):
         try:
@@ -357,4 +376,4 @@ def get_truncated_normal(mean=0.5, sd=1 / 4, low=0, upp=1):
 
 if __name__ == '__main__':
     env = ControlledDuckietownImager()
-    env.generate_and_save(sets=50)
+    env.generate_and_save(sets=1)

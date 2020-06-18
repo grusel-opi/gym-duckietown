@@ -66,6 +66,8 @@ class ControlledDuckietownImager(DuckietownEnv):
         signed_dist_egde = np.dot(new_pos_vec, right_vec)
         signed_dist_center = np.dot(pos_vec, right_vec)
 
+        # Compute the signed angle between the direction and curve tangent
+        # Right of the tangent is negative, left is positive
         angle_rad = math.acos(dot_dir)
 
         if np.dot(dir_vec, right_vec) < 0:

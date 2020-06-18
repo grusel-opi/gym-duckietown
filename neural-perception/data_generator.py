@@ -7,6 +7,7 @@ from scipy.stats import truncnorm
 from scipy.spatial.transform import Rotation
 from collections import namedtuple
 import os
+import sys
 
 OwnLanePosition0 = namedtuple('OwnLanePosition', 'dist dist_to_edge dot_dir angle_deg angle_rad')
 
@@ -59,7 +60,7 @@ class ControlledDuckietownImager(DuckietownEnv):
 
         # Compute the signed distance to the curve
         # Right of the curve is negative, left is positive
-        new_pos_vec = pos - new_point
+        new_pos_vec = new_point - pos
         pos_vec = pos - point
         up_vec = np.array([0, 1, 0])
         right_vec = np.cross(tangent, up_vec)
@@ -82,22 +83,22 @@ class ControlledDuckietownImager(DuckietownEnv):
     def produce_images(self):
         obs = self.reset()
         for i in range(self.set_size):
-            # for _ in range(10):  # do 10 steps for every image
-            try:
-                lp = self.get_lane_pos2(self.cur_pos, self.cur_angle)
-            except NotInLane:
-                self.reset()
-                continue
-            dot_dir = lp.dot_dir
-            distance_to_road_center = lp.dist
-            distance_to_road_edge = lp.dist_to_edge
-            angle_from_straight_in_rads = lp.angle_rad
-            steering = self.k_p * distance_to_road_center + self.k_d * angle_from_straight_in_rads
-            action = np.array([self.action_speed, steering])
-            obs, reward, done, info = self.step(action)
-            if done:
-                print("***DONE***")
-                self.reset()
+            for _ in range(10):  # do 2 steps for every image
+                try:
+                    lp = self.get_lane_pos2(self.cur_pos, self.cur_angle)
+                except NotInLane:
+                    self.reset()
+                    continue
+                dot_dir = lp.dot_dir
+                distance_to_road_center = lp.dist
+                distance_to_road_edge = lp.dist_to_edge * 100  # in 100th tile size (in cm if *tilesize)
+                angle_from_straight_in_rads = lp.angle_rad
+                steering = self.k_p * distance_to_road_center + self.k_d * angle_from_straight_in_rads
+                action = np.array([self.action_speed, steering])
+                obs, reward, done, info = self.step(action)
+                if done:
+                    print("***DONE***")
+                    self.reset()
 
             self.images[i] = obs
             self.labels[i] = np.array([distance_to_road_edge, lp.angle_deg])
@@ -377,5 +378,9 @@ def get_truncated_normal(mean=0.5, sd=1 / 4, low=0, upp=1):
 
 
 if __name__ == '__main__':
+    imgs = 60000
     env = ControlledDuckietownImager()
-    env.generate_and_save(sets=1)
+    setsize = env.set_size
+    sets = imgs // setsize
+    env.generate_and_save(sets=sets)
+    sys.exit()

@@ -1034,6 +1034,7 @@ class Simulator(gym.Env):
 
         return point, tangent
 
+    # TODO: wrong comments -> github issue?
     def get_lane_pos2(self, pos, angle):
         """
         Get the position of the agent relative to the center of the right lane
@@ -1055,6 +1056,7 @@ class Simulator(gym.Env):
         dotDir = np.dot(dirVec, tangent)
         dotDir = max(-1, min(1, dotDir))
 
+        # TODO: WRONG! right > 0, left < 0
         # Compute the signed distance to the curve
         # Right of the curve is negative, left is positive
         posVec = pos - point
@@ -1062,6 +1064,7 @@ class Simulator(gym.Env):
         rightVec = np.cross(tangent, upVec)
         signedDist = np.dot(posVec, rightVec)
 
+        # TODO: WRONG! right > 0, left < 0
         # Compute the signed angle between the direction and curve tangent
         # Right of the tangent is negative, left is positive
         angle_rad = math.acos(dotDir)

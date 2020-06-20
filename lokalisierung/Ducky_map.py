@@ -27,6 +27,7 @@ class Tile:
         self.x = x
         self.y = y
         self.type = tile_type
+        self.WhiteTapeWidth = 0.048
 
     def __repr__(self):
         return 'Index:(' + str(self.x) + ', ' + str(self.y) + ') ' + 'Type: ' + self.type
@@ -38,8 +39,8 @@ class Tile:
         if self.type == "straight/E" or self.type == "straight/W":  # returns the distance to the closest wall (the wall can be above or under the particle)
             distance = p_y % 1
             if distance >= 0.5:
-                return 1 - distance
-            return distance
+                return 1 - distance - self.WhiteTapeWidh
+            return distance - self.WhiteTapeWidh
         if self.type == "straight/N" or self.type == "straight/S":  # returns the disctance to the closest wall (the wall can be on the left or on the right)
             distance = p_x % 1
             if distance >= 0.5:
@@ -53,5 +54,6 @@ class Tile:
 
 
 if __name__ == '__main__':
-    my_map = DuckieMap("udem1.yaml")
+    my_map = DuckieMap("../gym_duckietown/maps/udem1.yaml")
     print(my_map.tiles)
+

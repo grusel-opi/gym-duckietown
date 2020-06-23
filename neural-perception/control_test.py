@@ -5,22 +5,29 @@ Simple exercise to construct a controller that controls the simulated Duckiebot 
 """
 
 import cv2
+import sys
 import numpy as np
 import argparse
 import gym
 import os
 from gym_duckietown.envs import DuckietownEnv
 import tensorflow as tf
-from data_loader import TARGET_IMG_HEIGHT, TARGET_IMG_WIDTH
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
+RESIZE_IMG_SHAPE = (120, 160, 3)
 
-def preprocess(img):
-    img = tf.image.convert_image_dtype(img, tf.float32)
-    img = tf.image.per_image_standardization(img)
-    img = tf.image.resize(img, [TARGET_IMG_HEIGHT, TARGET_IMG_WIDTH])
-    return np.array([img])
+
+def preprocess(image):
+    height, width, _ = RESIZE_IMG_SHAPE
+    image = tf.image.resize(image, (height, width))
+    image = tf.image.crop_to_bounding_box(image,
+                                          offset_height=height // 2,
+                                          offset_width=0,
+                                          target_height=height // 2,
+                                          target_width=width)
+    image = image / 255.
+    return np.array([image])
 
 
 env = DuckietownEnv()
@@ -30,7 +37,8 @@ obs = preprocess(obs)
 
 env.render()
 total_reward = 0
-model = tf.keras.models.load_model('./saved_model/08.06.2020-18:54:20/')
+model = tf.keras.models.load_model('./saved_model/22.06.2020-12:09:34/')
+
 k_p = 10
 k_d = 1
 speed = 0.2

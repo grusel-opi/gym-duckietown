@@ -33,8 +33,9 @@ def get_random_particles_list(count):
     while i < count:
         randX = random.uniform(0.0, 8.0)
         randY = random.uniform(0.0, 7.0)
+        rand_angle = random.random()*360
 
-        a_particle = Particle(randX, randY, 0, i)
+        a_particle = Particle(randX, randY, 0, i, rand_angle)
 
         p_list.append(a_particle)
         i += 1
@@ -52,12 +53,12 @@ def filter_condition(wert):
 if __name__ == '__main__':
     my_map = DuckieMap("../gym_duckietown/maps/udem1.yaml")
     # print(my_map.tiles)
-    particle_list = get_random_particles_list(10)
+    particle_list = get_random_particles_list(1000)
     for i in particle_list:
         i.set_tile(my_map)
     # print(particle_list)
     particle_list1 = filter_particles(particle_list, my_map)
     # print(particle_list)
     for i in particle_list1:
-        print(f"particle name: {i.name} particle X: {i.p_x} particle y: {i.p_y} tile: {i.tile}")
+        print(f"particle name: {i.name} particle X: {i.p_x} particle y: {i.p_y} tile: {i.tile} angle: {i.angle}")
         print(i.distance_to_wall())

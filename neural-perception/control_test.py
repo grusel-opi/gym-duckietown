@@ -10,12 +10,26 @@ import numpy as np
 import argparse
 import gym
 import os
+from scipy.spatial.transform import Rotation
+from .lane_extractor import detect_lane, display_lines
 from gym_duckietown.envs import DuckietownEnv
 import tensorflow as tf
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 RESIZE_IMG_SHAPE = (120, 160, 3)
+
+
+def plot_lanes(frame, env_copy, pos, angle, tangent, dist_error):
+    tangent /= np.linalg.norm(tangent)
+    rot = Rotation.from_rotvec(np.radians(-90) * np.array([0, 1, 0]))
+    rot_tangent = rot.apply(tangent * dist_error)
+    new_pos = pos + rot_tangent
+    env_copy.cur_pos = new_pos
+    env_copy.cur_angle = angle
+    error_frame = env_copy.render()
+    lanes = detect_lane(error_frame)
+    return display_lines(frame, lanes)
 
 
 def preprocess(image):

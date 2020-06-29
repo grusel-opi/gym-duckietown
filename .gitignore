@@ -3,6 +3,7 @@
 *.egg-info
 .idea/
 
+venv
 xvfb.log
 bin
 

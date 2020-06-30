@@ -278,8 +278,6 @@ class Simulator(gym.Env):
         # Array to render the image into (for human rendering)
         self.img_array_human = np.zeros(shape=(WINDOW_HEIGHT, WINDOW_WIDTH, 3), dtype=np.uint8)
 
-        
-
         # allowed angle in lane for starting position
         self.accept_start_angle_deg = accept_start_angle_deg
 

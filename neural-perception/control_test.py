@@ -9,6 +9,7 @@ import numpy as np
 import os
 from gym_duckietown.envs import DuckietownEnv
 import tensorflow as tf
+from pid_controller import PID
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
@@ -29,31 +30,27 @@ obs = preprocess(obs)
 
 env.render()
 total_reward = 0
-model = tf.keras.models.load_model('./saved_model/24.06.2020-13:39:50/')
+model = tf.keras.models.load_model('./saved_model/30.06.2020-15:46:59')
 
-k_p = 10
-k_d = 1
+pid = PID(1.0, 1.0, 1.0, 20)
 speed = 0.2
 
 while True:
 
-    lane_pose = env.get_lane_pos2(env.cur_pos, env.cur_angle)
-    distance_to_road_center = lane_pose.dist
-    angle_from_straight_in_rads = lane_pose.angle_rad
+    distance_to_edge = env.get_own_lane_pos(env.cur_pos, env.cur_angle).dist * 100
+    # pred_dist = model.predict(obs)[0][0]
 
-    d, a = model.predict(obs)
+    # correction = pid.update(pred_dist)
+    correction = pid.update(distance_to_edge)
 
-    dist_err = distance_to_road_center - d
-    angle_err = angle_from_straight_in_rads - a
 
-    print()
-    print(d, a)
-    print(distance_to_road_center, angle_from_straight_in_rads)
-    print("error: {}, {}".format(dist_err, angle_err))
+    # print()
+    # print("pred_dist: ", pred_dist)
+    # print("real_dist: ", distance_to_edge)
+    # print("dist_err: ", abs(distance_to_edge - pred_dist))
+    # print("correction: ",s correction)
 
-    steering = k_p * distance_to_road_center + k_d * angle_from_straight_in_rads
-
-    obs, reward, done, info = env.step(np.array([speed, steering]))
+    obs, reward, done, info = env.step(np.array([speed, correction]))
     total_reward += reward
     obs = preprocess(obs)
 

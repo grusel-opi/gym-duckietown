@@ -10,3 +10,4 @@ venv
 
 trained_models
 neural-perception/data/generated
+neural-perception/saved_model

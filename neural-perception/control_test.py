@@ -152,7 +152,7 @@ def plot_lanes(frame, environment, pos, angle, tangent, dist_error, error_frame=
 def preprocess(frame):
     height, width, _ = RESIZE_IMG_SHAPE
     frame = cv2.resize(frame, (width, height))
-    frame = frame[0:int(height / 2), 0:width]
+    frame = frame[0:height // 2, :]
     frame = frame / 255.
     return np.array([frame])
 
@@ -174,7 +174,7 @@ if __name__ == '__main__':
     while True:
 
         lane_pose = get_lane_pos3(env)
-        distance_to_road_edge = lane_pose.dist_to_edge
+        distance_to_road_edge = lane_pose.dist_to_edge * 100  # using 100th of tile size
         distance_to_road_center = lane_pose.dist
         angle_from_straight_in_rads = lane_pose.angle_rad
 

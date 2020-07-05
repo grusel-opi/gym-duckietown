@@ -2,11 +2,12 @@ import cv2
 import numpy as np
 
 
+# TODO: fine tune these settings
 def detect_edges(img):
-    lower_white = np.array([200., 200., 200.])
+    lower_white = np.array([155., 155., 155.])
     upper_white = np.array([255., 255., 255.])
     mask = cv2.inRange(img, lower_white, upper_white)
-    return cv2.Canny(mask, 200, 400)
+    return cv2.Canny(mask, 100, 400)
 
 
 def region_of_interest(edges):
@@ -65,7 +66,7 @@ def average_slope_intercept(frame, line_segments):
 
     boundary = 1/3
     left_region_boundary = width * (1 - boundary)  # left lane line segment should be on left 2/3 of the screen
-    right_region_boundary = width * boundary # right lane line segment should be on left 2/3 of the screen
+    right_region_boundary = width * boundary  # right lane line segment should be on left 2/3 of the screen
 
     for line_segment in line_segments:
         for x1, y1, x2, y2 in line_segment:

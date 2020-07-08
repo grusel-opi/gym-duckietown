@@ -8,7 +8,6 @@ import cv2
 import numpy as np
 import math
 import os
-import copy
 from ctypes import POINTER
 from scipy.spatial.transform import Rotation
 from lane_extractor import detect_lane, display_lines

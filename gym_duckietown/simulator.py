@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from typing import Tuple
 import geometry
 
+
 @dataclass
 class DoneRewardInfo:
     done: bool
@@ -67,7 +68,7 @@ WHEEL_DIST = 0.102
 # Total robot width at wheel base, used for collision detection
 # Note: the actual robot width is 13cm, but we add a litte bit of buffer
 #       to faciliate sim-to-real transfer.
-ROBOT_WIDTH = 0.13  + 0.02
+ROBOT_WIDTH = 0.13 + 0.02
 
 # Total robot length
 # Note: the center of rotation (between the wheels) is not at the

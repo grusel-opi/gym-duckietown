@@ -4,10 +4,10 @@ import numpy as np
 
 # TODO: fine tune these settings
 def detect_edges(img):
-    lower_white = np.array([155., 155., 155.])
-    upper_white = np.array([255., 255., 255.])
+    lower_white = np.array([155.])
+    upper_white = np.array([255.])
     mask = cv2.inRange(img, lower_white, upper_white)
-    return cv2.Canny(mask, 100, 400)
+    return cv2.Canny(mask, 200, 400)
 
 
 def region_of_interest(edges):
@@ -38,7 +38,7 @@ def detect_line_segments(cropped_edges):
 
 
 def make_points(frame, line):
-    height, width, _ = frame.shape
+    height, width = frame.shape
     slope, intercept = line
     y1 = height  # bottom of the frame
     y2 = int(y1 * 1 / 2)  # make points from middle of the frame down
@@ -60,7 +60,7 @@ def average_slope_intercept(frame, line_segments):
         print('No line_segment segments detected')
         return lane_lines
 
-    height, width, _ = frame.shape
+    height, width = frame.shape
     left_fit = []
     right_fit = []
 
@@ -96,7 +96,15 @@ def average_slope_intercept(frame, line_segments):
     return lane_lines
 
 
+def preprocess(frame):
+    height, _, _ = frame.shape
+    frame = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
+    frame[:height // 2, :] = 0
+    return frame
+
+
 def detect_lane(frame):
+    frame = preprocess(frame)
     edges = detect_edges(frame)
     cropped_edges = region_of_interest(edges)
     line_segments = detect_line_segments(cropped_edges)

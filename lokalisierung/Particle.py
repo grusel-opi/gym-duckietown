@@ -1,10 +1,10 @@
 from math import sqrt
 import numpy as np
 
-from gym_duckietown.graphics import rotate_point
-from gym_duckietown.simulator import get_dir_vec, get_right_vec, _update_pos
+from gym_duckietown.simulator import _update_pos
 from lokalisierung import Tile
-import math
+from gym_duckietown.simulator import WHEEL_DIST, DEFAULT_FRAMERATE
+
 
 
 class Particle:
@@ -24,10 +24,17 @@ class Particle:
     def set_tile(self, map):
         self.tile = map.search_tile(int(self.p_x), int(self.p_y))
 
-    # todo
-    def step(self):
-        cur_pos, cur_angle = _update_pos()
-        return None
+    # todo: Jan should review this
+    def step(self, action:np.ndarray, robot_speed):
+        cur_pos = np.ndarray([self.p_x, 0, self.p_y])
+        new_pos, cur_angle = _update_pos(cur_pos,
+                                         self.angle,
+                                         WHEEL_DIST,
+                                         wheelVels=action * robot_speed * 1,
+                                         deltaTime=1.0 / DEFAULT_FRAMERATE)
+        self.angle = cur_angle
+        self.p_x = new_pos[0]
+        self.p_y = new_pos[2]
 
     def distance_to_wall(self):
         px = self.p_x % 1

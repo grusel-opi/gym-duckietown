@@ -4,7 +4,7 @@ import numpy as np
 from gym_duckietown.simulator import _update_pos
 from lokalisierung import Tile
 from gym_duckietown.simulator import WHEEL_DIST, DEFAULT_FRAMERATE
-
+from lokalisierung.Ducky_map import DuckieMap
 
 
 class Particle:
@@ -25,17 +25,45 @@ class Particle:
         self.tile = map.search_tile(int(self.p_x), int(self.p_y))
 
     # todo: Jan should review this
-    def step(self, action:np.ndarray, robot_speed):
-        cur_pos = np.ndarray([self.p_x, 0, self.p_y])
+    def step(self, action:np.ndarray):
+        vel,angle = action
+        baseline = WHEEL_DIST
+
+        # assuming same motor constants k for both motors
+        k_r = 27.0
+        k_l = 27.0
+
+        # adjusting k by gain and trim
+        k_r_inv = (1.0 + 0) / k_r
+        k_l_inv = (1.0 - 0) / k_l
+
+        omega_r = (vel + 0.5 * angle * baseline) / 0.0318
+        omega_l = (vel - 0.5 * angle * baseline) / 0.0318
+
+        # conversion from motor rotation rate to duty cycle
+        u_r = omega_r * k_r_inv
+        u_l = omega_l * k_l_inv
+        u_r_limited = max(min(u_r, 1.0), -1.0)
+        u_l_limited = max(min(u_l, 1.0), -1.0)
+
+        vels = np.array([u_l_limited, u_r_limited])
+        vels = np.clip(vels, -1, 1)
+        # Actions could be a Python list
+        vels = np.array(vels)
+
+        cur_pos = [self.p_x, 0.0, self.p_y]
+        wheelVels = vels * vel * 1
+        print("wheelVels: ", wheelVels)
+        old_angle = np.deg2rad(self.angle)
         new_pos, cur_angle = _update_pos(cur_pos,
-                                         self.angle,
+                                         old_angle,
                                          WHEEL_DIST,
-                                         wheelVels=action * robot_speed * 1,
+                                         wheelVels,
                                          deltaTime=1.0 / DEFAULT_FRAMERATE)
-        self.angle = cur_angle
+        self.angle = np.rad2deg(cur_angle)
         self.p_x = new_pos[0]
         self.p_y = new_pos[2]
-
+        return self.p_x,self.p_y,self.angle
     def distance_to_wall(self):
         px = self.p_x % 1
         py = self.p_y % 1
@@ -200,3 +228,13 @@ class Particle:
             return 'SW'
         if self.angle < 360:
             return 'SE'
+
+    def weight_calculator(self, distance, angle):
+        self.weight = 1 * ((self.distance_to_wall()-distance)/distance) * ((self.angle_to_wall()-angle)/angle)
+        return self.weight
+
+if __name__ == '__main__':
+    aParticle = Particle(1.5,1.5,1, 'p1', angle=30)
+    my_map = DuckieMap("../gym_duckietown/maps/udem1.yaml")
+    aParticle.set_tile(my_map)
+    print(aParticle.step([1.0, 1], 1.0))

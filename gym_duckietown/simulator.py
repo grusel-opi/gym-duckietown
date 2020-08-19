@@ -1209,12 +1209,14 @@ class Simulator(gym.Env):
         return res
 
     def update_physics(self, action, delta_time=None):
+
         if delta_time is None:
             delta_time = self.delta_time
         self.wheelVels = action * self.robot_speed * 1
         prev_pos = self.cur_pos
 
         # Update the robot's position
+
         self.cur_pos, self.cur_angle = _update_pos(self.cur_pos,
                                                    self.cur_angle,
                                                    self.wheel_dist,

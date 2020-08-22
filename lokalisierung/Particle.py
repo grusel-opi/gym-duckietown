@@ -19,7 +19,7 @@ class Particle:
         self.tilesize = 0.61
 
     def __repr__(self):
-        return 'Particle ' + str(self.name)
+        return 'Particle ' + str(self.name) + str(self.tile)
 
     def set_tile(self, map):
         self.tile = map.search_tile(int(self.p_x), int(self.p_y))

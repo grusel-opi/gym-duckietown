@@ -1,6 +1,9 @@
 import yaml
 import random
 
+ROW_MAP = 7.0
+COLUMN_MAP = 8.0
+
 class DuckieMap:
 
     def __init__(self, yaml_file):

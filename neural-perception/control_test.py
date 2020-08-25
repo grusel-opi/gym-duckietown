@@ -8,7 +8,6 @@ import cv2
 import numpy as np
 import math
 import os
-import copy
 from ctypes import POINTER
 from scipy.spatial.transform import Rotation
 from lane_extractor import detect_lane, display_lines
@@ -125,19 +124,24 @@ def display_custom_image(environment, img):
     gl.glFlush()
 
 
-def plot_lanes(frame, environment, pos, angle, tangent, dist_error):
+def plot_lanes(frame, environment, pos, angle, tangent, dist_error, error_frame=None):
     tangent /= np.linalg.norm(tangent)
     rot = Rotation.from_rotvec(np.radians(-90) * np.array([0, 1, 0]))
     rot_tangent = rot.apply(tangent * dist_error)
     new_pos = pos + rot_tangent[0]
 
-    pos_save = environment.cur_pos
-    angle_save = environment.cur_angle
-    environment.cur_pos = new_pos
-    environment.cur_angle = angle
-    error_frame = environment.render(mode='rgb_array')
-    environment.cur_pos = pos_save
-    environment.cur_angle = angle_save
+    if error_frame is None:
+
+        pos_save = environment.cur_pos
+        angle_save = environment.cur_angle
+
+        environment.cur_pos = new_pos
+        environment.cur_angle = angle
+
+        error_frame = environment.render(mode='rgb_array')
+
+        environment.cur_pos = pos_save
+        environment.cur_angle = angle_save
 
     lanes = detect_lane(error_frame)
     altered_frame = display_lines(frame, lanes)
@@ -160,7 +164,7 @@ if __name__ == '__main__':
 
     env.render()
     total_reward = 0
-    model = tf.keras.models.load_model('./saved_model/30.06.2020-14:57:59/')
+    # model = tf.keras.models.load_model('./saved_model/24.06.2020-13:39:50/')
 
     k_p = 10
     k_d = 1
@@ -173,14 +177,14 @@ if __name__ == '__main__':
         distance_to_road_center = lane_pose.dist
         angle_from_straight_in_rads = lane_pose.angle_rad
 
-        d = model.predict(obs)[0]
+        # d = model.predict(obs)[0]
 
-        dist_err = distance_to_road_edge - d
+        # dist_err = distance_to_road_edge - d
 
-        print()
-        print(d)
-        print(distance_to_road_edge)
-        print("error: {}".format(dist_err))
+        # print()
+        # print(d)
+        # print(distance_to_road_edge)
+        # print("error: {}".format(dist_err))
 
         steering = k_p * distance_to_road_center + k_d * angle_from_straight_in_rads
 
@@ -191,7 +195,8 @@ if __name__ == '__main__':
         _, t = env.closest_curve_point(env.cur_pos, env.cur_angle)
 
         rendered = env.render(mode='rgb_array')
-        rendered = plot_lanes(rendered, env, env.cur_pos, env.cur_angle, t, dist_err)
+        # rendered = plot_lanes(rendered, env, env.cur_pos, env.cur_angle, t, dist_err)
+        rendered = plot_lanes(rendered, env, env.cur_pos, env.cur_angle, t, 0, error_frame=rendered)
         display_custom_image(env, rendered)
 
         if done:

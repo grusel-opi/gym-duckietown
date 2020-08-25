@@ -2,10 +2,12 @@
 from __future__ import division
 
 from collections import namedtuple
+from scipy.spatial.transform import Rotation
 from ctypes import POINTER
 from dataclasses import dataclass
 from typing import Tuple
 import geometry
+
 
 @dataclass
 class DoneRewardInfo:
@@ -66,7 +68,7 @@ WHEEL_DIST = 0.102
 # Total robot width at wheel base, used for collision detection
 # Note: the actual robot width is 13cm, but we add a litte bit of buffer
 #       to faciliate sim-to-real transfer.
-ROBOT_WIDTH = 0.13  + 0.02
+ROBOT_WIDTH = 0.13 + 0.02
 
 # Total robot length
 # Note: the center of rotation (between the wheels) is not at the
@@ -1075,6 +1077,44 @@ class Simulator(gym.Env):
 
         return LanePosition(dist=signedDist, dot_dir=dotDir, angle_deg=angle_deg,
                             angle_rad=angle_rad)
+
+    def get_own_lane_pos(self, pos, angle):
+        point, tangent = self.closest_curve_point(pos, angle)
+        if point is None:
+            msg = 'Point not in lane: %s' % pos
+            raise NotInLane(msg)
+
+        assert point is not None
+
+        track_width = 0.4
+        a = track_width / 2
+        rot = Rotation.from_rotvec(np.radians(-90) * np.array([0, 1, 0]))
+        rot_tangent = rot.apply(tangent * a)
+        new_point = point + rot_tangent
+
+        dir_vec = get_dir_vec(angle)
+        dot_dir = np.dot(dir_vec, tangent)
+        dot_dir = max(-1, min(1, dot_dir))
+
+        # Compute the signed distance to the curve
+        # Right of the curve is negative, left is positive
+        new_pos_vec = new_point - pos
+        pos_vec = pos - point
+        up_vec = np.array([0, 1, 0])
+        right_vec = np.cross(tangent, up_vec)
+        signed_dist_egde = np.dot(new_pos_vec, right_vec)
+        signed_dist_center = np.dot(pos_vec, right_vec)
+
+        # Compute the signed angle between the direction and curve tangent
+        # Right of the tangent is negative, left is positive
+        angle_rad = math.acos(dot_dir)
+
+        if np.dot(dir_vec, right_vec) < 0:
+            angle_rad *= -1
+
+        angle_deg = np.rad2deg(angle_rad)
+
+        return LanePosition(dist=signed_dist_egde, dot_dir=dot_dir, angle_deg=angle_deg, angle_rad=angle_rad)
 
     def _drivable_pos(self, pos):
         """

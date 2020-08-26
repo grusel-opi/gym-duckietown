@@ -1,0 +1,39 @@
+% HTWG
+\usepackage{graphicx}
+\usepackage{a4}
+\usepackage{german}
+
+% Eigene
+\usepackage[utf8]{inputenc} %% Umlaute
+\usepackage[dua]{acronym} %% Abkuerzungsverzeichnis (nur verwendete)
+\usepackage{todonotes} %% TODOs moeglich mit \todo{}
+\usepackage{booktabs} %% Tabellen
+\usepackage{amsmath} %% Formeln
+\usepackage{listings} %% Codebeispiele
+\usepackage{subfigure} %% Mehrere Bilder nebeneinander
+\usepackage{hyperref} %% referenzen innerhalb und außerhalb des Dokumentes
+\usepackage[headsepline]{scrpage2} %%Numerrierung der Seiten + Kapitelnamen in Kopfzeile inkl. Trennstrich
+\pagestyle{scrheadings} %% die folgenden Zeilen sorgen für die korrekte Nummerierung und deren Anzeige 
+\clearscrheadfoot %% und für die Kopfzeile mit aktuellem Kapitel etc.
+\ihead{\headmark}
+\cfoot[\pagemark]{\pagemark}
+\automark{chapter}
+\usepackage{float} %% Floatpackage um Grafik-Positionen zu forcieren
+\newcommand*{\quelle}[1]{\par\raggedleft\footnotesize Quelle:~#1}
+
+% Eigenes Design 
+%TODO loeschen wenn default HTWG Design (was es nicht wirklich gibt) gewuuenscht ist
+\usepackage[bottom=3cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+
+
+% KOMA script anpassungen 
+%TODO entfernen wenn kein KOMA Script gewuenscht
+\usepackage{scrhack}
+
+%%%%%%%% Codebeispiele
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{caption}

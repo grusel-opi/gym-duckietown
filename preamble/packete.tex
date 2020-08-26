@@ -11,7 +11,7 @@
 \usepackage{amsmath} %% Formeln
 \usepackage{listings} %% Codebeispiele
 \usepackage{subfigure} %% Mehrere Bilder nebeneinander
-\usepackage{hyperref} %% referenzen innerhalb und außerhalb des Dokumentes
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref} %% referenzen innerhalb und außerhalb des Dokumentes
 \usepackage[headsepline]{scrpage2} %%Numerrierung der Seiten + Kapitelnamen in Kopfzeile inkl. Trennstrich
 \pagestyle{scrheadings} %% die folgenden Zeilen sorgen für die korrekte Nummerierung und deren Anzeige 
 \clearscrheadfoot %% und für die Kopfzeile mit aktuellem Kapitel etc.
@@ -19,7 +19,7 @@
 \cfoot[\pagemark]{\pagemark}
 \automark{chapter}
 \usepackage{float} %% Floatpackage um Grafik-Positionen zu forcieren
-\newcommand*{\quelle}[1]{\par\raggedleft\footnotesize Quelle:~#1}
+\newcommand*{\quelle}[1]{\footnotesize Quelle:~#1}
 
 % Eigenes Design 
 %TODO loeschen wenn default HTWG Design (was es nicht wirklich gibt) gewuuenscht ist

@@ -32,10 +32,11 @@ if args.env_name is None:
 else:
     env = gym.make(args.env_name)
 
+
 def preprocess(image):
     height, width, _ = RESIZE_IMG_SHAPE
     image = cv2.resize(image, (width, height))
-    image = image[0:int(height / 2), 0:width]
+    image = image[int(height / 3):, 0:width]
     image = image / 255.
     return np.array([image])
 
@@ -99,6 +100,7 @@ def on_key_press(symbol, modifiers):
             print("Manual control deactivated")
         MANUAL_CONTROL = not MANUAL_CONTROL
 
+
 key_handler = key.KeyStateHandler()
 env.unwrapped.window.push_handlers(key_handler)
 
@@ -110,7 +112,7 @@ k_p = 0.6 * k_u
 k_i = 2 * k_p / p_u
 k_d = k_p * p_u / 8
 
-pid = PID(k_p, k_i, k_d, 25)
+pid = PID(k_p, k_i, k_d, 0.25)
 speed = 0.2
 correction = 0
 action = np.array([0, correction])
@@ -122,7 +124,7 @@ def update(dt):
     global speed
 
     lane_pos = get_lane_pos(env)
-    dist_to_road_edge = lane_pos.dist_to_edge * 100
+    dist_to_road_edge = lane_pos.dist_to_edge
     # pred_dist = model.predict(obs)[0][0]
 
     if not MANUAL_CONTROL:

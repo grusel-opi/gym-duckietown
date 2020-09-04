@@ -465,7 +465,6 @@ class Simulator(gym.Env):
 
         # Keep trying to find a valid spawn position on this tile
 
-
         for _ in range(MAX_SPAWN_ATTEMPTS):
             i, j = tile['coords']
 

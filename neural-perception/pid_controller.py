@@ -1,5 +1,6 @@
 from time import time
 
+
 class PID:
 
     def __init__(self, kp, ki, kd, target, origin_time=None):
@@ -42,7 +43,7 @@ class PID:
         self.prev_err = err
 
         return (
-            self.kp * self.cp +
-            self.ki * self.ci +
-            self.kd * self.cd
+                self.kp * self.cp +
+                self.ki * self.ci +
+                self.kd * self.cd
         )

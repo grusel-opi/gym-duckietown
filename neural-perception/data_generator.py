@@ -31,16 +31,15 @@ class ControlledDuckietownImager(DuckietownEnv):
         self.draw_bbox = False
         self.full_transparency = True
         self.set_size = 100
-        self.path = "../../generated_controlled_dist_to_edge/"
-        self.k_p = 10
+        self.path = "../../datasets/generated_controlled_dist_to_edge_better_in_cm/"
+        self.k_p = 1
         self.k_d = 1
         self.action_speed = 0.2
         self.images = np.zeros(shape=(self.set_size, *self.observation_space.shape),
                                dtype=self.observation_space.dtype)
         self.labels = np.zeros(shape=(self.set_size, 2), dtype=np.float32)
 
-    # @Override
-    def get_lane_pos2(self, pos, angle):
+    def get_lane_pos(self, pos, angle):
         point, tangent = self.closest_curve_point(pos, angle)
         if point is None:
             msg = 'Point not in lane: %s' % pos
@@ -48,50 +47,79 @@ class ControlledDuckietownImager(DuckietownEnv):
 
         assert point is not None
 
-        track_width = 0.4
-        a = track_width / 2
-        rot = Rotation.from_rotvec(np.radians(-90) * np.array([0, 1, 0]))
-        rot_tangent = rot.apply(tangent * a)
-        new_point = point + rot_tangent
+        dirVec = get_dir_vec(angle)
+        dotDir = np.dot(dirVec, tangent)
+        dotDir = max(-1, min(1, dotDir))
 
-        dir_vec = get_dir_vec(angle)
-        dot_dir = np.dot(dir_vec, tangent)
-        dot_dir = max(-1, min(1, dot_dir))
+        posVec = pos - point
+        upVec = np.array([0, 1, 0])
+        rightVec = np.cross(tangent, upVec)
+        signedDist = np.dot(posVec, rightVec)
+        dist_to_road_edge = 0.25 * self.road_tile_size - signedDist
+        angle_rad = math.acos(dotDir)
 
-        # Compute the signed distance to the curve
-        # Right of the curve is negative, left is positive
-        new_pos_vec = new_point - pos
-        pos_vec = pos - point
-        up_vec = np.array([0, 1, 0])
-        right_vec = np.cross(tangent, up_vec)
-        signed_dist_egde = np.dot(new_pos_vec, right_vec)
-        signed_dist_center = np.dot(pos_vec, right_vec)
-
-        # Compute the signed angle between the direction and curve tangent
-        # Right of the tangent is negative, left is positive
-        angle_rad = math.acos(dot_dir)
-
-        if np.dot(dir_vec, right_vec) < 0:
+        if np.dot(dirVec, rightVec) < 0:
             angle_rad *= -1
 
         angle_deg = np.rad2deg(angle_rad)
 
-        return OwnLanePosition(dist=signed_dist_center, dist_to_edge=signed_dist_egde, dot_dir=dot_dir,
+        return OwnLanePosition(dist=signedDist,
+                               dist_to_edge=dist_to_road_edge,
+                               dot_dir=dotDir,
                                angle_deg=angle_deg,
                                angle_rad=angle_rad)
 
-    def produce_images(self):
+    # # @Override
+    # def get_lane_pos2(self, pos, angle):
+    #     point, tangent = self.closest_curve_point(pos, angle)
+    #     if point is None:
+    #         msg = 'Point not in lane: %s' % pos
+    #         raise NotInLane(msg)
+    #
+    #     assert point is not None
+    #
+    #     track_width = 0.4
+    #     a = track_width / 2
+    #     rot = Rotation.from_rotvec(np.radians(-90) * np.array([0, 1, 0]))
+    #     rot_tangent = rot.apply(tangent * a)
+    #     new_point = point + rot_tangent
+    #
+    #     dir_vec = get_dir_vec(angle)
+    #     dot_dir = np.dot(dir_vec, tangent)
+    #     dot_dir = max(-1, min(1, dot_dir))
+    #
+    #     # Compute the signed distance to the curve
+    #     # Right of the curve is negative, left is positive
+    #     new_pos_vec = new_point - pos
+    #     pos_vec = pos - point
+    #     up_vec = np.array([0, 1, 0])
+    #     right_vec = np.cross(tangent, up_vec)
+    #     signed_dist_egde = np.dot(new_pos_vec, right_vec)
+    #     signed_dist_center = np.dot(pos_vec, right_vec)
+    #
+    #     # Compute the signed angle between the direction and curve tangent
+    #     # Right of the tangent is negative, left is positive
+    #     angle_rad = math.acos(dot_dir)
+    #
+    #     if np.dot(dir_vec, right_vec) < 0:
+    #         angle_rad *= -1
+    #
+    #     angle_deg = np.rad2deg(angle_rad)
+    #
+    #     return OwnLanePosition(dist=signed_dist_center, dist_to_edge=signed_dist_egde, dot_dir=dot_dir,
+    #                            angle_deg=angle_deg,
+    #                            angle_rad=angle_rad)
+
+    def produce_images(self, n=10):
         obs = self.reset()
         for i in range(self.set_size):
-            for _ in range(10):  # do 2 steps for every image
+            for _ in range(n):  # do n steps for every image
                 try:
-                    lp = self.get_lane_pos2(self.cur_pos, self.cur_angle)
+                    lp = self.get_lane_pos(self.cur_pos, self.cur_angle)
                 except NotInLane:
                     self.reset()
                     continue
-                dot_dir = lp.dot_dir
                 distance_to_road_center = lp.dist
-                distance_to_road_edge = lp.dist_to_edge * 100  # in 100th tile size (in cm if *tilesize)
                 angle_from_straight_in_rads = lp.angle_rad
                 steering = self.k_p * distance_to_road_center + self.k_d * angle_from_straight_in_rads
                 action = np.array([self.action_speed, steering])
@@ -100,10 +128,13 @@ class ControlledDuckietownImager(DuckietownEnv):
                     print("***DONE***")
                     self.reset()
 
-            self.images[i] = obs
-            self.labels[i] = np.array([distance_to_road_edge, lp.angle_deg])
+            if lp.dist_to_edge < 0:
+                continue
+            else:
+                self.images[i] = obs
+                self.labels[i] = np.array([lp.dist_to_edge * 100, lp.angle_deg])
 
-    def generate_and_save(self, sets=30):
+    def generate_and_save(self, num_sets):
         try:
             os.mkdir(self.path)
         except OSError:
@@ -111,7 +142,7 @@ class ControlledDuckietownImager(DuckietownEnv):
                 pass
             else:
                 return
-        for _ in range(sets):
+        for _ in range(num_sets):
             self.produce_images()
             for i in range(self.set_size):
                 plt.imsave(self.path + str(self.labels[i]) + '.png', self.images[i])
@@ -378,9 +409,10 @@ def get_truncated_normal(mean=0.5, sd=1 / 4, low=0, upp=1):
 
 
 if __name__ == '__main__':
-    imgs = 60000
+    imgs = 60_000
     env = ControlledDuckietownImager()
     setsize = env.set_size
     sets = imgs // setsize
-    env.generate_and_save(sets=sets)
+    print("Generating ", sets, " sets")
+    env.generate_and_save(sets)
     sys.exit()

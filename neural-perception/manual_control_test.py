@@ -45,7 +45,7 @@ else:
 
 env.reset()
 env.render()
-model = tf.keras.models.load_model('./saved_model/30.06.2020-14:57:59/')
+model = tf.keras.models.load_model('./saved_model/30.06.2020-17:44:24/')
 
 @env.unwrapped.window.event
 def on_key_press(symbol, modifiers):

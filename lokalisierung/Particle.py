@@ -25,8 +25,8 @@ class Particle:
         self.tile = map.search_tile(int(self.p_x), int(self.p_y))
 
     # todo: Jan should review this
-    def step(self, action:np.ndarray):
-        vel,angle = action
+    def step(self, action: np.ndarray):
+        vel, angle = action
         baseline = WHEEL_DIST
 
         # assuming same motor constants k for both motors
@@ -63,7 +63,8 @@ class Particle:
         self.angle = np.rad2deg(cur_angle)
         self.p_x = new_pos[0]
         self.p_y = new_pos[2]
-        return self.p_x,self.p_y,self.angle
+        return self.p_x, self.p_y, self.angle
+
     def distance_to_wall(self):
         px = self.p_x % 1
         py = self.p_y % 1
@@ -217,7 +218,38 @@ class Particle:
             return self.angle_to_wall_straight()
         if self.tile.type == "3way_left/S" or self.tile.type == "3way_left/N" or self.tile.type == "3way_left/W" or self.tile.type == "3way_left/E" or self.tile.type == "curve_left/S":
             return self.angle_to_wall_3way()
+        if self.tile.type.startswith() in ['curve_left', 'curve_right']:
+            return self.angle_to_wall_curve()
 
+    def angle_to_wall_curve(self):
+        if self.tile.type in ['curve_left/W', 'curve_right/N']:
+            if self.direction() in ['NE', 'NW']:
+                value = (1 - (self.p_x - self.p_x // 1)) / (1 - (self.p_y - self.p_y // 1))
+                angle_of_tangent = np.arctan([value])
+                return self.angle - np.rad2deg(angle_of_tangent[0])
+            if self.direction() in ['SE', 'SW']:
+                return self.angle - 45
+        if self.tile.type == 'curve_left/E':
+            if self.direction() in ['NE', 'NW']:
+                value = (self.p_x - self.p_x // 1) / (self.p_y - self.p_y // 1)
+                angle_of_tangent = np.arctan([value])
+                return self.angle - np.rad2deg(angle_of_tangent[0])
+            if self.direction() in ['SE', 'SW']:
+                return self.angle - 45
+        if self.tile.type == 'curve_left/S':
+            if self.direction() in ['NE', 'NW']:
+                return self.angle - 45
+            if self.direction() in ['SE', 'SW']:
+                value = (1 - (self.p_x - self.p_x // 1)) / (self.p_y - self.p_y // 1)
+                angle_of_tangent = np.arctan([value])
+                return 360 - self.angle - np.rad2deg(angle_of_tangent[0])
+        if self.tile.type == 'curve_left/N':
+            if self.direction() in ['NE', 'NW']:
+                value = (self.p_x - self.p_x // 1) / (1 - (self.p_y - self.p_y // 1))
+                angle_of_tangent = np.arctan([value])
+                return self.angle - (180 - np.rad2deg(angle_of_tangent[0]))
+            if self.direction() in ['SE', 'SW']:
+                return self.angle - 135
 
     def direction(self):
         if self.angle < 90:
@@ -230,11 +262,12 @@ class Particle:
             return 'SE'
 
     def weight_calculator(self, distance, angle):
-        self.weight = 1 * ((self.distance_to_wall()-distance)/distance) * ((self.angle_to_wall()-angle)/angle)
+        self.weight = 1 * ((self.distance_to_wall() - distance) / distance) * ((self.angle_to_wall() - angle) / angle)
         return self.weight
 
+
 if __name__ == '__main__':
-    aParticle = Particle(1.5,1.5,1, 'p1', angle=30)
+    aParticle = Particle(1.5, 1.5, 1, 'p1', angle=30)
     my_map = DuckieMap("../gym_duckietown/maps/udem1.yaml")
     aParticle.set_tile(my_map)
     print(aParticle.step([1.0, 1], 1.0))

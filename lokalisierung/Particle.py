@@ -1,6 +1,8 @@
 from math import sqrt
 import numpy as np
+import threading
 
+from threading import Thread
 from gym_duckietown.simulator import _update_pos
 from lokalisierung import Tile
 from gym_duckietown.simulator import WHEEL_DIST, DEFAULT_FRAMERATE
@@ -267,7 +269,16 @@ class Particle:
 
 
 if __name__ == '__main__':
+    from exercises import basic_control
+    from lokalisierung import MCL
     aParticle = Particle(1.5, 1.5, 1, 'p1', angle=30)
     my_map = DuckieMap("../gym_duckietown/maps/udem1.yaml")
     aParticle.set_tile(my_map)
-    print(aParticle.step([1.0, 1], 1.0))
+    t = Thread(target=basic_control,)
+    MCL.MCL.spawn_particle_list()
+    MCL.MCL.filter_particles()
+    t.start()
+    while True:
+        for p in MCL.MCL.p_list:
+            p.step(basic_control.speed, basic_control.steering)
+            print(p)

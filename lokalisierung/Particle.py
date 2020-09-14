@@ -2,6 +2,8 @@ from math import sqrt
 import numpy as np
 import threading
 
+from exercises import basic_control
+from lokalisierung import MCL
 from threading import Thread
 from gym_duckietown.simulator import _update_pos
 from lokalisierung import Tile
@@ -267,10 +269,11 @@ class Particle:
         self.weight = 1 * ((self.distance_to_wall() - distance) / distance) * ((self.angle_to_wall() - angle) / angle)
         return self.weight
 
+    def thread_basic_control(self):
+
+
 
 if __name__ == '__main__':
-    from exercises import basic_control
-    from lokalisierung import MCL
     aParticle = Particle(1.5, 1.5, 1, 'p1', angle=30)
     my_map = DuckieMap("../gym_duckietown/maps/udem1.yaml")
     aParticle.set_tile(my_map)

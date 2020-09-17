@@ -3,18 +3,15 @@
 Simple exercise to construct a controller that controls the simulated Duckiebot using pose.
 """
 
-import time
-import sys
 import argparse
-import math
-import numpy as np
-import gym
-import functools
-from gym_duckietown.envs import DuckietownEnv
-from lokalisierung.MCL import MCL
 
-from lokalisierung.Particle import Particle
+import gym
+import numpy as np
+
+from gym_duckietown.envs import DuckietownEnv
 from lokalisierung.Ducky_map import DuckieMap
+from lokalisierung.MCL import MCL
+from lokalisierung.Particle import Particle
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--env-name', default=None)
@@ -41,7 +38,7 @@ my_map = DuckieMap("../gym_duckietown/maps/udem1.yaml")
 aParticle = Particle(px, py, 1, 'p1', my_map, angle=pangle)
 aParticle.set_tile()
 print('start particle position und tile', aParticle.p_x, aParticle.p_y, aParticle.tile.type)
-mcl = MCL(100, my_map)
+mcl = MCL(1000, my_map)
 mcl.spawn_particle_list()
 print("length of p_list", len(mcl.p_list))
 step_counter = 0
@@ -56,7 +53,7 @@ while True:
     k_p = 10
     k_d = 1
 
-    #aParticle.weight_calculator(1, 1)
+    # aParticle.weight_calculator(1, 1)
 
     # The speed is a value between [0, 1] (which corresponds to a real speed between 0m/s and 1.2m/s)
 
@@ -77,16 +74,16 @@ while True:
         arr_chosenones = mcl.resampling()
         for x in arr_chosenones:
             if x.tile.type in ['floor', 'asphalt', 'grass']:
-                print("x tile in choosenones",x)
+                print("x tile in choosenones", x)
         sum_py = 0
         sum_px = 0
         for x in arr_chosenones:
             sum_px = sum_px + x.p_x
             sum_py = sum_py + x.p_y
-        #sum_px = functools.reduce(lambda a,b : a.p_x + b.p_x, arr_chosenones)
-        #sum_py = functools.reduce(lambda a,b : a.p_y + b.p_y, arr_chosenones)
+        # sum_px = functools.reduce(lambda a,b : a.p_x + b.p_x, arr_chosenones)
+        # sum_py = functools.reduce(lambda a,b : a.p_y + b.p_y, arr_chosenones)
         possible_location = [sum_px / len(arr_chosenones), 0, sum_py / len(arr_chosenones)]
-        print('posloc',possible_location,'aParticle',aParticle.p_x, aParticle.p_y)
+        print("posloc and robot position", possible_location, [aParticle.p_x, aParticle.p_y])
 
     # print('particle in duckietown',aParticle.step([speed,0]))
 

@@ -2,7 +2,6 @@ from math import sqrt
 import numpy as np
 import threading
 
-from exercises import basic_control
 from lokalisierung import MCL
 from threading import Thread
 from gym_duckietown.simulator import _update_pos
@@ -13,7 +12,7 @@ from lokalisierung.Ducky_map import DuckieMap
 
 class Particle:
 
-    def __init__(self, p_x, p_y, weight, name, angle=-1):
+    def __init__(self, p_x, p_y, weight, name, map, angle=-1):
         self.p_x = p_x
         self.p_y = p_y
         self.tile: Tile = None
@@ -21,12 +20,13 @@ class Particle:
         self.name = name
         self.angle = angle
         self.tilesize = 0.61
+        self.map = map
 
     def __repr__(self):
         return 'Particle ' + str(self.name) + str(self.tile)
 
-    def set_tile(self, map):
-        self.tile = map.search_tile(int(self.p_x), int(self.p_y))
+    def set_tile(self):
+        self.tile = self.map.search_tile(int(self.p_x), int(self.p_y))
 
     # todo: Jan should review this
     def step(self, action: np.ndarray):
@@ -57,7 +57,7 @@ class Particle:
 
         cur_pos = [self.p_x, 0.0, self.p_y]
         wheelVels = vels * vel * 1
-        print("wheelVels: ", wheelVels)
+        #print("wheelVels: ", wheelVels)
         old_angle = np.deg2rad(self.angle)
         new_pos, cur_angle = _update_pos(cur_pos,
                                          old_angle,
@@ -67,12 +67,14 @@ class Particle:
         self.angle = np.rad2deg(cur_angle)
         self.p_x = new_pos[0]
         self.p_y = new_pos[2]
+        self.set_tile()
         return self.p_x, self.p_y, self.angle
 
     def distance_to_wall(self):
         px = self.p_x % 1
         py = self.p_y % 1
         p = np.array([px, py])
+        #print("typ von tile", self.tile.type)
         if self.tile.type == "straight/E" or self.tile.type == "straight/W":  # returns the distance to the closest wall (the wall can be above or under the particle)
             distance = self.p_y % 1
             if distance >= 0.5:
@@ -157,7 +159,7 @@ class Particle:
             else:
                 circle_centre = [0, 0.61 / self.tilesize]
                 return self.dist_to_circle(circle_centre[0], circle_centre[1], px, py, 0.51 / self.tilesize)
-
+        print("no return")
     @staticmethod
     def distance_from_point_to_lines(p3, p1, p2):
         return np.linalg.norm(np.cross(p2 - p1, p1 - p3)) / np.linalg.norm(p2 - p1)
@@ -222,9 +224,9 @@ class Particle:
             return self.angle_to_wall_straight()
         if self.tile.type == "3way_left/S" or self.tile.type == "3way_left/N" or self.tile.type == "3way_left/W" or self.tile.type == "3way_left/E" or self.tile.type == "curve_left/S":
             return self.angle_to_wall_3way()
-        if self.tile.type.startswith() in ['curve_left', 'curve_right']:
+        if self.tile.type.startswith('curve_left') or self.tile.type.startswith('curve_right'):
             return self.angle_to_wall_curve()
-
+        print("no return in agnle to wall")
     def angle_to_wall_curve(self):
         if self.tile.type in ['curve_left/W', 'curve_right/N']:
             if self.direction() in ['NE', 'NW']:
@@ -266,22 +268,11 @@ class Particle:
             return 'SE'
 
     def weight_calculator(self, distance, angle):
-        self.weight = 1 * ((self.distance_to_wall() - distance) / distance) * ((self.angle_to_wall() - angle) / angle)
+        #print("dtw =", self.distance_to_wall())
+        #print("distance ", distance)
+        #self.weight = (self.distance_to_wall() - distance) / distance
+        self.weight = abs(1 * ((self.distance_to_wall() - distance) / distance)) #* ((self.angle_to_wall() - angle) / angle))
         return self.weight
 
-    def thread_basic_control(self):
-
-
-
 if __name__ == '__main__':
-    aParticle = Particle(1.5, 1.5, 1, 'p1', angle=30)
-    my_map = DuckieMap("../gym_duckietown/maps/udem1.yaml")
-    aParticle.set_tile(my_map)
-    t = Thread(target=basic_control,)
-    MCL.MCL.spawn_particle_list()
-    MCL.MCL.filter_particles()
-    t.start()
-    while True:
-        for p in MCL.MCL.p_list:
-            p.step(basic_control.speed, basic_control.steering)
-            print(p)
+    print("hello world")

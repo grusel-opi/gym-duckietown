@@ -126,7 +126,6 @@ class Particle:
             else:
                 return 1 - self.p_y % 1
         if self.tile.type == "curve_left/S":
-            print("hi im a curve")
             if 90 < self.angle < 180:
                 p1 = np.array([0.483 / self.tilesize, 0.02 / self.tilesize])
                 p2 = np.array([0.53 / self.tilesize, 0.08 / self.tilesize])
@@ -222,11 +221,11 @@ class Particle:
     def angle_to_wall(self):
         if self.tile.type == "straight/E" or self.tile.type == "straight/W" or self.tile.type == "straight/N" or self.tile.type == "straight/S":
             return self.angle_to_wall_straight()
-        if self.tile.type == "3way_left/S" or self.tile.type == "3way_left/N" or self.tile.type == "3way_left/W" or self.tile.type == "3way_left/E" or self.tile.type == "curve_left/S":
+        if self.tile.type == "3way_left/S" or self.tile.type == "3way_left/N" or self.tile.type == "3way_left/W" or self.tile.type == "3way_left/E":
             return self.angle_to_wall_3way()
         if self.tile.type.startswith('curve_left') or self.tile.type.startswith('curve_right'):
             return self.angle_to_wall_curve()
-        print("no return in agnle to wall")
+
     def angle_to_wall_curve(self):
         if self.tile.type in ['curve_left/W', 'curve_right/N']:
             if self.direction() in ['NE', 'NW']:
@@ -268,11 +267,18 @@ class Particle:
             return 'SE'
 
     def weight_calculator(self, distance, angle):
-        #print("dtw =", self.distance_to_wall())
-        #print("distance ", distance)
-        #self.weight = (self.distance_to_wall() - distance) / distance
-        self.weight = abs(1 * ((self.distance_to_wall() - distance) / distance)) #* ((self.angle_to_wall() - angle) / angle))
+        p_dist = self.distance_to_wall()
+        p_angle = self.angle_to_wall()
+        print(angle, p_angle)
+        #self.weight = abs((distance / (self.distance_to_wall() - distance)))
+        #self.weight = self.weight + abs((angle / (self.angle_to_wall() - angle)))
+        #weight_dist = abs(float(distance / (p_dist - distance)))
+        weight_angle = abs(float(angle / (p_angle - angle)))
+        print(weight_angle)
+        self.weight = weight_angle
+        print(self.weight)
         return self.weight
+
 
 if __name__ == '__main__':
     print("hello world")

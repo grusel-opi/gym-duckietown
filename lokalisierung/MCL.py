@@ -37,8 +37,8 @@ class MCL:
         arr_particles = []
         for i in range(0, len(self.p_list)):
             idx = self.roulette_rad()
-            print("idx =", idx)
-            print("len p_list", len(self.p_list))
+            # print("idx =", idx)
+            # print("len p_list", len(self.p_list))
             arr_particles.append(self.p_list[idx])
         return arr_particles
 
@@ -53,7 +53,7 @@ class MCL:
             weight_arr.append(weight_of_particle)
 
         the_chosen_one = random.uniform(0, weight_of_particle)
-        print("chosen and weight of particle", the_chosen_one, weight_of_particle)
+        #print("chosen and weight of particle", the_chosen_one, weight_of_particle)
         idx_particle = bisect_left(weight_arr, the_chosen_one)
         return idx_particle
 

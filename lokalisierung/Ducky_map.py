@@ -78,7 +78,6 @@ class Tile:
 
 
 
-
 def get_random_particles_list(count):
     p_list = list()
     i = 0

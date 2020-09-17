@@ -86,7 +86,7 @@ while True:
         #sum_px = functools.reduce(lambda a,b : a.p_x + b.p_x, arr_chosenones)
         #sum_py = functools.reduce(lambda a,b : a.p_y + b.p_y, arr_chosenones)
         possible_location = [sum_px / len(arr_chosenones), 0, sum_py / len(arr_chosenones)]
-        print("posloc",possible_location)
+        print('posloc',possible_location,'aParticle',aParticle.p_x, aParticle.p_y)
 
     # print('particle in duckietown',aParticle.step([speed,0]))
 

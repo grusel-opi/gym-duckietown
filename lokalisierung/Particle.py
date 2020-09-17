@@ -1,6 +1,7 @@
 from math import sqrt
 import numpy as np
 import threading
+import math
 
 from lokalisierung import MCL
 from threading import Thread
@@ -8,6 +9,7 @@ from gym_duckietown.simulator import _update_pos
 from lokalisierung import Tile
 from gym_duckietown.simulator import WHEEL_DIST, DEFAULT_FRAMERATE
 from lokalisierung.Ducky_map import DuckieMap
+from decimal import Decimal
 
 
 class Particle:
@@ -168,6 +170,35 @@ class Particle:
     def distance_from_point_to_point(eck, px, py):
         return sqrt((eck[0] - px) ** 2 + (eck[1] - py) ** 2)
 
+    @staticmethod
+    def lin_equ(l1, l2):
+        """Line encoded as l=(x,y)."""
+        m = (l2[1] - l1[1]) / (l2[0] - l1[0])
+        print(m)
+        c = (l2[1] - (m * l2[0]))
+        return m, c
+
+    @staticmethod
+    def angle_vector_to_x(vector):
+        cos_alpha = vector[0]**2 / (sqrt((vector[0]**2) + (vector[1]**2)) * sqrt(vector[0]**2))
+        cos_alpha = cos_alpha / math.acosh(0)
+        return cos_alpha
+
+    def angle_particle_to_x(self):
+        return self.angle - 180
+
+    #if the angle of the vector to the tangent needs to be removed from the angle of the particle to the x-axis
+    def angle_tangent_from_particle_minus(self, eck):
+        angle = 90 + self.angle_particle_to_x() - Particle.angle_vector_to_x(Particle.lin_equ((self.p_x, self.p_y), (eck[0], eck[1])))
+        return 360 - angle
+
+    #if the angle of the vector to the tangent needs to be added to the angle of the particle to the x-axis
+    def angle_tangent_from_particle_plus(self, eck):
+        angle = 90 + self.angle_particle_to_x() + Particle.angle_vector_to_x(Particle.lin_equ((self.p_x, self.p_y), (eck[0], eck[1])))
+        return 180 - angle
+
+
+
     # Function to find the shortest distance
     @staticmethod
     def dist_to_circle(x1, y1, x2, y2, r):
@@ -194,35 +225,108 @@ class Particle:
                 return self.angle % 90
 
     def angle_to_wall_3way(self):
+        px = self.p_x % 1
+        py = self.p_y % 1
         if self.tile.type == "3way_left/S":
             if self.direction() == 'SW':
                 return self.angle - 270
             if self.direction() == 'SE':
                 return self.angle % 90
-            return 'nothing'
+            if self.direction() == 'NW':
+                print('IM IN A 3WAY NW')
+                if py > 0.5:
+                    eck = [0.562 / self.tilesize, 0.562 / self.tilesize]
+                    return self.angle_tangent_from_particle_minus(eck)
+                else:
+                    eck = [0.562 / self.tilesize, 0.048 / self.tilesize]
+                    return self.angle_tangent_from_particle_plus(eck)
+            if self.direction() == 'NE':
+                print('IM IN A 3WAY NE')
+                if py > 0.5:
+                    eck = [0.562 / self.tilesize, 0.562 / self.tilesize]
+                    print(self.angle_tangent_from_particle_minus(eck))
+                    return self.angle_tangent_from_particle_minus(eck)
+                else:
+                    eck = [0.562 / self.tilesize, 0.048 / self.tilesize]
+                    print(self.angle_tangent_from_particle_plus(eck))
+                    return self.angle_tangent_from_particle_plus(eck)
         if self.tile.type == "3way_left/N":
             if self.direction() == 'NE':
                 return self.angle - 90
             if self.direction() == 'NW':
                 return self.angle % 90
-            return 'nothing'
+            if self.direction() == 'SW':
+                if py > 0.5:
+                    eck = [0.048 / self.tilesize, 0.562 / self.tilesize]
+                    print(self.angle_tangent_from_particle_plus(eck))
+                    return self.angle_tangent_from_particle_plus(eck)
+                else:
+                    eck = [0.048 / self.tilesize, 0.048 / self.tilesize]
+                    print(self.angle_tangent_from_particle_minus(eck))
+                    return self.angle_tangent_from_particle_minus(eck)
+            if self.direction() == 'SE':
+                if py > 0.5:
+                    eck = [0.048 / self.tilesize, 0.562 / self.tilesize]
+                    print(self.angle_tangent_from_particle_minus(eck))
+                    return self.angle_tangent_from_particle_minus(eck)
+                else:
+                    eck = [0.048 / self.tilesize, 0.048 / self.tilesize]
+                    print(self.angle_tangent_from_particle_plus(eck))
+                    return self.angle_tangent_from_particle_plus(eck)
         if self.tile.type == "3way_left/W":
+            print('IM IN 3WAY_LEFT/W')
             if self.direction() == 'NW':
                 return self.angle - 180
             if self.direction() == 'SW':
                 return self.angle % 90
-            return 'nothing'
+            if self.direction() == 'NE':
+                if px < 0.5:
+                    eck = [0.048 / self.tilesize, 0.562 / self.tilesize]
+                    print(self.angle_tangent_from_particle_minus(eck))
+                    return self.angle_tangent_from_particle_minus(eck)
+                else:
+                    eck = [0.562 / self.tilesize, 0.562 / self.tilesize]
+                    print(self.angle_tangent_from_particle_plus(eck))
+                    return self.angle_tangent_from_particle_plus(eck)
+            if self.direction() == 'SE':
+                if px < 0.5:
+                    eck = [0.048 / self.tilesize, 0.562 / self.tilesize]
+                    print(self.angle_tangent_from_particle_minus(eck))
+                    return self.angle_tangent_from_particle_minus(eck)
+                else:
+                    eck = [0.562 / self.tilesize, 0.562 / self.tilesize]
+                    print(self.angle_tangent_from_particle_plus(eck))
+                    return self.angle_tangent_from_particle_plus(eck)
         if self.tile.type == "3way_left/E":
             if self.direction() == 'NE':
                 return self.angle
             if self.direction() == 'SE':
                 return self.angle - 360
-            return 'nothing'
+            if self.direction() == 'NW':
+                if px < 0.5:
+                    eck = [0.048 / self.tilesize, 0.048 / self.tilesize]
+                    print(self.angle_tangent_from_particle_minus(eck))
+                    return self.angle_tangent_from_particle_minus(eck)
+                else:
+                    eck = [0.562 / self.tilesize, 0.048 / self.tilesize]
+                    print(self.angle_tangent_from_particle_minus(eck))
+                    return self.angle_tangent_from_particle_minus(eck)
+            if self.direction() == 'SW':
+                if px < 0.5:
+                    eck = [0.048 / self.tilesize, 0.048 / self.tilesize]
+                    print(self.angle_tangent_from_particle_minus(eck))
+                    return self.angle_tangent_from_particle_minus(eck)
+                else:
+                    eck = [0.562 / self.tilesize, 0.048 / self.tilesize]
+                    print(self.angle_tangent_from_particle_minus(eck))
+                    return self.angle_tangent_from_particle_minus(eck)
+
+
 
     def angle_to_wall(self):
         if self.tile.type == "straight/E" or self.tile.type == "straight/W" or self.tile.type == "straight/N" or self.tile.type == "straight/S":
             return self.angle_to_wall_straight()
-        if self.tile.type == "3way_left/S" or self.tile.type == "3way_left/N" or self.tile.type == "3way_left/W" or self.tile.type == "3way_left/E" or self.tile.type == "curve_left/S":
+        if self.tile.type == "3way_left/S" or self.tile.type == "3way_left/N" or self.tile.type == "3way_left/W" or self.tile.type == "3way_left/E":
             return self.angle_to_wall_3way()
         if self.tile.type.startswith('curve_left') or self.tile.type.startswith('curve_right'):
             return self.angle_to_wall_curve()

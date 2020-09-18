@@ -1,25 +1,12 @@
 from gym_duckietown.simulator import *
 from gym_duckietown.graphics import *
 from gym_duckietown.envs import DuckietownEnv
-from numpy import save, load
+from numpy import load
 from matplotlib import pyplot as plt
 from scipy.stats import truncnorm
-from scipy.spatial.transform import Rotation
-from collections import namedtuple
+from neural_perception.util import OwnLanePosition
 import os
 import sys
-
-OwnLanePosition0 = namedtuple('OwnLanePosition', 'dist dist_to_edge dot_dir angle_deg angle_rad')
-
-
-class OwnLanePosition(OwnLanePosition0):
-    def as_json_dict(self):
-        """ Serialization-friendly format. """
-        return dict(dist=self.dist,
-                    dist_to_edge=self.dist_to_edge,
-                    dot_dir=self.dot_dir,
-                    angle_deg=self.angle_deg,
-                    angle_rad=self.angle_rad)
 
 
 class ControlledDuckietownImager(DuckietownEnv):

@@ -1,19 +1,15 @@
 #!/usr/bin/env python3
 
 import argparse
-import math
 import numpy as np
-import cv2
 import os
 import gym
-from gym_duckietown.simulator import NotInLane, get_dir_vec
-from data_generator import OwnLanePosition
 from gym_duckietown.envs import DuckietownEnv
 import pyglet
 from pyglet.window import key
-from pid_controller import PID
+from neural_perception.pid_controller import PID
+from neural_perception.util import preprocess, get_lane_pos
 
-RESIZE_IMG_SHAPE = (120, 160, 3)
 DEBUG = False
 MANUAL_CONTROL = False
 
@@ -32,46 +28,6 @@ if args.env_name is None:
 else:
     env = gym.make(args.env_name)
 
-
-def preprocess(image):
-    height, width, _ = RESIZE_IMG_SHAPE
-    image = cv2.resize(image, (width, height))
-    image = image[int(height / 3):, 0:width]
-    image = image / 255.
-    return np.array([image])
-
-
-def get_lane_pos(enviroment):
-    pos = enviroment.cur_pos
-    angle = enviroment.cur_angle
-    point, tangent = enviroment.closest_curve_point(pos, angle)
-    if point is None:
-        msg = 'Point not in lane: %s' % pos
-        raise NotInLane(msg)
-
-    assert point is not None
-
-    dirVec = get_dir_vec(angle)
-    dotDir = np.dot(dirVec, tangent)
-    dotDir = max(-1, min(1, dotDir))
-
-    posVec = pos - point
-    upVec = np.array([0, 1, 0])
-    rightVec = np.cross(tangent, upVec)
-    signedDist = np.dot(posVec, rightVec)
-    dist_to_road_edge = 0.25 * enviroment.road_tile_size - signedDist
-    angle_rad = math.acos(dotDir)
-
-    if np.dot(dirVec, rightVec) < 0:
-        angle_rad *= -1
-
-    angle_deg = np.rad2deg(angle_rad)
-
-    return OwnLanePosition(dist=signedDist,
-                           dist_to_edge=dist_to_road_edge,
-                           dot_dir=dotDir,
-                           angle_deg=angle_deg,
-                           angle_rad=angle_rad)
 
 
 obs = env.reset()
@@ -158,6 +114,7 @@ def update(dt):
     # obs = preprocess(obs)
 
     env.render()
+
 
 pyglet.clock.schedule_interval(update, 1.0 / env.unwrapped.frame_rate)
 pyglet.app.run()

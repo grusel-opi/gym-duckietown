@@ -1,25 +1,12 @@
 from gym_duckietown.simulator import *
 from gym_duckietown.graphics import *
 from gym_duckietown.envs import DuckietownEnv
-from numpy import save, load
+from numpy import load
 from matplotlib import pyplot as plt
 from scipy.stats import truncnorm
-from scipy.spatial.transform import Rotation
-from collections import namedtuple
+from neural_perception.util import get_lane_pos
 import os
 import sys
-
-OwnLanePosition0 = namedtuple('OwnLanePosition', 'dist dist_to_edge dot_dir angle_deg angle_rad')
-
-
-class OwnLanePosition(OwnLanePosition0):
-    def as_json_dict(self):
-        """ Serialization-friendly format. """
-        return dict(dist=self.dist,
-                    dist_to_edge=self.dist_to_edge,
-                    dot_dir=self.dot_dir,
-                    angle_deg=self.angle_deg,
-                    angle_rad=self.angle_rad)
 
 
 class ControlledDuckietownImager(DuckietownEnv):
@@ -39,83 +26,12 @@ class ControlledDuckietownImager(DuckietownEnv):
                                dtype=self.observation_space.dtype)
         self.labels = np.zeros(shape=(self.set_size, 2), dtype=np.float32)
 
-    def get_lane_pos(self, pos, angle):
-        point, tangent = self.closest_curve_point(pos, angle)
-        if point is None:
-            msg = 'Point not in lane: %s' % pos
-            raise NotInLane(msg)
-
-        assert point is not None
-
-        dirVec = get_dir_vec(angle)
-        dotDir = np.dot(dirVec, tangent)
-        dotDir = max(-1, min(1, dotDir))
-
-        posVec = pos - point
-        upVec = np.array([0, 1, 0])
-        rightVec = np.cross(tangent, upVec)
-        signedDist = np.dot(posVec, rightVec)
-        dist_to_road_edge = 0.25 * self.road_tile_size - signedDist
-        angle_rad = math.acos(dotDir)
-
-        if np.dot(dirVec, rightVec) < 0:
-            angle_rad *= -1
-
-        angle_deg = np.rad2deg(angle_rad)
-
-        return OwnLanePosition(dist=signedDist,
-                               dist_to_edge=dist_to_road_edge,
-                               dot_dir=dotDir,
-                               angle_deg=angle_deg,
-                               angle_rad=angle_rad)
-
-    # # @Override
-    # def get_lane_pos2(self, pos, angle):
-    #     point, tangent = self.closest_curve_point(pos, angle)
-    #     if point is None:
-    #         msg = 'Point not in lane: %s' % pos
-    #         raise NotInLane(msg)
-    #
-    #     assert point is not None
-    #
-    #     track_width = 0.4
-    #     a = track_width / 2
-    #     rot = Rotation.from_rotvec(np.radians(-90) * np.array([0, 1, 0]))
-    #     rot_tangent = rot.apply(tangent * a)
-    #     new_point = point + rot_tangent
-    #
-    #     dir_vec = get_dir_vec(angle)
-    #     dot_dir = np.dot(dir_vec, tangent)
-    #     dot_dir = max(-1, min(1, dot_dir))
-    #
-    #     # Compute the signed distance to the curve
-    #     # Right of the curve is negative, left is positive
-    #     new_pos_vec = new_point - pos
-    #     pos_vec = pos - point
-    #     up_vec = np.array([0, 1, 0])
-    #     right_vec = np.cross(tangent, up_vec)
-    #     signed_dist_egde = np.dot(new_pos_vec, right_vec)
-    #     signed_dist_center = np.dot(pos_vec, right_vec)
-    #
-    #     # Compute the signed angle between the direction and curve tangent
-    #     # Right of the tangent is negative, left is positive
-    #     angle_rad = math.acos(dot_dir)
-    #
-    #     if np.dot(dir_vec, right_vec) < 0:
-    #         angle_rad *= -1
-    #
-    #     angle_deg = np.rad2deg(angle_rad)
-    #
-    #     return OwnLanePosition(dist=signed_dist_center, dist_to_edge=signed_dist_egde, dot_dir=dot_dir,
-    #                            angle_deg=angle_deg,
-    #                            angle_rad=angle_rad)
-
     def produce_images(self, n=10):
         obs = self.reset()
         for i in range(self.set_size):
             for _ in range(n):  # do n steps for every image
                 try:
-                    lp = self.get_lane_pos(self.cur_pos, self.cur_angle)
+                    lp = get_lane_pos(self)
                 except NotInLane:
                     self.reset()
                     continue

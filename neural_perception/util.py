@@ -4,6 +4,9 @@ import math
 
 from ctypes import POINTER
 from collections import namedtuple
+
+from scipy.spatial.transform import Rotation
+
 from gym_duckietown.simulator import WINDOW_WIDTH, WINDOW_HEIGHT, NotInLane, get_dir_vec
 from pyglet import gl, window, image
 

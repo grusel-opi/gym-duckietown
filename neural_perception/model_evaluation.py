@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
 
-"""
-Simple exercise to construct a controller that controls the simulated Duckiebot using pose.
-"""
-
 import numpy as np
 import os
 from gym_duckietown.envs import DuckietownEnv
@@ -23,7 +19,7 @@ obs = preprocess(obs)
 
 env.render()
 
-model = tf.keras.models.load_model('../../lean-test/saved_model/17.09.2020-13:40:11/')
+model = tf.keras.models.load_model('../../duckiepose/saved_model/18.09.2020-13:24:04/')
 
 k_p = 1
 k_d = 1
@@ -118,40 +114,71 @@ if len(four_way_errors) != 0:
     print("four_way error mean: {}, amount: {}".format(np.mean(four_way_errors), len(four_way_errors)))
 
 
-distances, anlges = zip(*errors)
+distances, angles = zip(*labels)
+distances_err, angles_err = zip(*errors)
 
-fig, (ax1, ax2) = plt.subplot(1, 2)
-plt.title("distances hist")
-plt.hist(distances)
+# histograms for label distribution
+fig_hist, (ax_hist_d, ax_hist_a) = plt.subplots(1, 2)
 
-plt.figure()
-plt.title("scatter")
-plt.scatter(distances, all_dist_errors)
+ax_hist_d.set_title("distances distribution")
+ax_hist_d.hist(distances)
+ax_hist_a.set_title("angles distribution")
+ax_hist_a.hist(angles)
 
-fig, ax1 = plt.subplots()
+# scatters for label -> error mapping
+fig_scatter, (ax_scat_d, ax_scat_a) = plt.subplots(1, 2)
+
+ax_scat_d.set_title("distances err per label")
+ax_scat_d.scatter(distances, distances_err)
+ax_scat_a.set_title("angles err per label")
+ax_scat_a.scatter(angles, angles_err)
+
+# line plot for (dist, angle) -> dist err
+# and (dist, angle) -> angle err visualization
+fig_line, (ax_line_d_0, ax_line_a_0) = plt.subplots(1, 2)
 
 color = 'tab:red'
-ax1.set_xlabel('step')
-ax1.set_ylabel('error', color=color)
-ax1.plot(x, all_dist_errors, color=color)
-ax1.tick_params(axis='y', labelcolor=color)
-ax1.axhline(c=color)
+ax_line_d_0.set_xlabel('step')
+ax_line_d_0.set_ylabel('d error', color=color)
+ax_line_d_0.plot(x, distances_err, color=color)
+ax_line_d_0.tick_params(axis='y', labelcolor=color)
+ax_line_d_0.axhline(c=color)
 
-ax2 = ax1.twinx()
-
+ax_line_d_1 = ax_line_d_0.twinx()
 color = 'tab:blue'
-ax2.set_ylabel('distances', color=color)
-ax2.plot(x, distances, color=color)
-ax2.tick_params(axis='y', labelcolor=color)
-ax2.axhline(c=color)
+ax_line_d_1.set_ylabel('distances', color=color)
+ax_line_d_1.plot(x, distances, color=color)
+ax_line_d_1.tick_params(axis='y', labelcolor=color)
+ax_line_d_1.axhline(c=color)
 
-ax3 = ax1.twinx()
+ax_line_d_2 = ax_line_d_1.twinx()
+color = 'tab:green'
+ax_line_d_2.set_ylabel('angle from straight', color=color)
+ax_line_d_2.plot(x, angles, color=color)
+ax_line_d_2.tick_params(axis='y', labelcolor=color)
+ax_line_d_2.axhline(c=color)
+
+color = 'tab:red'
+ax_line_a_0.set_xlabel('step')
+ax_line_a_0.set_ylabel('a error', color=color)
+ax_line_a_0.plot(x, angles_err, color=color)
+ax_line_a_0.tick_params(axis='y', labelcolor=color)
+ax_line_a_0.axhline(c=color)
+
+ax_line_a_1 = ax_line_a_0.twinx()
+color = 'tab:blue'
+ax_line_a_1.set_ylabel('distances', color=color)
+ax_line_a_1.plot(x, distances, color=color)
+ax_line_a_1.tick_params(axis='y', labelcolor=color)
+ax_line_a_1.axhline(c=color)
+
+ax_line_a_2 = ax_line_a_1.twinx()
 
 color = 'tab:green'
-ax3.set_ylabel('angle from straight', color=color)
-ax3.plot(x, angles, color=color)
-ax3.tick_params(axis='y', labelcolor=color)
-ax3.axhline(c=color)
+ax_line_a_2.set_ylabel('angle from straight', color=color)
+ax_line_a_2.plot(x, angles, color=color)
+ax_line_a_2.tick_params(axis='y', labelcolor=color)
+ax_line_a_2.axhline(c=color)
 
-fig.tight_layout()
+fig_line.tight_layout()
 plt.show()

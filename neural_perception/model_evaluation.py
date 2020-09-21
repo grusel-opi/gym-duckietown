@@ -19,7 +19,7 @@ obs = preprocess(obs)
 
 env.render()
 
-model = tf.keras.models.load_model('../../duckiepose/saved_model/18.09.2020-13:24:04/')
+model = tf.keras.models.load_model('../../lean-test/saved_model/18.09.2020-13:24:04/')
 
 k_p = 1
 k_d = 1
@@ -51,33 +51,33 @@ for i in range(steps):
     angle_from_straight_in_deg = lane_pose.angle_deg
 
     y_hat = model(obs)
-    d = y_hat[0][0]
-    a = y_hat[0][1]
+    d = y_hat[0][0].numpy()
+    a = y_hat[0][1].numpy()
 
     dist_err = abs(distance_to_road_edge - d)
     angle_err = abs(angle_from_straight_in_deg - a)
 
-    errors.append((dist_err, angle_err))
-    labels.append((distance_to_road_edge, angle_from_straight_in_deg))
+    errors.append([dist_err, angle_err])
+    labels.append([distance_to_road_edge, angle_from_straight_in_deg])
 
     kind = env._get_tile(env.cur_pos[0], env.cur_pos[2])['kind']
 
     if kind.startswith('straight'):
-        straight_tile_errors.append((dist_err, angle_err))
+        straight_tile_errors.append([dist_err, angle_err])
     elif kind == 'curve_left':
-        curve_left_errors.append((dist_err, angle_err))
+        curve_left_errors.append([dist_err, angle_err])
     elif kind == 'curve_right':
-        curve_right_errors.append((dist_err, angle_err))
+        curve_right_errors.append([dist_err, angle_err])
     elif kind.startswith('3way'):
-        three_way_errors.append((dist_err, angle_err))
+        three_way_errors.append([dist_err, angle_err])
     elif kind.startswith('4way'):
-        four_way_errors.append((dist_err, angle_err))
+        four_way_errors.append([dist_err, angle_err])
 
-    if visual:
-        print()
-        print("actu: {}, {}".format(distance_to_road_edge, angle_from_straight_in_deg))
-        print("pred: {}, {}".format(d, a))
-        print("error: {}, {}".format(dist_err, angle_err))
+    # if visual:
+    #     print()
+    #     print("actu: {}, {}".format(distance_to_road_edge, angle_from_straight_in_deg))
+    #     print("pred: {}, {}".format(d, a))
+    #     print("error: {}, {}".format(dist_err, angle_err))
 
     steering = k_p * distance_to_road_center + k_d * angle_from_straight_in_rad
     command = np.array([speed, steering])
@@ -101,17 +101,17 @@ x = np.arange(len(errors))
 print()
 print("stats:")
 print()
-print("error mean: {}, amount: {}".format(np.mean(errors), len(errors)))
+print("error mean: {}, amount: {}".format(np.mean(errors, axis=0), len(errors)))
 if len(straight_tile_errors) != 0:
-    print("straight error mean: {}, amount: {}".format(np.mean(straight_tile_errors), len(straight_tile_errors)))
+    print("straight error mean: {}, amount: {}".format(np.mean(straight_tile_errors, axis=0), len(straight_tile_errors)))
 if len(curve_left_errors) != 0:
-    print("curve left error mean: {}, amount: {}".format(np.mean(curve_left_errors), len(curve_left_errors)))
+    print("curve left error mean: {}, amount: {}".format(np.mean(curve_left_errors, axis=0), len(curve_left_errors)))
 if len(curve_right_errors) != 0:
-    print("curve right error mean: {}, amount: {}".format(np.mean(curve_right_errors), len(curve_right_errors)))
+    print("curve right error mean: {}, amount: {}".format(np.mean(curve_right_errors, axis=0), len(curve_right_errors)))
 if len(three_way_errors) != 0:
-    print("three_way error mean: {}, amount: {}".format(np.mean(three_way_errors), len(three_way_errors)))
+    print("three_way error mean: {}, amount: {}".format(np.mean(three_way_errors, axis=0), len(three_way_errors)))
 if len(four_way_errors) != 0:
-    print("four_way error mean: {}, amount: {}".format(np.mean(four_way_errors), len(four_way_errors)))
+    print("four_way error mean: {}, amount: {}".format(np.mean(four_way_errors, axis=0), len(four_way_errors)))
 
 
 distances, angles = zip(*labels)

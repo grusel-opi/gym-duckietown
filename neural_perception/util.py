@@ -8,6 +8,7 @@ from collections import namedtuple
 from scipy.spatial.transform import Rotation
 
 from gym_duckietown.simulator import WINDOW_WIDTH, WINDOW_HEIGHT, NotInLane, get_dir_vec
+from neural_perception.lane_extractor import detect_lane, display_lines
 from pyglet import gl, window, image
 
 

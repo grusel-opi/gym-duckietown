@@ -36,19 +36,16 @@ env.render()
 
 total_reward = 0
 px, _, py = env.cur_pos
-pangle = np.rad2deg(env.cur_angle)
 my_map = DuckieMap("../gym_duckietown/maps/udem1.yaml")
-aParticle = Particle(px, py, 1, 'p1', my_map, angle=pangle)
-aParticle.set_tile()
-print('start particle position und tile', aParticle.p_x, aParticle.p_y, aParticle.tile.type)
-mcl = MCL(100, my_map)
-mcl.spawn_particle_list()
-print("length of p_list", len(mcl.p_list))
+mcl = MCL(100, my_map, env)
+mcl.spawn_particle_list(env.cur_pos, env.cur_angle)
 step_counter = 0
 while True:
     lane_pose = env.get_lane_pos2(env.cur_pos, env.cur_angle)
     distance_to_road_center = lane_pose.dist
     angle_from_straight_in_rads = lane_pose.angle_rad
+
+    #print("Roboterabstand zur Mittelline(X,Y)", distance_to_road_center)
 
     ###### Start changing the code here.
     # TODO: Decide how to calculate the speed and direction.
@@ -67,26 +64,31 @@ while True:
 
     ###### No need to edit code below.
     obs, reward, done, info = env.step([speed, steering])
-    aParticle.step([speed, steering])
-    dist_robot = aParticle.distance_to_wall()
-    ang_robot = aParticle.angle_to_wall()
-    print(dist_robot, ang_robot, aParticle.p_x, aParticle.p_y, aParticle.tile.type)
-    mcl.weight_particles([speed, steering], dist_robot, ang_robot)
+    #aParticle.step([speed, steering])
+    # dist_robot = aParticle.distance_to_wall()
+    # ang_robot = aParticle.angle_to_wall()
+    #print(dist_robot, ang_robot, aParticle.p_x, aParticle.p_y, aParticle.tile.type)
+    #mcl.weight_particles([speed, steering], dist_robot, ang_robot)
+    mcl.integrate_movement([speed, steering])
     step_counter += 1
+    mcl.integrate_measurement(distance_to_road_center, angle_from_straight_in_rads)
     if step_counter % 10 == 0:
         arr_chosenones = mcl.resampling()
-        for x in arr_chosenones:
-            if x.tile.type in ['floor', 'asphalt', 'grass']:
-                print("x tile in choosenones",x)
         sum_py = 0
         sum_px = 0
+        sum_angle = 0
         for x in arr_chosenones:
             sum_px = sum_px + x.p_x
             sum_py = sum_py + x.p_y
+            sum_angle += x.angle
         #sum_px = functools.reduce(lambda a,b : a.p_x + b.p_x, arr_chosenones)
         #sum_py = functools.reduce(lambda a,b : a.p_y + b.p_y, arr_chosenones)
         possible_location = [sum_px / len(arr_chosenones), 0, sum_py / len(arr_chosenones)]
-        print("posloc",possible_location)
+        possible_angle = sum_angle / len(arr_chosenones)
+        print(len(arr_chosenones), len(mcl.p_list))
+        print("posloc and robot position",possible_location, env.cur_pos)
+        print('possible angle and robot angle', possible_angle, env.cur_angle)
+        mcl.weight_reset()
 
     # print('particle in duckietown',aParticle.step([speed,0]))
 

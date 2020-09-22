@@ -6,13 +6,13 @@ from lokalisierung import MCL
 from threading import Thread
 from gym_duckietown.simulator import _update_pos
 from lokalisierung import Tile
-from gym_duckietown.simulator import WHEEL_DIST, DEFAULT_FRAMERATE
+from gym_duckietown.simulator import WHEEL_DIST, DEFAULT_FRAMERATE, DEFAULT_ROBOT_SPEED
 from lokalisierung.Ducky_map import DuckieMap
-
+from scipy.stats import norm
 
 class Particle:
 
-    def __init__(self, p_x, p_y, weight, name, map, angle=-1):
+    def __init__(self, p_x, p_y, weight, name, map,env, angle=-1):
         self.p_x = p_x
         self.p_y = p_y
         self.tile: Tile = None
@@ -21,6 +21,8 @@ class Particle:
         self.angle = angle
         self.tilesize = 0.61
         self.map = map
+        self.env = env
+
 
     def __repr__(self):
         return 'Particle ' + str(self.name) + str(self.tile)
@@ -56,19 +58,25 @@ class Particle:
         vels = np.array(vels)
 
         cur_pos = [self.p_x, 0.0, self.p_y]
-        wheelVels = vels * vel * 1
-        #print("wheelVels: ", wheelVels)
-        old_angle = np.deg2rad(self.angle)
+        wheelVels = vels * DEFAULT_ROBOT_SPEED * 1
+        old_angle = self.angle
         new_pos, cur_angle = _update_pos(cur_pos,
                                          old_angle,
                                          WHEEL_DIST,
                                          wheelVels,
                                          deltaTime=1.0 / DEFAULT_FRAMERATE)
-        self.angle = np.rad2deg(cur_angle)
+        #print("partikelinfos", new_pos, cur_angle, WHEEL_DIST, wheelVels, 1.0 / DEFAULT_FRAMERATE)
+
+        self.angle = cur_angle
         self.p_x = new_pos[0]
         self.p_y = new_pos[2]
         self.set_tile()
         return self.p_x, self.p_y, self.angle
+
+    # def distance_to_centre_line_new(self):
+    #
+    #
+    # def angle_to_centre_line_new(self):
 
     def distance_to_wall(self):
         px = self.p_x % 1
@@ -87,12 +95,13 @@ class Particle:
             return distance
         if self.tile.type == "3way_left/S":
             if 180 > self.angle > 0:
-                if py > 0.5:
-                    eck = [0.562 / self.tilesize, 0.562 / self.tilesize]
-                    return self.distance_from_point_to_point(eck, px, py)
-                else:
-                    eck = [0.562 / self.tilesize, 0.048 / self.tilesize]
-                    return self.distance_from_point_to_point(eck, px, py)
+                # if py > 0.5:
+                #     eck = [0.562 / self.tilesize, 0.562 / self.tilesize]
+                #     return self.distance_from_point_to_point(eck, px, py)
+                # else:
+                #     eck = [0.562 / self.tilesize, 0.048 / self.tilesize]
+                #     return self.distance_from_point_to_point(eck, px, py)
+                return '3way_left/S'
             else:
                 return self.p_x % 1
         if self.tile.type == "3way_left/N":
@@ -178,7 +187,7 @@ class Particle:
             if self.direction() == 'NE':
                 return self.angle
             if self.direction() == 'SE':
-                return self.angle - 360
+                return self.angle
             if self.direction() == 'NW':
                 return self.angle - 180
             if self.direction() == 'SW':
@@ -227,6 +236,7 @@ class Particle:
         if self.tile.type.startswith('curve_left') or self.tile.type.startswith('curve_right'):
             return self.angle_to_wall_curve()
         print("no return in agnle to wall")
+
     def angle_to_wall_curve(self):
         if self.tile.type in ['curve_left/W', 'curve_right/N']:
             if self.direction() in ['NE', 'NW']:
@@ -268,11 +278,19 @@ class Particle:
             return 'SE'
 
     def weight_calculator(self, distance, angle):
-        #print("dtw =", self.distance_to_wall())
-        #print("distance ", distance)
-        #self.weight = (self.distance_to_wall() - distance) / distance
-        self.weight = abs(1 * ((self.distance_to_wall() - distance) / distance)) #* ((self.angle_to_wall() - angle) / angle))
+        # distance_p = self.distance_to_wall()
+        # weight = 0
+        # if distance_p == '3way_left/S':
+        #     weight = 1
+        # else:
+        cur_pos = [self.p_x, 0, self.p_y]
+        lane_pos = self.env.get_lane_pos2(cur_pos, self.angle)
+        distance_p =lane_pos.dist
+        angle_p = lane_pos.angle_rad
+        #print(self.weight)
+        self.weight = self.weight * norm.pdf(distance - distance_p) * norm.pdf(angle - angle_p)
         return self.weight
+
 
 if __name__ == '__main__':
     print("hello world")

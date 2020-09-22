@@ -3,27 +3,39 @@ from lokalisierung.Ducky_map import ROW_MAP, COLUMN_MAP, DuckieMap
 import functools
 import random
 from bisect import bisect_right, bisect_left
+import numpy as np
 
 
 class MCL:
-    def __init__(self, p_number, map):
+    def __init__(self, p_number, map, env):
         self.p_number = p_number
         self.map = map
         self.p_list = None
+        self.env = env
 
-    def spawn_particle_list(self):
+    def spawn_particle_list(self, robot_pos, robot_angle):
         self.p_list = list()
+        p_x, p_y = (robot_pos[0], robot_pos[2])
         i = 0
-        while(i < self.p_number):
-            randX = random.uniform(0.0, COLUMN_MAP)
-            randY = random.uniform(0.0, ROW_MAP)
-            rand_angle = random.uniform(0.0, 360)
+        while i < self.p_number:
+            randX = random.uniform(p_x - 0.25, p_x//1 + 0.25)
+            randY = random.uniform(p_y - 0.25, p_y // 1 + 0.25)
+            rand_angle = random.uniform(robot_angle - np.deg2rad(15), robot_angle + np.deg2rad(15))
 
-            a_particle = Particle(randX, randY, 1, i, self.map, angle=rand_angle)
+            a_particle = Particle(randX, randY, 1, i, self.map,self.env, angle=rand_angle)
             a_particle.set_tile()
             if a_particle.tile.type not in ['floor', 'asphalt', 'grass']:
                 self.p_list.append(a_particle)
                 i = i + 1
+
+    def integrate_movement(self, action):
+        for p in self.p_list:
+            p.step(action)
+        self.filter_particles()
+
+    def integrate_measurement(self, distance_duckie, angle_duckie):
+        for p in self.p_list:
+            p.weight_calculator(distance_duckie,angle_duckie)
 
     def weight_particles(self, action, distance_duckie, angle_duckie):
         for p in self.p_list:
@@ -33,12 +45,10 @@ class MCL:
             p.weight_calculator(distance_duckie, angle_duckie)
 
     def resampling(self):
-        self.roulette_rad()
+        #self.roulette_rad()
         arr_particles = []
         for i in range(0, len(self.p_list)):
             idx = self.roulette_rad()
-            print("idx =", idx)
-            print("len p_list", len(self.p_list))
             arr_particles.append(self.p_list[idx])
         return arr_particles
 
@@ -51,12 +61,13 @@ class MCL:
         for p in self.p_list:
             weight_of_particle += p.weight
             weight_arr.append(weight_of_particle)
-
         the_chosen_one = random.uniform(0, weight_of_particle)
-        print("chosen and weight of particle", the_chosen_one, weight_of_particle)
         idx_particle = bisect_left(weight_arr, the_chosen_one)
         return idx_particle
 
+    def weight_reset(self):
+        for p in self.p_list:
+            p.weight = 1
 
     @staticmethod
     def calculate(particle, speichendistanz):

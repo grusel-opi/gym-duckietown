@@ -1222,6 +1222,8 @@ class Simulator(gym.Env):
                                                    self.wheel_dist,
                                                    wheelVels=self.wheelVels,
                                                    deltaTime=delta_time)
+        #print("robotinfos", self.cur_pos, self.cur_angle, self.wheel_dist, self.wheelVels, delta_time)
+
         self.step_count += 1
         self.timestamp += delta_time
 

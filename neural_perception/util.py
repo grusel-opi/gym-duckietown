@@ -6,6 +6,7 @@ from ctypes import POINTER
 from collections import namedtuple
 
 from scipy.spatial.transform import Rotation
+from scipy.stats import truncnorm
 
 from gym_duckietown.simulator import WINDOW_WIDTH, WINDOW_HEIGHT, NotInLane, get_dir_vec
 from neural_perception.lane_extractor import detect_lane, display_lines
@@ -138,3 +139,17 @@ def preprocess(frame):
     frame = frame[height // 3:, :]
     frame = frame / 255.
     return np.array([frame], dtype=np.float32)
+
+
+def rot_y(deg):
+    rad = np.deg2rad(deg)
+    c = math.cos(rad)
+    s = math.sin(rad)
+    return np.array([[c, 0, s],
+                     [0, 1, 0],
+                     [-s, 0, c]])
+
+
+def get_truncated_normal(mean=0.5, sd=1 / 4, low=0, upp=1):
+    return truncnorm(
+        (low - mean) / sd, (upp - mean) / sd, loc=mean, scale=sd)

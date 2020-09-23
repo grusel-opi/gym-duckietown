@@ -50,11 +50,11 @@ for i in range(steps):
     dist_err = abs(distance_to_road_edge - d_hat)
     angle_err = abs(angle_from_straight_in_deg - a_hat)
 
-    print("error: {}, {}".format(dist_err, angle_err))
+    print("\rerror: {}, {}".format(dist_err, angle_err), end='\r')
 
     steering = k_p * d_hat_to_center + k_d * a_hat_in_rad
-    command = np.array([speed, steering])
-    obs, _, done, _ = env.step(command)
+
+    obs, _, done, _ = env.step(np.array([speed, steering]))
 
     obs = preprocess(obs)
     env.render()

@@ -22,11 +22,11 @@ obs = preprocess(obs)
 
 env.render()
 
-model = tf.keras.models.load_model('../../lean-test/saved_model/18.09.2020-13:24:04/')
+model = tf.keras.models.load_model('../../lean-test/saved_model/23.09.2020-19:04:26/')
 
 k_p = 1
 k_d = 1
-speed = 0.2
+speed = 0.1
 
 steps = env.max_steps = 10_000
 
@@ -47,8 +47,8 @@ for i in range(steps):
     d_hat_to_center = (d_hat - 25.) / 100.
     a_hat_in_rad = (a_hat * 2 * np.pi) / 360.
 
-    dist_err = abs(distance_to_road_edge - d_hat)
-    angle_err = abs(angle_from_straight_in_deg - a_hat)
+    dist_err = round(distance_to_road_edge - d_hat, 2)
+    angle_err = round(angle_from_straight_in_deg - a_hat, 2)
 
     print("\rerror: {}, {}".format(dist_err, angle_err), end='\r')
 

@@ -106,7 +106,6 @@ def own_render(environment, img):
     )
     environment.text_label.draw()
 
-    # Force execution of queued commands
     gl.glFlush()
 
 
@@ -153,3 +152,26 @@ def rot_y(deg):
 def get_truncated_normal(mean=0.5, sd=1 / 4, low=0, upp=1):
     return truncnorm(
         (low - mean) / sd, (upp - mean) / sd, loc=mean, scale=sd)
+
+
+def get_mean_and_std(x, y):
+    lo = int(np.min(x))
+    hi = int(np.max(x))
+    x_binned = np.arange(lo, hi+1)
+    y_values_per_x = [[] for _ in range(len(x_binned))]
+
+    for i in range(len(x)):
+        val = int(x[i])
+        val_e = y[i]
+        y_values_per_x[val - lo].append(val_e)
+
+    std_err = np.empty(shape=(len(y_values_per_x,)))
+    for i, l in enumerate(y_values_per_x):
+        std_err[i] = np.std(l)
+
+    means = np.empty(shape=(len(y_values_per_x,)))
+    for i, l in enumerate(y_values_per_x):
+        means[i] = np.mean(l)
+
+    return x_binned, means, std_err
+

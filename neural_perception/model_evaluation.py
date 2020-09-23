@@ -6,7 +6,7 @@ from gym_duckietown.envs import DuckietownEnv
 import tensorflow as tf
 import matplotlib.pyplot as plt
 
-from neural_perception.util import preprocess, get_lane_pos, own_render, plot_lanes
+from neural_perception.util import preprocess, get_lane_pos, own_render, get_mean_and_std
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
@@ -19,13 +19,13 @@ obs = preprocess(obs)
 
 env.render()
 
-model = tf.keras.models.load_model('../../lean-test/saved_model/18.09.2020-13:24:04/')
+model = tf.keras.models.load_model('../../lean-test/saved_model/23.09.2020-19:04:26/')
 
 k_p = 1
 k_d = 1
 speed = 0.2
 
-steps = env.max_steps = 1_000
+steps = env.max_steps = 10_000
 
 visual = True
 
@@ -87,8 +87,8 @@ for i in range(steps):
 
     if visual:
         rendered = env.render(mode='rgb_array')
-        _, t = env.closest_curve_point(env.cur_pos, env.cur_angle)
-        rendered = plot_lanes(rendered, env, env.cur_pos, env.cur_angle, t, dist_err)
+        # _, t = env.closest_curve_point(env.cur_pos, env.cur_angle)
+        # rendered = plot_lanes(rendered, env, env.cur_pos, env.cur_angle, t, dist_err)
         # rendered = plot_lanes(rendered, env, env.cur_pos, env.cur_angle, t, 0, error_frame=rendered)
         own_render(env, rendered)
 
@@ -125,17 +125,20 @@ ax_hist_d.hist(distances)
 ax_hist_a.set_title("angles distribution")
 ax_hist_a.hist(angles)
 
-# scatters for label -> error mapping
+# error bar plot for label -> error mapping
 fig_scatter, (ax_scat_d, ax_scat_a) = plt.subplots(1, 2)
 
+distances_discrete, distances_err_mean, distances_err_std = get_mean_and_std(distances, distances_err)
+angles_discrete, angles_err_mean, angles_err_std = get_mean_and_std(angles, angles_err)
+
 ax_scat_d.set_title("distances err per label")
-ax_scat_d.scatter(distances, distances_err)
+ax_scat_d.errorbar(distances_discrete, distances_err_mean, yerr=distances_err_std, fmt='o')
 ax_scat_a.set_title("angles err per label")
-ax_scat_a.scatter(angles, angles_err)
+ax_scat_a.errorbar(angles_discrete, angles_err_mean, yerr=angles_err_std, fmt='o')
 
 # line plot for (dist, angle) -> dist err
 # and (dist, angle) -> angle err visualization
-fig_line, (ax_line_d_0, ax_line_a_0) = plt.subplots(1, 2)
+fig_line, (ax_line_d_0, ax_line_a_0) = plt.subplots(2, 1)
 
 color = 'tab:red'
 ax_line_d_0.set_xlabel('step')
@@ -149,7 +152,7 @@ color = 'tab:blue'
 ax_line_d_1.set_ylabel('distances', color=color)
 ax_line_d_1.plot(x, distances, color=color)
 ax_line_d_1.tick_params(axis='y', labelcolor=color)
-ax_line_d_1.axhline(c=color)
+ax_line_d_1.axhline(y=25, c=color)
 
 ax_line_d_2 = ax_line_d_1.twinx()
 color = 'tab:green'
@@ -170,7 +173,7 @@ color = 'tab:blue'
 ax_line_a_1.set_ylabel('distances', color=color)
 ax_line_a_1.plot(x, distances, color=color)
 ax_line_a_1.tick_params(axis='y', labelcolor=color)
-ax_line_a_1.axhline(c=color)
+ax_line_a_1.axhline(y=25, c=color)
 
 ax_line_a_2 = ax_line_a_1.twinx()
 

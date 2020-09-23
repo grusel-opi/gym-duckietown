@@ -75,7 +75,7 @@ class RandomDuckietownImager(Simulator):
         self.k_d = 1
         self.action_speed = 0.2
         self.set_size = 1000
-        self.path = "../../datasets/random_cm_to_edge_deg/"
+        self.path = "../../datasets/random_cm_to_edge_deg_offset205/"
         self.images = np.zeros(shape=(self.set_size, *self.observation_space.shape), dtype=self.observation_space.dtype)
         self.labels = np.zeros(shape=(self.set_size, 2), dtype=np.float32)
 
@@ -120,12 +120,12 @@ class RandomDuckietownImager(Simulator):
             print(f"Generating set {set_no} of {sets} total")
             self.produce_images()
             for i in range(self.set_size):
-                print(f"\rSaving image no {i} of {self.set_size}", end='\r')
+                print(f"\rSaving image no {i + set_no*self.set_size} of {self.set_size*sets}", end='\r')
                 plt.imsave(self.path + str(self.labels[i]) + '.png', self.images[i])
 
 
 if __name__ == '__main__':
-    imgs = 41_000
+    imgs = 80_000
     env = RandomDuckietownImager()
     env.generate_and_save(imgs)
     sys.exit()

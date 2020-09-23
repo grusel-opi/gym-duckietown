@@ -7,53 +7,27 @@ using the keyboard arrows.
 """
 
 import sys
-import argparse
 import pyglet
-from pyglet.window import key
 import numpy as np
-import gym
-import gym_duckietown
-from gym_duckietown.envs import DuckietownEnv
-from gym_duckietown.wrappers import UndistortWrapper
-from control_test import get_lane_pos3, preprocess
 import tensorflow as tf
 
+from pyglet.window import key
+from gym_duckietown.envs import DuckietownEnv
+from neural_perception.util import preprocess, get_lane_pos
 
-parser = argparse.ArgumentParser()
-parser.add_argument('--env-name', default='Duckietown-straight_road-v0')
-parser.add_argument('--map-name', default='udem1')
-parser.add_argument('--distortion', default=False, action='store_true')
-parser.add_argument('--draw-curve', action='store_true', help='draw the lane following curve')
-parser.add_argument('--draw-bbox', action='store_true', help='draw collision detection bounding boxes')
-parser.add_argument('--domain-rand', action='store_true', help='enable domain randomization')
-parser.add_argument('--frame-skip', default=1, type=int, help='number of frames to skip')
-parser.add_argument('--seed', default=1, type=int, help='seed')
-args = parser.parse_args()
+env = DuckietownEnv(domain_rand=False,
+                    draw_bbox=False)
 
-if args.env_name and args.env_name.find('Duckietown') != -1:
-    env = DuckietownEnv(
-        seed = args.seed,
-        map_name = args.map_name,
-        draw_curve = True,
-        draw_bbox = args.draw_bbox,
-        domain_rand = args.domain_rand,
-        frame_skip = args.frame_skip,
-        distortion = args.distortion,
-    )
-else:
-    env = gym.make(args.env_name)
+model = tf.keras.models.load_model('../../duckiepose/saved_model/18.09.2020-13:24:04/', compile=False)
 
 env.reset()
 env.render()
-model = tf.keras.models.load_model('./saved_model/30.06.2020-17:44:24/')
+
+steps = env.max_steps = 10_000
+
 
 @env.unwrapped.window.event
 def on_key_press(symbol, modifiers):
-    """
-    This handler processes keyboard commands that
-    control the simulation
-    """
-
     if symbol == key.BACKSPACE or symbol == key.SLASH:
         print('RESET')
         env.reset()
@@ -64,15 +38,7 @@ def on_key_press(symbol, modifiers):
         env.close()
         sys.exit(0)
 
-    # Take a screenshot
-    # UNCOMMENT IF NEEDED - Skimage dependency
-    # elif symbol == key.RETURN:
-    #     print('saving screenshot')
-    #     img = env.render('rgb_array')
-    #     save_img('screenshot.png', img)
 
-
-# Register a keyboard handler
 key_handler = key.KeyStateHandler()
 env.unwrapped.window.push_handlers(key_handler)
 
@@ -101,21 +67,24 @@ def update(dt):
         action *= 1.5
 
     obs, reward, done, info = env.step(action)
-    lane_pose = get_lane_pos3(env)
-    distance_to_road_edge = lane_pose.dist_to_edge * 100  # using 100th of tile size
 
-    d = model.predict(preprocess(obs))[0]
-    dist_err = d - distance_to_road_edge
+    lane_pose = get_lane_pos(env)
 
-    print()
-    print(d)
-    print(distance_to_road_edge)
-    print("error: {}".format(dist_err))
+    distance_to_road_edge = lane_pose.dist_to_edge * 100
+    distance_to_road_center = lane_pose.dist
+    angle_from_straight_in_rad = lane_pose.angle_rad
+    angle_from_straight_in_deg = lane_pose.angle_deg
 
-    if key_handler[key.RETURN]:
-        from PIL import Image
-        im = Image.fromarray(obs)
-        im.save('screen.png')
+    y_hat = model(preprocess(obs))
+    d = y_hat[0][0].numpy()
+    a = y_hat[0][1].numpy()
+
+    dist_err = abs(distance_to_road_edge - d)
+    angle_err = abs(angle_from_straight_in_deg - a)
+
+    print(
+        f"\ractu: {round(distance_to_road_edge, 1)}, {round(angle_from_straight_in_deg, 1)}, pred: {round(d, 1)}, {round(a, 1)}, error: {round(dist_err, 1)}, {round(angle_err, 1)}",
+        end='\r')
 
     if done:
         print('done!')
@@ -127,7 +96,6 @@ def update(dt):
 
 pyglet.clock.schedule_interval(update, 1.0 / env.unwrapped.frame_rate)
 
-# Enter main event loop
 pyglet.app.run()
 
 env.close()

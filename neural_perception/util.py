@@ -46,7 +46,7 @@ def get_lane_pos(enviroment):
     upVec = np.array([0, 1, 0])
     rightVec = np.cross(tangent, upVec)
     signedDist = np.dot(posVec, rightVec)
-    dist_to_road_edge = 0.25 * enviroment.road_tile_size - signedDist
+    dist_to_road_edge = 0.2 * enviroment.road_tile_size - signedDist
     angle_rad = math.acos(dotDir)
 
     if np.dot(dirVec, rightVec) < 0:

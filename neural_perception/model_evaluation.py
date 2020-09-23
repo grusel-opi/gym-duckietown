@@ -6,7 +6,7 @@ from gym_duckietown.envs import DuckietownEnv
 import tensorflow as tf
 import matplotlib.pyplot as plt
 
-from neural_perception.util import preprocess, get_lane_pos, own_render
+from neural_perception.util import preprocess, get_lane_pos, own_render, plot_lanes
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
@@ -87,8 +87,8 @@ for i in range(steps):
 
     if visual:
         rendered = env.render(mode='rgb_array')
-        # _, t = env.closest_curve_point(env.cur_pos, env.cur_angle)
-        # rendered = plot_lanes(rendered, env, env.cur_pos, env.cur_angle, t, dist_err)
+        _, t = env.closest_curve_point(env.cur_pos, env.cur_angle)
+        rendered = plot_lanes(rendered, env, env.cur_pos, env.cur_angle, t, dist_err)
         # rendered = plot_lanes(rendered, env, env.cur_pos, env.cur_angle, t, 0, error_frame=rendered)
         own_render(env, rendered)
 

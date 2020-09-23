@@ -99,7 +99,7 @@ def average_slope_intercept(frame, line_segments):
 def preprocess(frame):
     height, _, _ = frame.shape
     frame = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
-    frame[:height // 2, :] = 0
+    frame[:height // 3, :] = 0
     return frame
 
 

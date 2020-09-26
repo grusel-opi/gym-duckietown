@@ -17,10 +17,9 @@ class MCL:
         p_x, p_y = (robot_pos[0], robot_pos[2])
         i = 0
         while i < self.p_number:
-            randX = random.uniform(p_x - 0.25, p_x//1 + 0.25)
-            randY = random.uniform(p_y - 0.25, p_y // 1 + 0.25)
+            randX = random.uniform(p_x - 0.25, p_x + 0.25)
+            randY = random.uniform(p_y - 0.25, p_y + 0.25)
             rand_angle = random.uniform(robot_angle - np.deg2rad(15), robot_angle + np.deg2rad(15))
-
             a_particle = Particle(randX, randY, 1, i, self.map,self.env, angle=rand_angle)
             a_particle.set_tile()
             if a_particle.tile.type not in ['floor', 'asphalt', 'grass']:

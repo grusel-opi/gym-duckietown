@@ -1,8 +1,7 @@
 from lokalisierung.Particle import Particle
-from lokalisierung.Ducky_map import ROW_MAP, COLUMN_MAP, DuckieMap
-import functools
+from lokalisierung.Ducky_map import DuckieMap
 import random
-from bisect import bisect_right, bisect_left
+from bisect import bisect_left
 import numpy as np
 
 
@@ -37,20 +36,24 @@ class MCL:
         for p in self.p_list:
             p.weight_calculator(distance_duckie,angle_duckie)
 
-    def weight_particles(self, action, distance_duckie, angle_duckie):
-        for p in self.p_list:
-            p.step(action)
-        self.filter_particles()
-        for p in self.p_list:
-            p.weight_calculator(distance_duckie, angle_duckie)
-
     def resampling(self):
-        #self.roulette_rad()
         arr_particles = []
         for i in range(0, len(self.p_list)):
             idx = self.roulette_rad()
             arr_particles.append(self.p_list[idx])
-        return arr_particles
+
+        sum_py = 0
+        sum_px = 0
+        sum_angle = 0
+        for x in arr_particles:
+            sum_px = sum_px + x.p_x
+            sum_py = sum_py + x.p_y
+            sum_angle += x.angle
+        # sum_px = functools.reduce(lambda a,b : a.p_x + b.p_x, arr_chosenones)
+        # sum_py = functools.reduce(lambda a,b : a.p_y + b.p_y, arr_chosenones)
+        possible_location = [sum_px / len(arr_particles), 0, sum_py / len(arr_particles)]
+        possible_angle = sum_angle / len(arr_particles)
+        return arr_particles, possible_location, possible_angle
 
     def filter_particles(self):
         self.p_list = list(filter(lambda p: p.tile.type not in ['floor', 'asphalt', 'grass'], self.p_list))
@@ -68,12 +71,6 @@ class MCL:
     def weight_reset(self):
         for p in self.p_list:
             p.weight = 1
-
-    @staticmethod
-    def calculate(particle, speichendistanz):
-        if ((particle.weight // speichendistanz) + 1) is 1:
-            return False
-        return True
 
 
 if __name__ == '__main__':

@@ -167,11 +167,19 @@ def get_mean_and_std(x, y):
 
     std_err = np.empty(shape=(len(y_values_per_x,)))
     for i, l in enumerate(y_values_per_x):
-        std_err[i] = np.std(l)
+        if len(l) > 1:
+            std_err[i] = np.std(l)
+        else:
+            std_err[i] = 0
 
     means = np.empty(shape=(len(y_values_per_x,)))
     for i, l in enumerate(y_values_per_x):
-        means[i] = np.mean(l)
+        if len(l) > 1:
+            means[i] = np.mean(l)
+        elif len(l) is 1:
+            means[i] = l[0]
+        else:
+            means[i] = 0
 
     return x_binned, means, std_err
 

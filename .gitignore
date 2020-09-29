@@ -7,4 +7,8 @@ xvfb.log
 bin
 venv
 
+venv
+
 trained_models
+neural_perception/data/generated
+neural_perception/saved_model

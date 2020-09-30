@@ -37,7 +37,8 @@ env.render()
 total_reward = 0
 px, _, py = env.cur_pos
 my_map = DuckieMap("../gym_duckietown/maps/udem1.yaml")
-mcl = MCL(100, my_map, env)
+particle_number = 1000
+mcl = MCL(particle_number, my_map, env)
 mcl.spawn_particle_list(env.cur_pos, env.cur_angle)
 step_counter = 0
 while True:
@@ -58,13 +59,22 @@ while True:
     # angle of the steering wheel, which corresponds to the angular velocity in rad/s
     steering = k_p * distance_to_road_center + k_d * angle_from_straight_in_rads  # TODO: You should overwrite this value
 
-    #No need to edit code below.
+    # No need to edit code below.
     obs, reward, done, info = env.step([speed, steering])
     mcl.integrate_movement([speed, steering])
     step_counter += 1
     mcl.integrate_measurement(distance_to_road_center, angle_from_straight_in_rads)
     if step_counter % 10 == 0:
+        start = time.time()
         arr_chosenones, possible_location, possible_angle = mcl.resampling()
+        end = time.time()
+        duration = end- start
+        filename = 'data' + str(particle_number) + 'Particles.txt'
+        with open(filename, 'a') as f:
+            f.write(str(duration) + ' ')
+            f.write(str(possible_location[0] - env.cur_pos[0]) + ' ')
+            f.write(str(possible_location[2] - env.cur_pos[2]) + ' ')
+            f.write(str(possible_angle - env.cur_angle) + ' \n')
         print("posloc and robot position", possible_location, env.cur_pos)
         print('possible angle and robot angle', possible_angle, env.cur_angle)
         mcl.weight_reset()
@@ -75,6 +85,10 @@ while True:
     print('Distance to road center: ', distance_to_road_center)
 
     env.render()
+
+    if step_counter == 1000:
+        print('*** DONE ***')
+        break
 
     if done:
         if reward < 0:

@@ -1,23 +1,21 @@
-import sys
 import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
 
 from gym_duckietown.envs import DuckietownEnv
-from neural_perception.control_test import preprocess as integration_preprocess
-from neural_perception.control_test import get_lane_pos
-from neural_perception.control_test import RESIZE_IMG_SHAPE
+from neural_perception.util.util import preprocess as integration_preprocess
+from neural_perception.util.util import get_lane_pos, RESIZE_IMG_SHAPE
 
-from data import get_ds, get_datasets_unprepared
-from data import preprocess as training_preprocess
+from neural_perception.model.data import get_ds, get_datasets_unprepared
+from neural_perception.model.data import preprocess as training_preprocess
 
-from welford import Welford
+from neural_perception.util.welford import Welford
 
 
 def get_training_dataset(num_samples):
     _, test_ds, _ = get_datasets_unprepared()
     ds = test_ds.take(num_samples)
-    # ds = ds.map(training_preprocess, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+    ds = ds.map(training_preprocess, num_parallel_calls=tf.data.experimental.AUTOTUNE)
     ds = ds.batch(1)
     return ds
 
@@ -48,7 +46,7 @@ def get_integration_dataset(num_samples):
         steering = k_p * distance_to_road_center + k_d * angle_from_straight_in_rad
         command = np.array([speed, steering])
         obs, _, done, _ = env.step(command)
-        # obs = integration_preprocess(obs)
+        obs = integration_preprocess(obs)
 
         if i % period == 0:
             data[i // period, 0, :, :, :] = obs

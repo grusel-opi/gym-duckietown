@@ -1,6 +1,6 @@
 import datetime
 import tensorflow as tf
-from data import get_ds, TARGET_IMAGE_SHAPE
+from neural_perception.model.data import get_ds, TARGET_IMAGE_SHAPE
 
 from tensorflow.keras.layers import Conv2D, Dense, Flatten, Dropout, LayerNormalization
 from tensorflow.keras.regularizers import l2

@@ -9,6 +9,6 @@ venv
 
 venv
 
-trained_models
-neural_perception/data/generated
-neural_perception/saved_model
+neural_perception/model/caches
+neural_perception/model/saved_model
+

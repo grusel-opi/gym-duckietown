@@ -1412,7 +1412,7 @@ class Simulator(gym.Env):
             done_code = 'in-progress'
         return DoneRewardInfo(done=done, done_why=msg, reward=reward, done_code=done_code)
 
-    def _render_img(self, width, height, multi_fbo, final_fbo, img_array, top_down=True):
+    def _render_img(self, width, height, multi_fbo, final_fbo, img_array, top_down=True, own_cps=None):
         """
         Render an image of the environment into a frame buffer
         Produce a numpy RGB array image as output
@@ -1560,6 +1560,9 @@ class Simulator(gym.Env):
                             continue
                         bezier_draw(pt, n=20)
 
+        if own_cps is not None:
+            bezier_draw(own_cps)
+
         # For each object
         for idx, obj in enumerate(self.objects):
             obj.render(self.draw_bbox)
@@ -1639,7 +1642,7 @@ class Simulator(gym.Env):
 
         return observation
 
-    def render(self, mode='human', close=False):
+    def render(self, mode='human', close=False, own_cps=None):
         """
         Render the environment for human viewing
         """
@@ -1657,7 +1660,8 @@ class Simulator(gym.Env):
                 self.multi_fbo_human,
                 self.final_fbo_human,
                 self.img_array_human,
-                top_down=top_down
+                top_down=top_down,
+                own_cps=own_cps
         )
 
         # self.undistort - for UndistortWrapper

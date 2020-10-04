@@ -273,6 +273,7 @@ def bezier_closest(cps, p, t_bot=0, t_top=1, n=8):
 
     return bezier_closest(cps, p, mid, t_top, n-1)
 
+
 def bezier_draw(cps, n = 20, red=False):
     from pyglet import gl
     pts = [bezier_point(cps, i/(n-1)) for i in range(0,n)]

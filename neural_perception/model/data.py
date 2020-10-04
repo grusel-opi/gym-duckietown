@@ -3,12 +3,15 @@ import os
 
 AUTOTUNE = tf.data.experimental.AUTOTUNE
 
-DATA_DIR_0 = "/home/gandalf/ws/team/datasets/random_cm_to_edge_deg_offset205/"
-DATA_DIR_1 = "/home/gandalf/ws/team/datasets/pid_cm_to_edge_deg/"
+DATA_DIR_0 = "/home/gandalf/ws/team/datasets/pid_off205/"
+DATA_DIR_1 = "/home/gandalf/ws/team/datasets/random_off205/"
 
-TRAIN_CACHE_FILE = "/home/gandalf/ws/team/lean-test/caches/train-concatenated.tfcache"
-TEST_CACHE_FILE = "/home/gandalf/ws/team/lean-test/caches/test-concatenated.tfcache"
-VAL_CACHE_FILE = "/home/gandalf/ws/team/lean-test/caches/val-concatenated.tfcache"
+pid_off205_size = 66_098
+random_off205_size = 80_000
+
+TRAIN_CACHE_FILE = "/home/gandalf/ws/team/lean-test/caches/train-concat_off205.tfcache"
+TEST_CACHE_FILE = "/home/gandalf/ws/team/lean-test/caches/test-concat_off205.tfcache"
+VAL_CACHE_FILE = "/home/gandalf/ws/team/lean-test/caches/val-concat_off205.tfcache"
 
 ORIG_IMG_SHAPE = (480, 640, 3)
 RESIZE_IMG_SHAPE = (120, 160, 3)
@@ -50,7 +53,10 @@ def get_datasets_unprepared(train_fraction=0.7, test_fraction=0.3):
     list_ds_1 = tf.data.Dataset.list_files(DATA_DIR_1 + '*')
     list_ds = list_ds_0.concatenate(list_ds_1)
 
-    dataset_size = list_ds.cardinality().numpy()
+    # list_ds = tf.data.Dataset.list_files(DATA_DIR_1 + '*')
+
+    # dataset_size = list_ds.cardinality().numpy()
+    dataset_size = pid_off205_size + random_off205_size
 
     full_dataset = list_ds.shuffle(buffer_size=dataset_size)
 

@@ -202,6 +202,3 @@ ax3d.set_ylabel('Y Label')
 ax3d.set_zlabel('Z Label')
 
 plt.show()
-
-
-plt.show()

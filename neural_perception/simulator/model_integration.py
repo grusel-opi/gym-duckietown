@@ -22,39 +22,19 @@ obs = preprocess(obs)
 
 env.render()
 
-model = tf.keras.models.load_model('../../../lean-test/saved_model/23.09.2020-19:04:26/')
-
-k_p = 1
-k_d = 1
-speed = 0.1
+model = tf.keras.models.load_model('/home/gandalf/ws/team/gym-duckietown/neural_perception/model/saved_model/05.10.2020-16:00:31')
 
 steps = env.max_steps = 10_000
 
 for i in range(steps):
 
-    lane_pose = get_lane_pos(env)
+    action = model(obs)[0].numpy()
 
-    distance_to_road_edge = lane_pose.dist_to_edge * 100
-    distance_to_road_center = lane_pose.dist
-    angle_from_straight_in_rad = lane_pose.angle_rad
-    angle_from_straight_in_deg = lane_pose.angle_deg
+    print("\raction: {}, {}".format(action[0], action[1]), end='\r')
 
-    y_hat = model(obs)
+    action[0] = 0.1
 
-    d_hat = y_hat[0][0].numpy()
-    a_hat = y_hat[0][1].numpy()
-
-    d_hat_to_center = (d_hat - 25.) / 100.
-    a_hat_in_rad = (a_hat * 2 * np.pi) / 360.
-
-    dist_err = round(distance_to_road_edge - d_hat, 2)
-    angle_err = round(angle_from_straight_in_deg - a_hat, 2)
-
-    print("\rerror: {}, {}".format(dist_err, angle_err), end='\r')
-
-    steering = k_p * d_hat_to_center + k_d * a_hat_in_rad
-
-    obs, _, done, _ = env.step(np.array([speed, steering]))
+    obs, _, done, _ = env.step(action)
 
     obs = preprocess(obs)
     env.render()

@@ -67,13 +67,13 @@ def train_step(x, y):
 
     train_loss(loss)
 
-    d = y[:, 0]
+    v = y[:, 0]
     a = y[:, 1]
 
-    d_hat = y_hat[:, 0]
+    v_hat = y_hat[:, 0]
     a_hat = y_hat[:, 1]
 
-    train_abs_error_d(d, d_hat)
+    train_abs_error_d(v, v_hat)
     train_abs_error_a(a, a_hat)
 
 
@@ -85,13 +85,13 @@ def test_step(x, y):
     loss = loss_fn(y, y_hat)
     test_loss(loss)
 
-    d = y[:, 0]
+    v = y[:, 0]
     a = y[:, 1]
 
-    d_hat = y_hat[:, 0]
+    v_hat = y_hat[:, 0]
     a_hat = y_hat[:, 1]
 
-    test_abs_error_d(d, d_hat)
+    test_abs_error_d(v, v_hat)
     test_abs_error_a(a, a_hat)
 
 
@@ -99,7 +99,7 @@ if __name__ == '__main__':
 
     current_time = datetime.datetime.now().strftime("%d.%m.%Y-%H:%M:%S")
     model_path = "saved_model/" + current_time + "/"
-    log_dir = "logs-single-loss/" + current_time + "-pid-bs32-lr0002-elu-MSE-l2/"
+    log_dir = "logs-expert/" + current_time + "-expert-bs32-lr0002-elu-MSE-l2/"
 
     batch_size = 32
     learning_rate = 0.0002
@@ -148,26 +148,26 @@ if __name__ == '__main__':
         for images, labels in train_ds:
             train_step(images, labels)
             values = [('Loss', train_loss.result()),
-                      ('Mean Abs. Error d', train_abs_error_d.result()),
+                      ('Mean Abs. Error v', train_abs_error_d.result()),
                       ('Mean Abs. Error a', train_abs_error_a.result())]
             train_progress_bar.add(step + 1, values=values)
 
         with train_summary_writer.as_default():
             tf.summary.scalar('Loss', train_loss.result(), step=epoch)
-            tf.summary.scalar('Mean Abs. Error d', train_abs_error_d.result(), step=epoch)
+            tf.summary.scalar('Mean Abs. Error v', train_abs_error_d.result(), step=epoch)
             tf.summary.scalar('Mean Abs. Error a', train_abs_error_a.result(), step=epoch)
 
         step = 0
         for test_images, test_labels in test_ds:
             test_step(test_images, test_labels)
             values = [('Loss', test_loss.result()),
-                      ('Mean Abs. Error d', test_abs_error_d.result()),
+                      ('Mean Abs. Error v', test_abs_error_d.result()),
                       ('Mean Abs. Error a', test_abs_error_a.result())]
             test_progress_bar.add(step + 1, values=values)
 
         with test_summary_writer.as_default():
             tf.summary.scalar('Loss', test_loss.result(), step=epoch)
-            tf.summary.scalar('Mean Abs. Error d', test_abs_error_d.result(), step=epoch)
+            tf.summary.scalar('Mean Abs. Error v', test_abs_error_d.result(), step=epoch)
             tf.summary.scalar('Mean Abs. Error a', test_abs_error_a.result(), step=epoch)
 
         end = tf.timestamp()

@@ -5,6 +5,7 @@ from gym_duckietown.graphics import *
 from gym_duckietown.envs import DuckietownEnv
 from matplotlib import pyplot as plt
 from neural_perception.util.util import get_lane_pos
+from learning.imitation.iil_dagger.teacher import PurePursuitPolicy
 
 
 class ControlledDuckietownImager(DuckietownEnv):
@@ -56,6 +57,7 @@ class RandomDuckietownImager(Simulator):
 
     def __init__(self, **kwargs):
         Simulator.__init__(self, **kwargs)
+        self.max_steps = math.inf
         self.map_name = 'udem1'
         self.domain_rand = True
         self.draw_bbox = False
@@ -99,14 +101,50 @@ class RandomDuckietownImager(Simulator):
                 self.reset()
 
 
+class ExpertDuckietownImager(Simulator):
+
+    def __init__(self, **kwargs):
+        Simulator.__init__(self, **kwargs)
+        self.expert = PurePursuitPolicy(self)
+        self.max_steps = math.inf
+        self.map_name = 'udem1'
+        self.domain_rand = True
+        self.draw_bbox = False
+        self.full_transparency = True
+        self.accept_start_angle_deg = 90
+        self.set_size = 1000
+        self.path = "/home/gandalf/ws/team/datasets/expert_action/"
+        self.images = np.zeros(shape=(self.set_size, *self.observation_space.shape), dtype=self.observation_space.dtype)
+        self.labels = np.zeros(shape=(self.set_size, 2), dtype=np.float32)
+
+    def produce_images(self):
+        obs = self.reset()
+
+        for i in range(self.set_size):
+
+            percent = round(i * 100 / self.set_size, 2)
+            print(f'\rgenerating set: {percent} %', end='\r')
+
+            action = self.expert.predict()
+
+            self.images[i] = obs
+            self.labels[i] = action
+
+            obs, _, done, _ = self.step(action)
+
+            if done:
+                obs = self.reset()
+
+
 def generate_and_save(imager, num_images):
     sets = num_images // imager.set_size
     try:
         os.mkdir(imager.path)
-    except OSError:
+    except OSError as err:
         if os.path.isdir(imager.path):
             pass
         else:
+            print("OS error: {0}".format(err))
             return
     for set_no in range(sets):
         print(f"Generating set {set_no} of {sets} total")
@@ -118,6 +156,6 @@ def generate_and_save(imager, num_images):
 
 if __name__ == '__main__':
     imgs = 80_000
-    env = ControlledDuckietownImager()
+    env = ExpertDuckietownImager()
     generate_and_save(env, imgs)
     sys.exit()

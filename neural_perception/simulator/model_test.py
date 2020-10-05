@@ -9,6 +9,7 @@ import pyglet
 from pyglet.window import key
 from neural_perception.util.pid_controller import PID
 from neural_perception.util.util import preprocess, get_lane_pos
+import tensorflow as tf
 
 DEBUG = False
 MANUAL_CONTROL = False
@@ -27,8 +28,6 @@ if args.env_name is None:
     )
 else:
     env = gym.make(args.env_name)
-
-
 
 obs = env.reset()
 obs = preprocess(obs)
@@ -61,37 +60,41 @@ key_handler = key.KeyStateHandler()
 env.unwrapped.window.push_handlers(key_handler)
 
 
-# model = tf.keras.models.load_model('./saved_model/30.06.2020-17:44:24')
-k_u = 0.05
-p_u = 125
+model = tf.keras.models.load_model('saved_model/17.09.2020-13:40:11')
+# k_u = 20       --  for cheat module
+# p_u = 20       --  for cheat module
+# target = 0.25  --  for cheat module
+
+target = 25
+k_u = 20
+p_u = 20
 k_p = 0.6 * k_u
 k_i = 2 * k_p / p_u
 k_d = k_p * p_u / 8
 
-pid = PID(k_p, k_i, k_d, 0.25)
-speed = 0.2
+pid = PID(k_p, k_i, k_d, target)
+pid.out_lim = (-1, 1)
+speed = 0.3
 correction = 0
 action = np.array([0, correction])
-
 
 def update(dt):
     global correction
     global action
     global speed
+    global obs
 
     lane_pos = get_lane_pos(env)
     dist_to_road_edge = lane_pos.dist_to_edge
-    # pred_dist = model.predict(obs)[0][0]
+    pred_dist = model.predict(obs)[0][0]
 
     if not MANUAL_CONTROL:
-        correction = pid.update(dist_to_road_edge)
+        correction = pid.update(pred_dist)
         action = np.array([speed, correction])
-        # correction = pid.update(pred_dist)
     else:
         action = np.array([0.0, 0.0])
 
         if key_handler[key.UP]:
-            print("YOO")
             action = np.array([0.44, 0.0])
         if key_handler[key.DOWN]:
             action = np.array([-0.44, 0])
@@ -102,16 +105,16 @@ def update(dt):
 
     if DEBUG:
         print()
-        # print("pred_dist: ", pred_dist)
+        print("pred_dist: ", pred_dist)
         print("dist_to_road_edge: ", dist_to_road_edge)
         print("correction: ", correction)
-        print("signed_dist: ", lane_pos.dist)
-        print("dot_dir: ", lane_pos.dot_dir)
-        print("angle_deg: ", lane_pos.angle_deg)
-        # print("dist_err: ", abs(distance_to_edge - pred_dist))
+        # print("signed_dist: ", lane_pos.dist)
+        # print("dot_dir: ", lane_pos.dot_dir)
+        # print("angle_deg: ", lane_pos.angle_deg)
+        print("dist_err: ", abs(dist_to_road_edge * 100 - pred_dist))
 
     obs, _, _, _ = env.step(action)
-    # obs = preprocess(obs)
+    obs = preprocess(obs)
 
     env.render()
 

@@ -27,7 +27,7 @@ class PoseRegress(Model):
         self.reg_2 = Dense(50,  kernel_regularizer=l2(0.001), activation='elu')
         self.reg_3 = Dense(10,  kernel_regularizer=l2(0.001), activation='elu')
 
-        self.out = Dense(2)
+        self.out = Dense(1)
 
     def call(self, x, training=False, **kwargs):
 
@@ -58,40 +58,30 @@ class PoseRegress(Model):
 @tf.function
 def train_step(x, y):
 
+    a = y[:, 1]
+
     with tf.GradientTape() as tape:
-        y_hat = model(x, training=True)
-        loss = loss_fn(y, y_hat)
+        a_hat = model(x, training=True)
+        loss = loss_fn(a, a_hat)
 
     gradients_d = tape.gradient(loss, model.trainable_variables)
     optimizer.apply_gradients(zip(gradients_d, model.trainable_variables))
 
     train_loss(loss)
 
-    v = y[:, 0]
-    a = y[:, 1]
-
-    v_hat = y_hat[:, 0]
-    a_hat = y_hat[:, 1]
-
-    train_abs_error_d(v, v_hat)
     train_abs_error_a(a, a_hat)
 
 
 @tf.function
 def test_step(x, y):
 
-    y_hat = model(x)
-
-    loss = loss_fn(y, y_hat)
-    test_loss(loss)
-
-    v = y[:, 0]
     a = y[:, 1]
 
-    v_hat = y_hat[:, 0]
-    a_hat = y_hat[:, 1]
+    a_hat = model(x)
 
-    test_abs_error_d(v, v_hat)
+    loss = loss_fn(a, a_hat)
+    test_loss(loss)
+
     test_abs_error_a(a, a_hat)
 
 
@@ -117,10 +107,7 @@ if __name__ == '__main__':
     train_loss = tf.keras.metrics.Mean(name='train_loss')
     test_loss = tf.keras.metrics.Mean(name='test_loss')
 
-    train_abs_error_d = tf.keras.metrics.MeanAbsoluteError(name='train_abs_error')
     train_abs_error_a = tf.keras.metrics.MeanAbsoluteError(name='train_abs_error')
-
-    test_abs_error_d = tf.keras.metrics.MeanAbsoluteError(name='test_abs_error')
     test_abs_error_a = tf.keras.metrics.MeanAbsoluteError(name='test_abs_error')
 
     train_summary_writer = tf.summary.create_file_writer(log_dir + "train/")
@@ -135,9 +122,6 @@ if __name__ == '__main__':
         train_loss.reset_states()
         test_loss.reset_states()
 
-        train_abs_error_d.reset_states()
-        test_abs_error_d.reset_states()
-
         train_abs_error_a.reset_states()
         test_abs_error_a.reset_states()
 
@@ -148,26 +132,22 @@ if __name__ == '__main__':
         for images, labels in train_ds:
             train_step(images, labels)
             values = [('Loss', train_loss.result()),
-                      ('Mean Abs. Error v', train_abs_error_d.result()),
                       ('Mean Abs. Error a', train_abs_error_a.result())]
             train_progress_bar.add(step + 1, values=values)
 
         with train_summary_writer.as_default():
             tf.summary.scalar('Loss', train_loss.result(), step=epoch)
-            tf.summary.scalar('Mean Abs. Error v', train_abs_error_d.result(), step=epoch)
             tf.summary.scalar('Mean Abs. Error a', train_abs_error_a.result(), step=epoch)
 
         step = 0
         for test_images, test_labels in test_ds:
             test_step(test_images, test_labels)
             values = [('Loss', test_loss.result()),
-                      ('Mean Abs. Error v', test_abs_error_d.result()),
                       ('Mean Abs. Error a', test_abs_error_a.result())]
             test_progress_bar.add(step + 1, values=values)
 
         with test_summary_writer.as_default():
             tf.summary.scalar('Loss', test_loss.result(), step=epoch)
-            tf.summary.scalar('Mean Abs. Error v', test_abs_error_d.result(), step=epoch)
             tf.summary.scalar('Mean Abs. Error a', test_abs_error_a.result(), step=epoch)
 
         end = tf.timestamp()

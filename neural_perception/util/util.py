@@ -183,3 +183,11 @@ def get_mean_and_std(x, y):
 
     return x_binned, means, std_err
 
+
+def lerp(v0, v1, t):
+    return (1 - t) * v0 + t * v1
+
+
+def angle_diff(a, b):
+    c = a - b
+    return (c + math.pi) % (math.pi * 2) - math.pi

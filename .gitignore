@@ -6,9 +6,7 @@
 xvfb.log
 bin
 venv
+neural_perception/simulator/saved_model/
 
-venv
 
-neural_perception/model/caches
-neural_perception/model/saved_model
 

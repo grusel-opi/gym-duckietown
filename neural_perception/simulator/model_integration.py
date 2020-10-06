@@ -14,7 +14,8 @@ from neural_perception.util.util import preprocess, get_lane_pos
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 env = DuckietownEnv(domain_rand=False,
-                    draw_bbox=False)
+                    draw_bbox=False,
+                    map_name='udem1')
 
 obs = env.reset()
 
@@ -28,11 +29,10 @@ steps = env.max_steps = 10_000
 
 for i in range(steps):
 
-    action = model(obs)[0].numpy()
+    action = model(obs).numpy()[0]
+    action[0] = 0.4
 
     print("\raction: {}, {}".format(action[0], action[1]), end='\r')
-
-    action[0] = 0.1
 
     obs, _, done, _ = env.step(action)
 

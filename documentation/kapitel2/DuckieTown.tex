@@ -110,17 +110,20 @@ Objekte sind ebenfalls nicht befahrbar und befinden sich in der Regel außerhalb
 
 Eine Duckietown-Umgebung wird hierbei in einer \texttt{.yaml}-Datei definiert, die dann vom Simulator geladen und dargestellt wird.
 
-\begin{lstlisting}
-	# 3x3 tiles with left turns at the corners
-	# going in a counter-clockwise loop
+\hspace{1cm}
+\begin{minipage}{.73\linewidth}
+	\begin{lstlisting}[caption={Beispieldefinition einer Duckietown-Umgebung}]
+		# 3x3 tiles with left turns at the corners
+		# going in a counter-clockwise loop
 	
-	tiles:
-	- [curve_left/W , straight/W, curve_left/N]
-	- [straight/S   , asphalt   , straight/N]
-	- [curve_left/S , straight/E, curve_left/E]
+		tiles:
+		- [curve_left/W , straight/W, curve_left/N]
+		- [straight/S   , asphalt   , straight/N]
+		- [curve_left/S , straight/E, curve_left/E]
 	
-	tile_size: 1
-\end{lstlisting}
+		tile_size: 1
+	\end{lstlisting}
+\end{minipage}
 
 \section{DuckieBot}
 

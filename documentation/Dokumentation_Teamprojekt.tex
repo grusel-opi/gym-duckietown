@@ -1,9 +1,4 @@
-\documentclass[
-		11pt,
-		a4paper,
-		toc=listof, %% Abbildungs- und Tabellenverzeichnis mit ins Inhaltsverzeichnis
-		bibliography=totoc %% Quellenverzeichnis mit ins Inhaltsverzeichnis
-		]{scrreprt}	 %% KOMA Script
+\documentclass[11pt,a4paper,toc=listof,bibliography=totoc]{scrreprt}
 
 \input{preamble/packete}
 \input{preamble/optionen}
@@ -12,15 +7,17 @@
 
 \lstset{
 	frame=top,frame=bottom,
-	basicstyle=\small\normalfont\sffamily,    % the size of the fonts that are used for the code
-	stepnumber=1,                           % the step between two line-numbers. If it is 1 each line will be numbered
-	numbersep=2pt,                         % how far the line-numbers are from the code
-	tabsize=1,                              % tab size in blank spaces
-	extendedchars=true,                     %
-	breaklines=true,                        % sets automatic line breaking
-	captionpos=t,                           % sets the caption-position to top
+	basicstyle=\small\normalfont\sffamily,
+	stepnumber=1,                           
+	numbersep=2pt,
+	tabsize=1,
+	spaces
+	extendedchars=true,
+	breaklines=true,
+	breaking
+	captionpos=t,
 	mathescape=true,
-	stringstyle=\color{white}\ttfamily, % Farbe der String
+	stringstyle=\color{white}\ttfamily,
 	showspaces=false,
 	showtabs=false,            
 	xleftmargin=17pt,

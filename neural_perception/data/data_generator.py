@@ -59,9 +59,7 @@ class DuckietownImager(DuckietownEnv):
 
     def produce_pd_images(self, n=10):
         obs = self.reset()
-
         for i in range(self.set_size):
-            lp = None
 
             for _ in range(n):  # do n steps between every image
 
@@ -77,8 +75,10 @@ class DuckietownImager(DuckietownEnv):
                 if done:
                     self.reset()
 
+            lp = get_lane_pos(self)
+
             while lp.dist_to_edge < 0:
-                self.reset()
+                obs = self.reset()
                 lp = get_lane_pos(self)
 
             self.images[i] = obs
@@ -145,7 +145,9 @@ class DuckietownImager(DuckietownEnv):
 
 
 if __name__ == '__main__':
-    imgs = 80_000
-    env = DuckietownImager()
-    generate_and_save(env, imgs)
+    imgs = 45_000
+    path = '/home/gandalf/ws/team/datasets/'
+    name = 'pd_tilekind/'
+    env = DuckietownImager(path=path+name)
+    env.generate_and_save(imgs, kind='controlled')
     sys.exit()

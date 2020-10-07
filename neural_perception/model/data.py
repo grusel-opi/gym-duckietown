@@ -3,13 +3,13 @@ import os
 
 AUTOTUNE = tf.data.experimental.AUTOTUNE
 
-DATA_DIR = "/home/gandalf/ws/team/datasets/expert_action/"
+DATA_DIR = "/home/gandalf/ws/team/datasets/rand_tilekind/"
 
-expert_action_size = 79_650
+ds_size = 79_994
 
-TRAIN_CACHE_FILE = "/home/gandalf/ws/team/lean-test/caches/train-expert_action.tfcache"
-TEST_CACHE_FILE = "/home/gandalf/ws/team/lean-test/caches/test-expert_action.tfcache"
-VAL_CACHE_FILE = "/home/gandalf/ws/team/lean-test/caches/val-expert_action.tfcache"
+TRAIN_CACHE_FILE = "/home/gandalf/ws/team/gym-duckietown/neural_perception/model/caches/train-rand_tilekind.tfcache"
+TEST_CACHE_FILE = "/home/gandalf/ws/team/gym-duckietown/neural_perception/model/caches/test-rand_tilekind.tfcache"
+VAL_CACHE_FILE = "/home/gandalf/ws/team/gym-duckietown/neural_perception/model/caches/val-rand_tilekind.tfcache"
 
 ORIG_IMG_SHAPE = (480, 640, 3)
 RESIZE_IMG_SHAPE = (120, 160, 3)
@@ -49,8 +49,7 @@ def process_path(file_path):
 def get_datasets_unprepared(train_fraction=0.7, test_fraction=0.3):
     list_ds = tf.data.Dataset.list_files(DATA_DIR + '*')
 
-    # dataset_size = list_ds.cardinality().numpy()
-    dataset_size = expert_action_size
+    dataset_size = ds_size
 
     full_dataset = list_ds.shuffle(buffer_size=dataset_size)
 

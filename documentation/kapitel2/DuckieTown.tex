@@ -11,7 +11,116 @@ In einer DuckieTown-Umgebung wird die Umwelt für einen DuckieBot definiert. Ein
 	\caption{Darstellung einer beispielhaften DuckieTown-Umgebung}
 \end{figure}
 
-Bei den Kacheln wird zwischen befahrbaren und nicht befahrbaren Kacheln unterschieden, wobei folgende Kacheln standardmäßig zur Vefügung stehen:
+Bei den Kacheln wird zwischen befahrbaren und nicht befahrbaren Kacheln unterschieden, wobei folgende Kacheln standardmäßig zur Verfügung stehen:
+
+\begin{itemize}
+	\item 
+		\begin{tabular}[t]{lll}
+			\textbf{Leere Kachel} & (nicht befahrbar) & \hspace{2.45cm} 
+			$ \begin{array}{l}
+				\setlength{\fboxsep}{0pt}
+				\fbox{\includegraphics[scale=0.135]{kapitel2/images/empty.png}}
+			\end{array} $
+		\end{tabular} 
+	
+	\item 
+		\begin{tabular}[t]{lll}
+			\textbf{Gerader Streckenabschnitt} & (befahrbar) & \hspace{0.8cm}
+			$ \begin{array}{l}
+				\setlength{\fboxsep}{0pt}
+				\fbox{\includegraphics[scale=0.17]{kapitel2/images/straight.png}}
+		  	\end{array} $
+		\end{tabular}
+	
+	\newpage
+	
+	\item 
+		\begin{tabular}[t]{lll}
+			\textbf{Linkskurve} & (befahrbar) & \hspace{3.85cm}
+			$ \begin{array}{l}
+				\setlength{\fboxsep}{0pt}
+				\fbox{\includegraphics[scale=0.17]{kapitel2/images/left.png}}
+			\end{array} $
+		\end{tabular}
+	
+	\item 
+		\begin{tabular}[t]{lll}
+			\textbf{Rechtskurve} & (befahrbar) & \hspace{3.55cm}
+			$ \begin{array}{l}
+				\setlength{\fboxsep}{0pt}
+				\fbox{\includegraphics[scale=0.17]{kapitel2/images/right.png}}
+			\end{array} $
+		\end{tabular}
+	
+	\item 
+		\begin{tabular}[t]{lll}
+			\textbf{3-Wege Kreuzung} & (befahrbar) & \hspace{2.5cm}
+			$ \begin{array}{l}
+				\setlength{\fboxsep}{0pt}
+				\fbox{\includegraphics[scale=0.17]{kapitel2/images/3way.png}}
+			\end{array} $
+		\end{tabular}
+	
+	\item 
+		\begin{tabular}[t]{lll}
+			\textbf{4-Wege Kreuzung} & (befahrbar) & \hspace{2.5cm}
+			$ \begin{array}{l}
+				\setlength{\fboxsep}{0pt}
+				\fbox{\includegraphics[scale=0.17]{kapitel2/images/4way.png}}
+			\end{array} $
+		\end{tabular}
+	\item 
+		\begin{tabular}[t]{lll}
+			\textbf{Asphaltkachel} & (nicht befahrbar) & \hspace{2.25cm}
+			$ \begin{array}{l}
+				\setlength{\fboxsep}{0pt}
+				\fbox{\includegraphics[scale=0.17]{kapitel2/images/asphalt.png}}
+			\end{array} $
+		\end{tabular}
+	
+	\item 
+		\begin{tabular}[t]{lll}
+			\textbf{Graskachel} & (nicht befahrbar) & \hspace{2.85cm}
+			$ \begin{array}{l}
+				\setlength{\fboxsep}{0pt}
+				\fbox{\includegraphics[scale=0.132]{kapitel2/images/grass.png}}
+			\end{array} $ \\
+		\end{tabular}
+	
+	\item 
+		\begin{tabular}[t]{lll}
+			\textbf{Bodenkachel} & (nicht befahrbar) & \hspace{2.55cm}
+			$ \begin{array}{l}
+				\setlength{\fboxsep}{0pt}
+				\fbox{\includegraphics[scale=0.26]{kapitel2/images/floor.png}}
+			\end{array} $
+		\end{tabular}
+\end{itemize}
+
+Objekte sind ebenfalls nicht befahrbar und befinden sich in der Regel außerhalb des Streckenverlaufes. Es werden standardmäßig eine Vielzahl von Objekten zur Verfügung gestellt, wie zum Beispiel:
+
+\newpage
+
+\begin{itemize}
+	\item Haus
+	\item Baum
+	\item Bus
+	\item Verkehrsschilder etc.
+\end{itemize}
+
+Eine Duckietown-Umgebung wird hierbei in einer \texttt{.yaml}-Datei definiert, die dann vom Simulator geladen und dargestellt wird.
+
+\begin{lstlisting}
+	# 3x3 tiles with left turns at the corners
+	# going in a counter-clockwise loop
+	
+	tiles:
+	- [curve_left/W , straight/W, curve_left/N]
+	- [straight/S   , asphalt   , straight/N]
+	- [curve_left/S , straight/E, curve_left/E]
+	
+	tile_size: 1
+\end{lstlisting}
 
 \section{DuckieBot}
 

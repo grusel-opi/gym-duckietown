@@ -99,7 +99,7 @@ if __name__ == '__main__':
 
     current_time = datetime.datetime.now().strftime("%d.%m.%Y-%H:%M:%S")
     model_path = "saved_model/" + current_time + "/"
-    log_dir = "logs-single-loss/" + current_time + "-pid-bs32-lr0002-elu-MSE-l2/"
+    log_dir = "logs-expert/" + current_time + "-expert_tilekind-bs32-lr0002-elu-MSE-l2/"
 
     batch_size = 32
     learning_rate = 0.0002

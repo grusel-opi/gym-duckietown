@@ -3,15 +3,13 @@ import os
 
 AUTOTUNE = tf.data.experimental.AUTOTUNE
 
-DATA_DIR_0 = "/home/gandalf/ws/team/datasets/pid_off205/"
-DATA_DIR_1 = "/home/gandalf/ws/team/datasets/random_off205/"
+DATA_DIR = "/home/gandalf/ws/team/datasets/expert_tilekind/"
 
-pid_off205_size = 66_098
-random_off205_size = 80_000
+expert_action_size = 79_914
 
-TRAIN_CACHE_FILE = "/home/gandalf/ws/team/lean-test/caches/train-concat_off205.tfcache"
-TEST_CACHE_FILE = "/home/gandalf/ws/team/lean-test/caches/test-concat_off205.tfcache"
-VAL_CACHE_FILE = "/home/gandalf/ws/team/lean-test/caches/val-concat_off205.tfcache"
+TRAIN_CACHE_FILE = "/home/gandalf/ws/team/gym-duckietown/neural_perception/model/caches/train-expert_action.tfcache"
+TEST_CACHE_FILE = "/home/gandalf/ws/team/gym-duckietown/neural_perception/model/caches/test-expert_action.tfcache"
+VAL_CACHE_FILE = "/home/gandalf/ws/team/gym-duckietown/neural_perception/model/caches/val-expert_action.tfcache"
 
 ORIG_IMG_SHAPE = (480, 640, 3)
 RESIZE_IMG_SHAPE = (120, 160, 3)
@@ -49,14 +47,9 @@ def process_path(file_path):
 
 
 def get_datasets_unprepared(train_fraction=0.7, test_fraction=0.3):
-    list_ds_0 = tf.data.Dataset.list_files(DATA_DIR_0 + '*')
-    list_ds_1 = tf.data.Dataset.list_files(DATA_DIR_1 + '*')
-    list_ds = list_ds_0.concatenate(list_ds_1)
+    list_ds = tf.data.Dataset.list_files(DATA_DIR + '*')
 
-    # list_ds = tf.data.Dataset.list_files(DATA_DIR_1 + '*')
-
-    # dataset_size = list_ds.cardinality().numpy()
-    dataset_size = pid_off205_size + random_off205_size
+    dataset_size = expert_action_size
 
     full_dataset = list_ds.shuffle(buffer_size=dataset_size)
 

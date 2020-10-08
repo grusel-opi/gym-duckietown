@@ -11,6 +11,8 @@ Mit Deep Learning können Probleme gelöst werden, die ohne diese Ansätze nicht
 	\includegraphics[width=\textwidth]{kapitel3/images/KI_Uebersicht.png}
 	\label{fig:ki-übersicht}
 	\caption{Übersicht Künstliche Intelligenz}
+	\vspace{0.2cm}
+	\quelle\url{https://datasolut.com/wp-content/uploads/2019/11/KI-und-Deep-Learning.002-e1558385989498.jpeg}
 \end{figure}
 
 Die Grundlage des Deep Learnings stellt die Verwendung von künstlichen neuronalen Netzen dar. Unter künstlichen neuronalen Netzen versteht man Algorithmen, die nach dem biologischen Vorbild des menschlichen Gehirns modelliert sind. Diese werden eingesetzt, um beispielsweise Muster in Bildern zu erkennen oder Bilder zu klassifizieren. \cite{datasolut2}\\
@@ -22,6 +24,8 @@ Ein einfaches künstliches neuronales Netz besteht dabei aus einer \textbf{Einga
 	\includegraphics[width=0.65\textwidth]{kapitel3/images/Simples_Neuronales_Netz.jpg}
 	\label{fig:simples-neuronales-netz}
 	\caption{Darstellung eines beispielhaften künstlichen neuronalen Netzes \\ (vereinfacht)}
+	\vspace{0.2cm}
+	\quelle\url{https://datasolut.com/wp-content/uploads/2019/10/ku%CC%88nstliche-neuronale-Netze.jpg}
 \end{figure}
 
 Von tiefem Lernen spricht man dann, wenn die eingesetzen neuronalen Netzte mehr als eine Zwischenschicht haben.  \cite{datasolut2} 
@@ -35,27 +39,58 @@ Es gibt Problemstellungen (wie beispielsweise die unstrukturierte Bilderkennung)
 	\includegraphics[width=0.65\textwidth]{kapitel3/images/Deep_Learning_Performance.png}
 	\label{fig:deep-learning-performance}
 	\caption{Darstellung der Performance von Deep Learning Algorithmen im Vergleich zu älteren Lernalgorithmen}
+	\vspace{0.2cm}
+	\quelle\url{https://datasolut.com/wp-content/uploads/2019/11/Warum-deep-learning-1024x742.png}
 \end{figure}
-
-
-
 
 \section{Problemstellung}
 
 Gegeben sei ein Kamerabild $I_D$, welches von einem Duckiebot $D$ aufgenommen wurde. Das Bild $I_D$ wird einem Posenschätzer $E$ zur Verfügung gestellt, welcher dann den Abstand $d_D$ sowie die Orientierung $\Theta_D$ des Duckiebots zur rechten 
-Fahrbahnmarkierung ermitteln soll. Der Posenschätzer ist hierbei ein künstliches neuronales Netz, um die oben genannte Problemstellung lösen zu können. Als Lernverfahren wird überwachtes Lernen eingesetzt.
+Fahrbahnmarkierung ermitteln soll. Der Posenschätzer ist hierbei ein tiefes künstliches neuronales Netz, welches die oben genannte Problemstellung lösen soll. Als Lernverfahren wird überwachtes Lernen eingesetzt.
 
-\section{Datensatzerstellung}
+\section{Lernverfahren}
 
-Damit der Posenschätzer seine Aufgabe erfüllen kann, muss zunächst ein Datensatz erstellt werden, damit dieser trainiert werden kann. Der Datensatz besteht dabei aus einem Trainingsdatensatz, einem Validierungsdatensatz sowie aus einem Testdatensatz. \\
+Beim maschinellen Lernen bzw. beim Deep Learning stehen drei unterschiedliche Lernverfahren zur Verfügung:
 
-Der Trainingsdatensatz ist ein Beispieldatensatz der für das Lernen der Muster und Zusammenhänge in den Daten verwendet wird. Das Modell des neuronalen Netz nutzt also diese Daten um zu lernen. \cite{datasolut} \\
+\begin{enumerate}
+	\item \textbf{Überwachtes Lernen:}
+	
+	Das \textbf{überwachte Lernen} nutzt für den Lernprozess \textbf{bekannte Daten}, um daraus Muster und Zusammenhänge zu erkennen. Die Muster werden  anhand eines \textbf{Trainingsdatensatzes} (Beispieldaten) erlernt. Dabei wird der Zusammenhang zu einer Zielvariable erlernt und es wird versucht diese richtig vorherzusagen. \cite{datasolut3}
+	
+	\item \textbf{Unüberwachtes Lernen:}
+	
+	Das \textbf{unüberwachte Lernen} nutzt für den Lernprozess keine Beispieldaten, sondern \textbf{Rohdaten}, aus denen eigenständig Muster erkannt werden sollen. \\
+	Der hauptsächliche Unterschied zum überwachten Lernen ist also, dass das unüberwachte Lernen nicht dafür ausgelegt ist, eine Vorhersage für eine bekannte Zielvariable zu treffen. \cite{datasolut3}
+	
+	\item \textbf{Bestärkendes Lernen:}
+	
+	Anders als das überwachte bzw. unüberwachte Lernen nutzt das \textbf{besträkende Lernen} zunächst \textbf{keine Daten}, sondern diese enstehen in einer Simulationsumgebung nach einem \textbf{Versuch-und-Irrtum-Verfahren}. \cite{der-onliner_blogspot}
+\end{enumerate} 
 
-Der Validierungsdatensatz ist ebenso ein Beispieldatensatz, welcher für die Abstimmung der Hyperparameter des Modells des neuronalen Netzes verwendet wird. Dadurch wird das sognenannte \glqq Overfitting\grqq{} (Überanpassung) des Modells auf die Trainingsdaten verhindert. \cite{datasolut} \\
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{kapitel3/images/lernverfahren.png}
+	\label{fig:machine-learning-algorithms}
+	\caption{Darstellung der verschiedenen Lernverfahren}
+	\vspace{0.2cm}
+	\quelle\url{https://1.bp.blogspot.com/-xstYqLb9OBw/XSYZUUD0WrI/AAAAAAAAML4/4sxvpGjIsDgmR7bDYyhcKdfM0TbvIIHdwCEwYBhgL/s400/machine-learning-lernverfahren.png}
+\end{figure}
 
-Der Testdatensatz ist ebenfalls ein Beispieldatensatz, jedoch sind die Daten von den Trainingsdaten unabhängig. Die Testdaten werden beim Training des neuronalen Netzes nicht benutzt, sondern dienen zur abschließenden Verifikation des Modells. Dadurch kann die Qualität des Modell erfasst werden, damit man eine Aussage über die Leistungsfähigkeit des neuronalen Netzes treffen kann. \cite{datasolut} \\
+Welches Lernverfahren schlussendlich eingesetzt wird, hängt hierbei vom Anwendungsfall ab sowie mit den daraus resultierenden Datensätzen.
 
-Die oben genannten Datensätze wurden mit Hilfe des Duckietownsimulators automatisiert erstellt. Ein Eintrage eines Datensatzes besteht hierbei aus dem Kamerabild $I_D$, welches mit dem dazugehörigen Abstandswert $d_D$ sowie Orientierungswert $\Theta_D$ beschriftet wurde. Der Trainingsdatensatz besteht hierbei aus X Einträgen, der Validierungsdatensatz aus X Einträgen und der Testdatensatz aus X Einträgen. Die Abbildung \ref{fig:data_entry_example} zeigt einige beispielhafte Einträge eines Datensatzes.
+\section{Datensatz}
+
+Damit der Posenschätzer seine Aufgabe erfüllen kann, muss zunächst ein \textbf{Datensatz} erstellt werden, damit dieser trainiert werden kann. Der Datensatz besteht dabei aus einem \textbf{Trainingsdatensatz}, einem \textbf{Validierungsdatensatz} sowie aus einem \textbf{Testdatensatz}. \\
+
+Der \textbf{Trainingsdatensatz} ist ein Beispieldatensatz der für das \textbf{Lernen} der Muster und Zusammenhänge in den Daten verwendet wird. Das Modell des neuronalen Netz nutzt also diese Daten um zu lernen. \cite{datasolut} \\
+
+Der \textbf{Validierungsdatensatz} ist ebenso ein Beispieldatensatz, welcher für die \textbf{Abstimmung der Hyperparameter} des Modells des neuronalen Netzes verwendet wird. Dadurch wird das sognenannte \glqq Overfitting\grqq{} (Überanpassung) des Modells auf die Trainingsdaten verhindert. \cite{datasolut} \\
+
+Der \textbf{Testdatensatz} ist ebenfalls ein Beispieldatensatz, jedoch sind die Daten von den Trainingsdaten unabhängig. Die Testdaten werden beim Training des neuronalen Netzes nicht benutzt, sondern dienen zur abschließenden \textbf{Verifikation} des Modells. Dadurch kann die Qualität des Modell erfasst werden, damit man eine Aussage über die Leistungsfähigkeit des neuronalen Netzes treffen kann. \cite{datasolut} \\
+
+Die oben genannten Datensätze wurden mit Hilfe des DuckieTown-Simulators \textbf{automatisiert} erstellt. Ein \textbf{Eintrag} eines Datensatzes besteht hierbei aus dem \textbf{Kamerabild} $I_D$, welches mit dem dazugehörigen \textbf{Abstandswert} $d_D$ sowie \textbf{Orientierungswert} $\Theta_D$ beschriftet (\glqq gelabelt\grqq) wurde. \\
+
+Die Abbildung \ref{fig:data_entry_example} zeigt einige beispielhafte Einträge eines Datensatzes.
 
 \begin{figure}[H]
 	\centering

@@ -16,3 +16,34 @@
 % 		1 Einführung
 %
 \renewcommand*\chapterheadstartvskip{\vspace{-\topskip}}
+
+\setlength\parindent{0pt}
+
+\lstset{
+	frame=top,frame=bottom,
+	basicstyle=\small\normalfont\sffamily,
+	stepnumber=1,                           
+	numbersep=2pt,
+	tabsize=1,
+	extendedchars=true,
+	breaklines=true,
+	captionpos=t,
+	mathescape=true,
+	stringstyle=\color{white}\ttfamily,
+	showspaces=false,
+	showtabs=false,            
+	xleftmargin=17pt,
+	framexleftmargin=17pt,
+	framexrightmargin=17pt,
+	framexbottommargin=5pt,
+	framextopmargin=5pt,
+	showstringspaces=false,
+	numbers=left
+}
+
+\DeclareCaptionFormat{listing}{\rule{\dimexpr\textwidth+17pt\relax}{0.4pt}\par\vskip1pt#1#2#3}
+\captionsetup[lstlisting]{format=listing,singlelinecheck=false, margin=0pt, font={sf},labelsep=space,labelfont=bf}
+
+\renewcommand{\lstlistingname}{Codebeispiel}
+\renewcommand{\lstlistlistingname}{Codeauflistung}
+\newcommand{\source}[1]{\caption*{\hfill Source: {#1}} }

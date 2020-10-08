@@ -34,10 +34,12 @@ Techniken wie Deep Neural Networks und Deep Reinforcement Learning zum Einsatz
 kommen.\\
 
 \noindent Das Projekt, das für etwa 2-4 Personen vorgesehen ist, soll in Python realisiert werden.
-Eventuell kommt \acf{ros} zum Einsatz.
+Eventuell kommt das \acf{ros} zum Einsatz.
 
 \newpage
 
 \section{Aufgabenstellung}
 
-Das Ziel des Teamprojekts war es, die relative Position eines Duckiebots im Bezug zur rechten Fahrbahnmarkierung eines Straßenabschnittes im DuckieTown-Simulator zu ermitteln. Die relative Position beinhaltet hierbei den Abstand zur Seitenmarkierung, sowie die Orientierung zu dieser. Dabei soll ein Deep Learning Ansatz zum Einsatz kommen, um die Position des Duckiebots inferieren zu können, unabhängig von der eingesetzten Duckietown-Umgebung. 
+Das Ziel des Teamprojekts war es, die relative Position eines Duckiebots im Bezug zur rechten Fahrbahnmarkierung eines Straßenabschnittes im DuckieTown-Simulator zu ermitteln. Die relative Position beinhaltet hierbei den Abstand $d$ zur Seitenmarkierung, sowie die Orientierung $\Theta$ zu dieser. Dabei soll ein Deep Learning Ansatz zum Einsatz kommen, um die Position des Duckiebots inferieren zu können, unabhängig von der eingesetzten Duckietown-Umgebung. \\
+
+Die ermittelte relative Position kann dann für die Lokalisation (z.B. mittels Partikel-Filter) des DuckieBots verwendet werden, sowie für die autonome Steuerung (beispielsweise mittels PID-Regler).

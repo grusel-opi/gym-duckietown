@@ -23,19 +23,21 @@ class DuckietownImager(DuckietownEnv):
         self.accept_start_angle_deg = 90
         self.set_size = 1000
         self.path = path
-        self.k_p = 1
-        self.k_d = 1
+        self.k_p = np.random.uniform(0.8, 1.2)
+        self.k_d = np.random.uniform(0.8, 1.2)
         self.action_speed = 0.4
         self.images = np.zeros(shape=(self.set_size, *self.observation_space.shape), dtype=self.observation_space.dtype)
         self.labels = np.zeros(shape=(self.set_size, 3), dtype=np.float32)
 
     def produce_images(self, kind):
-        if kind == 'controlled':
+        if kind == 'pd':
             self.produce_pd_images()
-        elif kind == 'random':
-            self.produce_rand_images()
+        elif kind == 'pd random':
+            self.produce_rand_pd_images()
         elif kind == 'expert':
             self.produce_expert_images()
+        elif kind == 'expert random':
+            self.produce_rand_expert_images()
         else:
             print("Imager kind not recognized..")
 
@@ -57,34 +59,54 @@ class DuckietownImager(DuckietownEnv):
             if done:
                 obs = self.reset()
 
-    def produce_pd_images(self, n=10):
+    def produce_rand_expert_images(self, reset_steps=10):
+        """
+        Do n steps by expert driver then reset to random pose.
+        """
+        reset_counter = 0
         obs = self.reset()
 
         for i in range(self.set_size):
-            lp = None
 
-            for _ in range(n):  # do n steps between every image
+            percent = round(i * 100 / self.set_size, 2)
+            print(f'\rgenerating set: {percent} %', end='\r')
 
-                lp = get_lane_pos(self)
+            action = self.expert.predict()
 
-                distance_to_road_center = lp.dist
-                angle_from_straight_in_rads = lp.angle_rad
+            self.images[i] = obs
+            self.labels[i] = np.array([action[0], action[1], self.get_tile_kind()])
 
-                steering = self.k_p * distance_to_road_center + self.k_d * angle_from_straight_in_rads
+            obs, reward, done, info = self.step(action)
 
-                obs, reward, done, info = self.step(np.array([self.action_speed, steering]))
+            reset_counter += 1
+            if done or reset_counter == reset_steps:
+                self.reset()
 
-                if done:
-                    self.reset()
+    def produce_pd_images(self):
+        obs = self.reset()
+
+        for i in range(self.set_size):
+
+            percent = round(i * 100 / self.set_size, 2)
+            print(f'\rgenerating set: {percent} %', end='\r')
+
+            lp = get_lane_pos(self)
 
             while lp.dist_to_edge < 0:
-                self.reset()
+                obs = self.reset()
                 lp = get_lane_pos(self)
 
             self.images[i] = obs
             self.labels[i] = np.array([lp.dist_to_edge * 100, lp.angle_deg, self.get_tile_kind()])
 
-    def produce_rand_images(self, reset_steps=10):
+            steering = self.k_p * lp.dist + self.k_d * lp.angle_rad
+
+            obs, reward, done, info = self.step(np.array([self.action_speed, steering]))
+
+            if done:
+                self.reset()
+
+    def produce_rand_pd_images(self, reset_steps=10):
         """
         Do n steps by pd controller then reset to random pose.
         """
@@ -99,7 +121,7 @@ class DuckietownImager(DuckietownEnv):
             lp = get_lane_pos(self)
 
             while lp.dist_to_edge < 0:
-                self.reset()
+                obs = self.reset()
                 lp = get_lane_pos(self)
 
             self.images[i] = obs
@@ -146,6 +168,8 @@ class DuckietownImager(DuckietownEnv):
 
 if __name__ == '__main__':
     imgs = 80_000
-    env = ExpertDuckietownImager()
-    generate_and_save(env, imgs)
+    path = '/home/gandalf/ws/team/datasets/'
+    name = 'pd_tilekind/'
+    env = DuckietownImager(path=path+name)
+    env.generate_and_save(imgs, kind='pd')
     sys.exit()

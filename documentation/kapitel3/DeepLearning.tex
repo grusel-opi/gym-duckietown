@@ -17,6 +17,8 @@ Mit Deep Learning können Probleme gelöst werden, die ohne diese Ansätze nicht
 
 Die Grundlage des Deep Learnings stellt die Verwendung von künstlichen neuronalen Netzen dar. Unter künstlichen neuronalen Netzen versteht man Algorithmen, die nach dem biologischen Vorbild des menschlichen Gehirns modelliert sind. Diese werden eingesetzt, um beispielsweise Muster in Bildern zu erkennen oder Bilder zu klassifizieren. \cite{datasolut2}\\
 
+\newpage
+
 Ein einfaches künstliches neuronales Netz besteht dabei aus einer \textbf{Eingabeschicht} (Input Layer), einer \textbf{Zwischenschicht} (Hidden Layer) und einer \textbf{Ausgabeschicht} (Output Layer). \cite{datasolut2}
 
 \begin{figure}[H]
@@ -36,7 +38,7 @@ Es gibt Problemstellungen (wie beispielsweise die unstrukturierte Bilderkennung)
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.65\textwidth]{kapitel3/images/Deep_Learning_Performance.png}
+	\includegraphics[scale=0.4]{kapitel3/images/Deep_Learning_Performance.png}
 	\label{fig:deep-learning-performance}
 	\caption{Darstellung der Performance von Deep Learning Algorithmen im Vergleich zu älteren Lernalgorithmen}
 	\vspace{0.2cm}
@@ -123,6 +125,7 @@ Einige Beispiele für Hyperparameter sind:
 	\item \textbf{Batch Size}
 	\item \textbf{Anzahl Epochen}
 	\item \textbf{Optimizer}
+	\item \textbf{Dropout}
 \end{enumerate}
 	
 \subsection{Gewichte und Verzerrung (Bias)}
@@ -239,10 +242,33 @@ Einige Beispiele für Hyperparameter sind:
 
 \section{Arten von  künstlichen neuronalen Netzen}
 
-\section{Problemstellung}
+\subsection{Fully Connected Neural Networks (FCNN)}
 
-Gegeben sei ein Kamerabild $I_D$, welches von einem Duckiebot $D$ aufgenommen wurde. Das Bild $I_D$ wird einem Posenschätzer $E$ zur Verfügung gestellt, welcher dann den Abstand $d_D$ sowie die Orientierung $\Theta_D$ des Duckiebots zur rechten 
-Fahrbahnmarkierung ermitteln soll. Der Posenschätzer ist hierbei ein tiefes künstliches neuronales Netz, welches die oben genannte Problemstellung lösen soll. Als Lernverfahren wird überwachtes Lernen eingesetzt.
+	\textbf{Fully Connected Neural Networks} (FCNN) zeichnen sich dadurch aus, dass die Schichten immer nur mit der nächst höheren Schicht verbunden sind, d.h. es gibt \textbf{keine} zurückgerichteten Kanten. \cite{datasolut4}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.65\textwidth]{kapitel3/images/Simples_Neuronales_Netz.jpg}
+		\caption{Darstellung eines beispielhaften FCNN}
+		\vspace{0.2cm}
+		\quelle\url{https://datasolut.com/wp-content/uploads/2019/10/ku%CC%88nstliche-neuronale-Netze.jpg}
+	\end{figure}
+
+\subsection{Convolutional Neural Networks (CNN)}
+
+	Convolutional Neural Networks (CNN) können besonders effizient mit 2D- bzw. 3D-Eingabedaten arbeiten. Insbesondere werden CNNs für die Objektdetektion in Bildern angewendet. \cite{datasolut4} \\
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.9\textwidth]{kapitel3/images/cnn.png}
+		\caption{Darstellung eines beispielhaften CNNs}
+		\vspace{0.2cm}
+		\quelle\url{https://de.wikipedia.org/wiki/Convolutional_Neural_Network#/media/Datei:Typical_cnn.png}
+	\end{figure}
+	
+	Der Unterschied zu den klassischen neuronalen Netzen liegt in der Architektur der CNNs: Die Zwischenschicht basiert hierbei auf einer Abfolge von Faltungs- und Poolingoperationen. Bei der Faltung wird ein sogenannter Faltungskernel über die Daten geschoben und das Ergebnis des Faltungsoperation wird berechnet. Anschließend werden die Neuronen aktualisiert. Die nachfolgende Poolingoperation sorgt dann dafür, dass die Ergebnisse vereinfacht werden. Dadurch bleiben nur die wichtigsten Informationen erhalten.	Des Weiternen wird dadurch erreicht, dass die 2D- oder 3D-Eingangsdaten kleiner werden.
+
+\subsection{Recurrent Neural Networks (RNN)}
 
 
 

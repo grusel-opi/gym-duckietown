@@ -108,36 +108,146 @@ Die Informationen fließen beginnend mit der Eingabeschicht über eine oder mehr
 Künstliche neuronale Netze werden meist schematisch horizontal dargestellt (wie z.B. in Abbildung \ref{fig:simples-neuronales-netz}). Die Eingabeschicht befindet sich dabei auf der linken Seite  gefolgt von den Zwischenschichten in der Mitte und der Ausgabeschicht auf der rechten Seite.
 Die Anzahl der Schichten die in einem künstlichen neuronalen Netz verwendet werden, ist eine wichtige beschreibende Information. Enthält ein Netz zum Beispiel drei Schichten, so spricht man von einem drei-schichtigen neuronalen Netz. \cite{jaai}
 
-\subsection{Eingabeschicht}
+\subsection{Eingabeschicht (input layer)}
 	
-	Die Eingabeschicht definiert den Startpunkt des Informationsflusses in einem künstlichen neuronalen Netz. Die Eingangssignale werden dabei von den Neuronen am Anfang dieser Schicht entgegengenommen und am Ende gewichtet an die Neuronen der ersten Zwischenschicht weitergegeben. \cite{jaai}
+	Die \textbf{Eingabeschicht} definiert den \textbf{Startpunkt} des Informationsflusses in einem künstlichen neuronalen Netz. Die Eingangssignale werden dabei von den Neuronen am Anfang dieser Schicht entgegengenommen und am Ende gewichtet an die Neuronen der ersten Zwischenschicht weitergegeben. \cite{jaai}
 	
-\subsection{Zwischenschichten}
+\subsection{Zwischenschichten (hidden layer)}
 
-	Zwischen der Eingabe- und der Ausgabeschicht befindet sich mindestens eine Zwischenschicht. Je mehr Zwischenschichten ein künstliches neuronales Netz besitzt, desto tiefer ist das Netz, jedoch bewirkt jede weitere hinzukommende Zwischenschicht auch einen Anstieg der benötigten Rechenleistung. \cite{jaai}
+	\textbf{Zwischen} der Eingabe- und der Ausgabeschicht befindet sich mindestens eine \textbf{Zwischenschicht}. Je \textbf{mehr} Zwischenschichten ein künstliches neuronales Netz besitzt, desto \textbf{tiefer} ist das Netz, jedoch bewirkt jede weitere hinzukommende Zwischenschicht auch einen Anstieg der benötigten Rechenleistung. \cite{jaai}
 	
-\subsection{Ausgabeschicht}
+\subsection{Ausgabeschicht (output layer)}
 
-	Die Ausgabeschicht bildet die letzte Schicht eines künstlichen neuronalen Netzes, wobei diese sich hinter den Zwischenschichten befindet. Sie stellt das Ende des Informationsflusses eines künstlichen neuronalen Netz dar und enthält das Ergebnis der Informationsverarbeitung. \cite{jaai}
+	Die \textbf{Ausgabeschicht} bildet die \textbf{letzte} Schicht eines künstlichen neuronalen Netzes, wobei diese sich hinter den Zwischenschichten befindet. Sie stellt das \textbf{Ende} des Informationsflusses eines künstlichen neuronalen Netz dar und enthält das \textbf{Ergebnis} der Informationsverarbeitung. \cite{jaai}
+	
+\subsection{Modellparameter}
+
+Die \textbf{Modellparameter} eines künstlichen neuronalen Netzes werden beim Training des Netzes \textbf{selbständig} erlernt. Basierend auf bereits vorhandenen Parametern trainiert der Trainingsalgorithmus und versucht dadurch, die Modellparameter immer weiter zu verbessern. \cite{divis}
+
+\subsection{Hyperparameter}
+
+Die \textbf{Hyperparameter} eines künstlichen neuronalen Netz dienen zur Steuerung des Trainingsalgorithmus. In der Regel müssen die Werte der Hyperparameter im Gegensatz zu den Modellparametern \textbf{vor} dem eigentlichen Training des Modells festgelegt werden, wodurch diese \textbf{nicht selbständig} erlernt werden können. \cite{wiki} \\
+
+Einige Beispiele für Hyperparameter sind:
+
+\begin{enumerate}
+	\item \textbf{Lerngeschwindigkeit} (learning rate)
+	\item \textbf{Batch Size}
+	\item \textbf{Anzahl Epochen}
+	\item \textbf{Optimizer}
+\end{enumerate}
 	
 \subsection{Gewichte und Verzerrung (Bias)}
 
-
 	Durch die \textbf{Gewichte} wird die \textbf{Intensität} des Informationsflusses entlang einer Verbindung eines künstlichen neuronalen Netzes beschrieben. Dazu vergibt jedes Neuron ein Gewicht für die durchfließende Information. Diese wird anschließend mit diesem Gewicht gewichtet und es wird ein Wert für die neuronen-spezifische \textbf{Verzerrung} (Bias) addiert. Das resultierende Ergebnis wird in der Regel durch eine sogenannte \textbf{Aktivierungsfunktion} geleitet, bevor es an die Neuronen der nächsten Schicht weitergegeben wird. \cite{jaai} \\
 	
-	Während des Trainingsprozesses werden die Gewichte und Verzerrungen so angepasst, dass das Endresultat möglichst genau den Anforderungen entspricht. \cite{jaai}
+	Während des Trainingsprozesses werden die Gewichte und Verzerrungen so angepasst, dass das Endresultat möglichst \textbf{genau} den Anforderungen entspricht. \cite{jaai}
 	
 \subsection{Aktivierungsfunktion (activation function)}
 
-	Aktivierungsfunktionen spielen in künstlichen neuronalen Netzen eine bedeutende Rolle, da sie dabei helfen, die komplizierte und nichtlineare funktionale Beziehung zwischen den Eingangsdaten und den abhängigen Ergebnissen zu lernen und zu verstehen. Ein Eingangssignal eines Neurons wird dabei in ein Ausgangssignal konvertiert, welches anschließend als Eingabe der nächsten Schicht verwendet wird. \cite{ai-united}
+	\textbf{Aktivierungsfunktionen} spielen in künstlichen neuronalen Netzen eine bedeutende Rolle, da sie dabei helfen, die \textbf{komplizierte} und \textbf{nichtlineare funktionale Beziehung} zwischen den \textbf{Eingangsdaten} und den abhängigen \textbf{Ergebnissen} zu lernen und zu verstehen. Ein Eingangssignal eines Neurons wird dabei in ein Ausgangssignal konvertiert, welches anschließend als Eingabe der nächsten Schicht verwendet wird. \cite{ai-united} \\
 	
-\subsection{Direkte Propagation}
-
-\subsection{Backpropagation}
-
+	Einige Beispiele für Aktivierungsfunktionen sind:
+	
+	\begin{center}
+	\begin{tabular}[t]{|c|c|c|}
+		\hline
+		\textbf{Bezeichnung} & \textbf{Funktion} & \textbf{Plot} \\
+		\hline
+		\begin{tabular}{l} Idendität \end{tabular} &  
+		\begin{tabular}{l} $ f(x) = x $ \end{tabular} &
+		\begin{tabular}{l}
+			\addvbuffer[0.05cm]{\includegraphics[scale=0.5]{kapitel3/images/idendity.png}}
+		\end{tabular} \\
+		\hline
+		\begin{tabular}{l} Sigmoid \end{tabular} &  
+		\begin{tabular}{l} $ f(x) = \frac{1}{1 + e^{-x}} $ \end{tabular} &
+		\begin{tabular}{l}
+			\addvbuffer[0.05cm]{\includegraphics[scale=0.5]{kapitel3/images/sigmoid.png}}
+		\end{tabular} \\
+		\hline
+		\begin{tabular}{l} ReLu \end{tabular} &  
+		\begin{tabular}{l} $ f(x) = \max (0,x) $ \end{tabular} &
+		\begin{tabular}{l}
+			\addvbuffer[0.05cm]{\includegraphics[scale=0.5]{kapitel3/images/relu.png}}
+		\end{tabular} \\
+		\hline
+		\begin{tabular}{l} ELu \end{tabular} &  
+		\begin{tabular}{l} $ f(\alpha, x) = \begin{cases} \alpha (e^x - 1) \quad \textrm{für} \ x \leq 0 \\ x \hspace{1.75cm} \textrm{für} \ x > 0 \end{cases} $ \end{tabular} &
+		\begin{tabular}{l}
+			\addvbuffer[0.05cm]{\includegraphics[scale=0.25]{kapitel3/images/elu.jpg}}
+		\end{tabular} \\
+		\hline
+	\end{tabular}
+	\end{center}
+	
 \subsection{Verlustfunktion (loss function)}
 
-\subsection{Hyperparameter}
+	Die \textbf{Verlustfunktion} wird zur \textbf{Berechnung des Fehlers} zwischen den realen Ergebnissen und erhaltenen Antworten des künstlichen neuronalen Netzes verwendet. Das Ziel des Lernprozesses ist die \textbf{Minimierung} dieser Fehler.  \cite{ai-united} \\
+
+	Einige Beispiele für Verlustfunktionen sind:
+	
+	\begin{center}
+	\begin{tabular}[t]{|l|l|}
+		\hline
+		\textbf{Bezeichnung} & \textbf{Funktion} \\
+		\hline
+		Mittlere quadratische Abweichung  &  
+		\addvbuffer[0.05cm]{
+			$ \textrm{MSE} = \frac{\sum_{i=1}^{n} (y_i - \hat{y_i})^2}{n} $
+		} \\
+		\hline
+		Mittlerer absoluter Fehler  &  
+		\addvbuffer[0.05cm]{
+			$ \textrm{MAE} = \frac{\sum_{i=1}^{n} |y_i - \hat{y_i}|}{n} $
+		} \\
+		\hline
+		Mittlerer Bias Fehler  &  
+		\addvbuffer[0.05cm]{
+			$ \textrm{MBE} = \frac{\sum_{i=1}^{n} (y_i - \hat{y_i})}{n} $
+		} \\
+		\hline
+		
+	\end{tabular}
+	\end{center}
+
+\subsection{Fehlerrückführung (Backpropagation)}
+
+	Bei der \textbf{Fehlerrückführung} wird die Antwort des künstlichen neuronalen Netes mit dem gewünschten Ergebnis verglichen. Dabei wird der Fehler bestimmt und dieser wird anschließend \textbf{rückwärtig} in das Netz gespeist, wodurch die Gewichte der Neuronen so angepasst werden, dass der Fehler immer \textbf{kleiner} wird. In der Praxis werden dafür verschiedene \textbf{Optimierungsstrategien} eingesetzt. \cite{rocketloop}
+	
+\subsubsection{Optimierungsstrategien (Optimizer)}
+
+	\begin{enumerate}
+		\item \textbf{Gradientenverfahren:}
+		
+			Das Gradientenverfahren beschreibt einen Algorithmus, der für eine Verlustfunktion, den Eingabeparameter in entgegengesetzter Richtung des Gradienten aktualisiert. Über die  Lerngeschwindigkeit (learn rate) kann festgelegt werden, wie weit der Algorithmus sich in jeder Iteration vom Ausgangspunkt entfernen darf. \cite{lucas_plagwitz}
+		
+		\item \textbf{Momentum Optimierer:}
+		
+			Der Momentum Optimierer ist ein erweiterter Ansatz des Gradientenverfahrens. Während das \glqq Standardgradientenverfahren\grqq{} in jedem Iterationsschritt immer in entgegengesetzte Richtung des lokalen Gradienten absteigt, nimmt der Momentum Optimierer Rücksicht auf die Gradienten der vorherigen Iterationen. \cite{lucas_plagwitz}
+			
+		\item \textbf{Adaptive Optimierungsstrategie:}
+		
+			Ein Abstiegt wie ihn die Gradientenverfahren erledigen, kann unter Umständen nicht dir richtige Wahl zur Lösung des Problems darstellen. Daher wurden adaptive Algorithmen entwickelt, die eine Alternative zu den Gradientenverfahren darstellen. Dabei wird folgende Idee verfolgt: Man passt die Lernrate dynamisch an die Parameter an und führt größere Aktualisierungen für seltene Parameter durch und kleinere Aktualisierungen für häufige Parameter. \cite{lucas_plagwitz}
+			
+			\begin{enumerate}
+				\item \textbf{AdaGrad:}
+				
+					Der Kerngedanke hinter AdaGrad ist das Herunterskalieren des Gradientenvektors, d.h. die Lernrate wird pro Dimension nach und nach verringert, wobei die Verringerung bei steilen Dimensionen schneller erfolgt. \cite{lucas_plagwitz}
+					
+				\item \textbf{RMSProp:}
+				
+					RMSProp ist eine leicht modifizierte Version des AdaGrad Optimierers. Dabei werden die Gradienten der letzten Iterationen unter exponentiellem Zerfall  berücksichtigt. Im Allgemeinen lässt sich sagen, dass RMSProp schneller konvergiert als AdaGrad. \cite{lucas_plagwitz}
+				
+					
+			\end{enumerate}
+		
+			
+		\item \textbf{Adam Optimierung:}
+		
+			Die Adam Optimierung ist eine Kombination aus der Idee des Momentum Optimierers und RMSProp. Das Verfahren betrachtet hierbei sowohl den Durchschnitt der vorigen Gradienten als auch den Durchschnitt der quadrieten Gradienten, beide unter exponentiellem Zerfall. \cite{lucas_plagwitz}
+			
+	\end{enumerate}
 
 \section{Arten von  künstlichen neuronalen Netzen}
 

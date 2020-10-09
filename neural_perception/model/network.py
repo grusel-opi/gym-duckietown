@@ -27,7 +27,7 @@ class PoseRegress(Model):
         self.reg_2 = Dense(50,  kernel_regularizer=l2(0.001), activation='elu')
         self.reg_3 = Dense(10,  kernel_regularizer=l2(0.001), activation='elu')
 
-        self.out = Dense(1)
+        self.out = Dense(2)
 
     def call(self, x, training=False, **kwargs):
 
@@ -58,38 +58,48 @@ class PoseRegress(Model):
 @tf.function
 def train_step(x, y):
 
-    d = y[:, 0]
-
     with tf.GradientTape() as tape:
-        d_hat = model(x, training=True)
-        loss = loss_fn(d, d_hat)
+        y_hat = model(x, training=True)
+        loss = loss_fn(y, y_hat)
 
     gradients_d = tape.gradient(loss, model.trainable_variables)
     optimizer.apply_gradients(zip(gradients_d, model.trainable_variables))
 
     train_loss(loss)
 
+    d = y[:, 0]
+    a = y[:, 1]
+
+    d_hat = y_hat[:, 0]
+    a_hat = y_hat[:, 1]
+
     train_abs_error_d(d, d_hat)
+    train_abs_error_a(a, a_hat)
 
 
 @tf.function
 def test_step(x, y):
 
-    d = y[:, 0]
+    y_hat = model(x)
 
-    d_hat = model(x)
-
-    loss = loss_fn(d, d_hat)
+    loss = loss_fn(y, y_hat)
     test_loss(loss)
 
+    d = y[:, 0]
+    a = y[:, 1]
+
+    d_hat = y_hat[:, 0]
+    a_hat = y_hat[:, 1]
+
     test_abs_error_d(d, d_hat)
+    test_abs_error_a(a, a_hat)
 
 
 if __name__ == '__main__':
 
     current_time = datetime.datetime.now().strftime("%d.%m.%Y-%H:%M:%S")
     model_path = "saved_model/" + current_time + "/"
-    log_dir = "logs-d-only/" + current_time + "-rand_tilekind-bs32-lr0002-elu-MSE-l2/"
+    log_dir = "logs-single-loss/" + current_time + "-pd-bs32-lr0002-elu-MSE-l2/"
 
     batch_size = 32
     learning_rate = 0.0002
@@ -110,6 +120,9 @@ if __name__ == '__main__':
     train_abs_error_d = tf.keras.metrics.MeanAbsoluteError(name='train_abs_error')
     test_abs_error_d = tf.keras.metrics.MeanAbsoluteError(name='test_abs_error')
 
+    train_abs_error_a = tf.keras.metrics.MeanAbsoluteError(name='train_abs_error')
+    test_abs_error_a = tf.keras.metrics.MeanAbsoluteError(name='test_abs_error')
+
     train_summary_writer = tf.summary.create_file_writer(log_dir + "train/")
     test_summary_writer = tf.summary.create_file_writer(log_dir + "test/")
 
@@ -125,6 +138,9 @@ if __name__ == '__main__':
         train_abs_error_d.reset_states()
         test_abs_error_d.reset_states()
 
+        train_abs_error_a.reset_states()
+        test_abs_error_a.reset_states()
+
         train_progress_bar = Progbar(len(list(train_ds)), stateful_metrics=['Loss', 'Mean Abs. Error'])
         test_progress_bar = Progbar(len(list(test_ds)), stateful_metrics=['Loss', 'Mean Abs. Error'])
 
@@ -132,23 +148,27 @@ if __name__ == '__main__':
         for images, labels in train_ds:
             train_step(images, labels)
             values = [('Loss', train_loss.result()),
-                      ('Mean Abs. Error a', train_abs_error_d.result())]
+                      ('Mean Abs. Error d', train_abs_error_d.result()),
+                      ('Mean Abs. Error a', train_abs_error_a.result())]
             train_progress_bar.add(step + 1, values=values)
 
         with train_summary_writer.as_default():
             tf.summary.scalar('Loss', train_loss.result(), step=epoch)
-            tf.summary.scalar('Mean Abs. Error a', train_abs_error_d.result(), step=epoch)
+            tf.summary.scalar('Mean Abs. Error d', train_abs_error_d.result(), step=epoch)
+            tf.summary.scalar('Mean Abs. Error a', train_abs_error_a.result(), step=epoch)
 
         step = 0
         for test_images, test_labels in test_ds:
             test_step(test_images, test_labels)
             values = [('Loss', test_loss.result()),
-                      ('Mean Abs. Error a', test_abs_error_d.result())]
+                      ('Mean Abs. Error d', train_abs_error_d.result()),
+                      ('Mean Abs. Error a', test_abs_error_a.result())]
             test_progress_bar.add(step + 1, values=values)
 
         with test_summary_writer.as_default():
             tf.summary.scalar('Loss', test_loss.result(), step=epoch)
-            tf.summary.scalar('Mean Abs. Error a', test_abs_error_d.result(), step=epoch)
+            tf.summary.scalar('Mean Abs. Error d', train_abs_error_d.result(), step=epoch)
+            tf.summary.scalar('Mean Abs. Error a', test_abs_error_a.result(), step=epoch)
 
         end = tf.timestamp()
 

@@ -3,13 +3,13 @@ import os
 
 AUTOTUNE = tf.data.experimental.AUTOTUNE
 
-DATA_DIR = "/home/gandalf/ws/team/datasets/rand_tilekind/"
+DATA_DIR = "/home/gandalf/ws/team/datasets/pd/"
 
-ds_size = 79_994
+ds_size = 100_000
 
-TRAIN_CACHE_FILE = "/home/gandalf/ws/team/gym-duckietown/neural_perception/model/caches/train-rand_tilekind.tfcache"
-TEST_CACHE_FILE = "/home/gandalf/ws/team/gym-duckietown/neural_perception/model/caches/test-rand_tilekind.tfcache"
-VAL_CACHE_FILE = "/home/gandalf/ws/team/gym-duckietown/neural_perception/model/caches/val-rand_tilekind.tfcache"
+TRAIN_CACHE_FILE = "/home/gandalf/ws/team/gym-duckietown/neural_perception/model/caches/train-pd.tfcache"
+TEST_CACHE_FILE = "/home/gandalf/ws/team/gym-duckietown/neural_perception/model/caches/test-pd.tfcache"
+VAL_CACHE_FILE = "/home/gandalf/ws/team/gym-duckietown/neural_perception/model/caches/val-pd.tfcache"
 
 ORIG_IMG_SHAPE = (480, 640, 3)
 RESIZE_IMG_SHAPE = (120, 160, 3)
@@ -29,7 +29,7 @@ def get_label(file_path):
     file_name = parts[-1]
     label = tf.strings.regex_replace(input=file_name, pattern='\[|\]|.png', rewrite='')
     label = tf.strings.split(label)
-    label = tf.strings.to_number(label)
+    label = tf.strings.to_number(label)[:2]  # third value in label is tilekind, not used for training
     return label
 
 

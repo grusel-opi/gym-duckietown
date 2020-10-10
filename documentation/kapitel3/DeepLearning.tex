@@ -2,7 +2,7 @@
 
 \section{Was ist Deep Learning?}
 
-Unter \textbf{Deep Learning} (zu deutsch tiefes Lernen) versteht man ein Teilgebiet des maschinellen Lernens, welches sich mit künstlichen neuronalen Netzen und große Datenmengen befasst. Es eignet sich für eine Vielzahl von Anwendungsfällen wie beispielsweiße für selbstfahrende Autos, in der Medizin als auch im Marketing. \cite{datasolut2}\\
+Unter \textbf{Deep Learning} (zu deutsch tiefes Lernen) versteht man ein Teilgebiet des maschinellen Lernens, welches sich mit künstlichen neuronalen Netzen und große Datenmengen befasst. Es eignet sich für eine Vielzahl von Anwendungsfällen wie beispielsweise für selbstfahrende Autos, in der Medizin als auch im Marketing. \cite{datasolut2}\\
 
 Mit Deep Learning können Probleme gelöst werden, die ohne diese Ansätze nicht lösbar wären. Tiefes Lernen ist allerdings sehr rechenaufwändig, wodurch das Training über Monate hinweg andauern kann, um gute Entscheidungen treffen zu können. Gründe hierfür sind komplexe Architekturen sowie eine Vielzahl an Modell-Parametern. \cite{datasolut2} \\
 
@@ -30,11 +30,11 @@ Ein einfaches künstliches neuronales Netz besteht dabei aus einer \textbf{Einga
 	\quelle\url{https://datasolut.com/wp-content/uploads/2019/10/ku%CC%88nstliche-neuronale-Netze.jpg}
 \end{figure}
 
-Von tiefem Lernen spricht man dann, wenn die eingesetzen neuronalen Netzte mehr als eine Zwischenschicht haben.  \cite{datasolut2} 
+Von tiefem Lernen spricht man dann, wenn die eingesetzten neuronalen Netze mehr als eine Zwischenschicht haben.  \cite{datasolut2} 
 
 \section{Warum Deep Learning?}
 
-Es gibt Problemstellungen (wie beispielsweise die unstrukturierte Bilderkennung), die sich besonders gut mit künstlichen neuronalen Netzen lösen lassen. Das Erlernen dieser komplexen Muster ist jedoch mit klassischen Machine Leraning Algorithmen nur sehr schwer lösbar. Hier kommen dann tiefe künstliche neuronale Netze zum Einsatz. Je größer die Datenmenge ist, die zum lernen verwendet wird, desto besser funktioniert das tiefe Lernen. \cite{datasolut2}
+Es gibt Problemstellungen (wie beispielsweise die unstrukturierte Bilderkennung), die sich besonders gut mit künstlichen neuronalen Netzen lösen lassen. Das Erlernen dieser komplexen Muster ist jedoch mit klassischen Machine Learning Algorithmen nur sehr schwer lösbar. Hier kommen dann tiefe künstliche neuronale Netze zum Einsatz. Je größer die Datenmenge ist, die zum lernen verwendet wird, desto besser funktioniert das tiefe Lernen. \cite{datasolut2}
 
 \begin{figure}[H]
 	\centering
@@ -60,7 +60,7 @@ Beim maschinellen Lernen bzw. beim Deep Learning stehen drei unterschiedliche \t
 	
 \subsection{Bestärkendes Lernen (Reinforcment Learning)}
 
-	Anders als das überwachte bzw. unüberwachte Lernen nutzt das \textbf{besträkende Lernen} zunächst \textbf{keine Daten}, sondern diese enstehen in einer Simulationsumgebung nach einem \textbf{Versuch-und-Irrtum-Verfahren}. \cite{der-onliner_blogspot}
+	Anders als das überwachte bzw. unüberwachte Lernen nutzt das \textbf{bestärkende Lernen} zunächst \textbf{keine Daten}, sondern diese entstehen in einer Simulationsumgebung nach einem \textbf{Versuch-und-Irrtum-Verfahren}. \cite{der-onliner_blogspot}
 	
 \begin{figure}[H]
 	\centering
@@ -83,7 +83,7 @@ Der \textbf{Trainingsdatensatz} ist ein Beispieldatensatz der für das \textbf{L
 
 \subsection{Validierungsdatensatz}
 
-Der \textbf{Validierungsdatensatz} ist ebenso ein Beispieldatensatz, welcher für die \textbf{Abstimmung der Hyperparameter} des Modells des neuronalen Netzes verwendet wird. Dadurch wird das sognenannte \glqq Overfitting\grqq{} (Überanpassung) des Modells auf die Trainingsdaten verhindert. \cite{datasolut} \\
+Der \textbf{Validierungsdatensatz} ist ebenso ein Beispieldatensatz, welcher für die \textbf{Abstimmung der Hyperparameter} des Modells des neuronalen Netzes verwendet wird. Dadurch wird das sogenannte \glqq Overfitting\grqq{} (Überanpassung) des Modells auf die Trainingsdaten verhindert. \cite{datasolut} \\
 
 \subsection{Testdatensatz}
 
@@ -145,7 +145,7 @@ Einige Beispiele für Hyperparameter sind:
 		\hline
 		\textbf{Bezeichnung} & \textbf{Funktion} & \textbf{Plot} \\
 		\hline
-		\begin{tabular}{l} Idendität \end{tabular} &  
+		\begin{tabular}{l} Identität \end{tabular} &  
 		\begin{tabular}{l} $ f(x) = x $ \end{tabular} &
 		\begin{tabular}{l}
 			\addvbuffer[0.05cm]{\includegraphics[scale=0.5]{kapitel3/images/idendity.png}}
@@ -163,6 +163,14 @@ Einige Beispiele für Hyperparameter sind:
 			\addvbuffer[0.05cm]{\includegraphics[scale=0.5]{kapitel3/images/relu.png}}
 		\end{tabular} \\
 		\hline
+	\end{tabular}
+	\end{center}
+
+	\begin{center}
+	\begin{tabular}[t]{|c|c|c|}
+		\hline
+		\textbf{Bezeichnung} & \textbf{Funktion} & \textbf{Plot} \\
+		\hline
 		\begin{tabular}{l} ELu \end{tabular} &  
 		\begin{tabular}{l} $ f(\alpha, x) = \begin{cases} \alpha (e^x - 1) \quad \textrm{für} \ x \leq 0 \\ x \hspace{1.75cm} \textrm{für} \ x > 0 \end{cases} $ \end{tabular} &
 		\begin{tabular}{l}
@@ -171,7 +179,7 @@ Einige Beispiele für Hyperparameter sind:
 		\hline
 	\end{tabular}
 	\end{center}
-	
+
 \subsection{Verlustfunktion (loss function)}
 
 	Die \textbf{Verlustfunktion} wird zur \textbf{Berechnung des Fehlers} zwischen den realen Ergebnissen und erhaltenen Antworten des künstlichen neuronalen Netzes verwendet. Das Ziel des Lernprozesses ist die \textbf{Minimierung} dieser Fehler.  \cite{ai-united} \\
@@ -204,7 +212,7 @@ Einige Beispiele für Hyperparameter sind:
 
 \subsection{Fehlerrückführung (Backpropagation)}
 
-	Bei der \textbf{Fehlerrückführung} wird die Antwort des künstlichen neuronalen Netes mit dem gewünschten Ergebnis verglichen. Dabei wird der Fehler bestimmt und dieser wird anschließend \textbf{rückwärtig} in das Netz gespeist, wodurch die Gewichte der Neuronen so angepasst werden, dass der Fehler immer \textbf{kleiner} wird. In der Praxis werden dafür verschiedene \textbf{Optimierungsstrategien} eingesetzt. \cite{rocketloop}
+	Bei der \textbf{Fehlerrückführung} wird die Antwort des künstlichen neuronalen Netzes mit dem gewünschten Ergebnis verglichen. Dabei wird der Fehler bestimmt und dieser wird anschließend \textbf{rückwärtig} in das Netz gespeist, wodurch die Gewichte der Neuronen so angepasst werden, dass der Fehler immer \textbf{kleiner} wird. In der Praxis werden dafür verschiedene \textbf{Optimierungsstrategien} eingesetzt. \cite{rocketloop}
 	
 \subsubsection{Optimierungsstrategien (Optimizer)}
 
@@ -246,7 +254,7 @@ Es gibt eine Vielzahl von künstlichen neuronalen Netzwerk-Architekturen. Im fol
 
 \subsection{Perceptron}
 
-	Ein \textbf{Perceptron} ist das einfachste künstliche neuronale Netz. Es nimmt die Eingabeparameter entgegen, addiert diese, wendet die Aktivierungsfunktion an und schickt das Ergebnis an die Ausgabeschicht. Das Ergebnis ist hierbei binär und somit vergleichbar mit einer Ja- bzw. Nein-Entscheidung. Die Entscheidung erfolgt dadurch, dass der Wert der Aktivierungsfunktion mit einem Schwellwert verglichen wird. Wird der Schwellwert unterschritten, so wird dem Ergebnis 0 zugeordnet und bei einer Überschreitung des Schwellwertss wird dem Ergebnis 1 zugeordnet.
+	Ein \textbf{Perceptron} ist das einfachste künstliche neuronale Netz. Es nimmt die Eingabeparameter entgegen, addiert diese, wendet die Aktivierungsfunktion an und schickt das Ergebnis an die Ausgabeschicht. Das Ergebnis ist hierbei binär und somit vergleichbar mit einer Ja- bzw. Nein-Entscheidung. Die Entscheidung erfolgt dadurch, dass der Wert der Aktivierungsfunktion mit einem Schwellwert verglichen wird. Wird der Schwellwert unterschritten, so wird dem Ergebnis 0 zugeordnet und bei einer Überschreitung des Schwellwerts wird dem Ergebnis 1 zugeordnet.
 	
 	\begin{figure}[H]
 		\centering
@@ -280,11 +288,11 @@ Es gibt eine Vielzahl von künstlichen neuronalen Netzwerk-Architekturen. Im fol
 		\quelle\url{https://de.wikipedia.org/wiki/Convolutional_Neural_Network#/media/Datei:Typical_cnn.png}
 	\end{figure}
 	
-	Der Unterschied zu den klassischen künstlicehn neuronalen Netzen liegt in der Architektur der CNNs: Die Zwischenschicht basiert hierbei auf einer Abfolge von Faltungs- und Poolingoperationen. Bei der Faltung wird ein sogenannter Faltungskernel über die Daten geschoben und das Ergebnis der Faltungsoperation wird berechnet. Anschließend werden die Neuronen aktualisiert. Die nachfolgende Poolingoperation sorgt dann dafür, dass die Ergebnisse vereinfacht werden. Dadurch bleiben nur die wichtigsten Informationen erhalten.	Des Weiternen wird dadurch erreicht, dass die 2D- oder 3D-Eingangsdaten kleiner werden. \cite{datasolut4} 
+	Der Unterschied zu den klassischen künstlichen neuronalen Netzen liegt in der Architektur der CNNs: Die Zwischenschicht basiert hierbei auf einer Abfolge von Faltungs- und Poolingoperationen. Bei der Faltung wird ein sogenannter Faltungskernel über die Daten geschoben und das Ergebnis der Faltungsoperation wird berechnet. Anschließend werden die Neuronen aktualisiert. Die nachfolgende Poolingoperation sorgt dann dafür, dass die Ergebnisse vereinfacht werden. Dadurch bleiben nur die wichtigsten Informationen erhalten.	Des Weiteren wird dadurch erreicht, dass die 2D- oder 3D-Eingangsdaten kleiner werden. \cite{datasolut4} 
 
 \subsection{Recurrent Neural Networks (RNNs)}
 
-	Bei den Recurrent Neural Networks (RNNs) werden der Netzstruktur wiederkehrende Zellen hinzugefügt, wodurch das Netz eine Art  Gedächtnis erhält. \cite{datasolut4} \\ 
+	Bei den \textbf{Recurrent Neural Networks} (RNNs) werden der Netzstruktur wiederkehrende Zellen hinzugefügt, wodurch das Netz eine Art  Gedächtnis erhält. \cite{datasolut4} \\ 
 	
 	\begin{figure}[H]
 		\centering

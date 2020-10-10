@@ -2,10 +2,12 @@
 from __future__ import division
 
 from collections import namedtuple
+from scipy.spatial.transform import Rotation
 from ctypes import POINTER
 from dataclasses import dataclass
 from typing import Tuple
 import geometry
+
 
 @dataclass
 class DoneRewardInfo:
@@ -66,7 +68,7 @@ WHEEL_DIST = 0.102
 # Total robot width at wheel base, used for collision detection
 # Note: the actual robot width is 13cm, but we add a litte bit of buffer
 #       to faciliate sim-to-real transfer.
-ROBOT_WIDTH = 0.13  + 0.02
+ROBOT_WIDTH = 0.13 + 0.02
 
 # Total robot length
 # Note: the center of rotation (between the wheels) is not at the
@@ -277,8 +279,6 @@ class Simulator(gym.Env):
         # Array to render the image into (for human rendering)
         self.img_array_human = np.zeros(shape=(WINDOW_HEIGHT, WINDOW_WIDTH, 3), dtype=np.uint8)
 
-        
-
         # allowed angle in lane for starting position
         self.accept_start_angle_deg = accept_start_angle_deg
 
@@ -410,7 +410,7 @@ class Simulator(gym.Env):
         self.cam_fov_y = self._perturb(CAMERA_FOV_Y, 0.2)
 
         # Camera offset for use in free camera mode
-        self.cam_offset = np.array([0, 0, 0])
+        self.cam_offset = np.array([0, 0, 0], dtype=float)
 
         # Create the vertex list for the ground/noise triangles
         # These are distractors, junk on the floor
@@ -448,13 +448,13 @@ class Simulator(gym.Env):
 
         # If the map specifies a starting tile
         if self.user_tile_start:
-            logger.info('using user tile start: %s' % self.user_tile_start)
+            # logger.info('using user tile start: %s' % self.user_tile_start)
             i, j = self.user_tile_start
             tile = self._get_tile(i, j)
             if tile is None:
                 msg = 'The tile specified does not exist.'
                 raise Exception(msg)
-            logger.debug('tile: %s' % tile)
+            # logger.debug('tile: %s' % tile)
         else:
             if self.start_tile is not None:
                 tile = self.start_tile
@@ -464,7 +464,6 @@ class Simulator(gym.Env):
                 tile = self.drivable_tiles[tile_idx]
 
         # Keep trying to find a valid spawn position on this tile
-
 
         for _ in range(MAX_SPAWN_ATTEMPTS):
             i, j = tile['coords']
@@ -513,7 +512,7 @@ class Simulator(gym.Env):
         self.cur_pos = propose_pos
         self.cur_angle = propose_angle
 
-        logger.info('Starting at %s %s' % (self.cur_pos, self.cur_angle))
+        # logger.info('Starting at %s %s' % (self.cur_pos, self.cur_angle))
 
         # Generate the first camera image
         obs = self.render_obs()
@@ -1034,6 +1033,7 @@ class Simulator(gym.Env):
 
         return point, tangent
 
+    # TODO: wrong comments -> github issue?
     def get_lane_pos2(self, pos, angle):
         """
         Get the position of the agent relative to the center of the right lane
@@ -1055,6 +1055,7 @@ class Simulator(gym.Env):
         dotDir = np.dot(dirVec, tangent)
         dotDir = max(-1, min(1, dotDir))
 
+        # TODO: WRONG! right > 0, left < 0
         # Compute the signed distance to the curve
         # Right of the curve is negative, left is positive
         posVec = pos - point
@@ -1062,6 +1063,7 @@ class Simulator(gym.Env):
         rightVec = np.cross(tangent, upVec)
         signedDist = np.dot(posVec, rightVec)
 
+        # TODO: WRONG! right > 0, left < 0
         # Compute the signed angle between the direction and curve tangent
         # Right of the tangent is negative, left is positive
         angle_rad = math.acos(dotDir)
@@ -1074,6 +1076,44 @@ class Simulator(gym.Env):
 
         return LanePosition(dist=signedDist, dot_dir=dotDir, angle_deg=angle_deg,
                             angle_rad=angle_rad)
+
+    def get_own_lane_pos(self, pos, angle):
+        point, tangent = self.closest_curve_point(pos, angle)
+        if point is None:
+            msg = 'Point not in lane: %s' % pos
+            raise NotInLane(msg)
+
+        assert point is not None
+
+        track_width = 0.4
+        a = track_width / 2
+        rot = Rotation.from_rotvec(np.radians(-90) * np.array([0, 1, 0]))
+        rot_tangent = rot.apply(tangent * a)
+        new_point = point + rot_tangent
+
+        dir_vec = get_dir_vec(angle)
+        dot_dir = np.dot(dir_vec, tangent)
+        dot_dir = max(-1, min(1, dot_dir))
+
+        # Compute the signed distance to the curve
+        # Right of the curve is negative, left is positive
+        new_pos_vec = new_point - pos
+        pos_vec = pos - point
+        up_vec = np.array([0, 1, 0])
+        right_vec = np.cross(tangent, up_vec)
+        signed_dist_egde = np.dot(new_pos_vec, right_vec)
+        signed_dist_center = np.dot(pos_vec, right_vec)
+
+        # Compute the signed angle between the direction and curve tangent
+        # Right of the tangent is negative, left is positive
+        angle_rad = math.acos(dot_dir)
+
+        if np.dot(dir_vec, right_vec) < 0:
+            angle_rad *= -1
+
+        angle_deg = np.rad2deg(angle_rad)
+
+        return LanePosition(dist=signed_dist_egde, dot_dir=dot_dir, angle_deg=angle_deg, angle_rad=angle_rad)
 
     def _drivable_pos(self, pos):
         """
@@ -1294,7 +1334,6 @@ class Simulator(gym.Env):
         # cp = [gx, (grid_height - 1) * tile_size - gz]
         cp = [gx, grid_height * tile_size - gz]
 
-
         return geometry.SE2_from_translation_angle(cp, angle)
 
     def weird_from_cartesian(self, q: np.ndarray) -> Tuple[list, float]:
@@ -1373,7 +1412,7 @@ class Simulator(gym.Env):
             done_code = 'in-progress'
         return DoneRewardInfo(done=done, done_why=msg, reward=reward, done_code=done_code)
 
-    def _render_img(self, width, height, multi_fbo, final_fbo, img_array, top_down=True):
+    def _render_img(self, width, height, multi_fbo, final_fbo, img_array, top_down=True, own_cps=None):
         """
         Render an image of the environment into a frame buffer
         Produce a numpy RGB array image as output
@@ -1414,7 +1453,7 @@ class Simulator(gym.Env):
         # Note: we add a bit of noise to the camera position for data augmentation
         pos = self.cur_pos
         angle = self.cur_angle
-        logger.info('Pos: %s angle %s' % (self.cur_pos, self.cur_angle))
+        # logger.info('Pos: %s angle %s' % (self.cur_pos, self.cur_angle))
         if self.domain_rand:
             pos = pos + self.randomization_settings['camera_noise']
             
@@ -1521,6 +1560,9 @@ class Simulator(gym.Env):
                             continue
                         bezier_draw(pt, n=20)
 
+        if own_cps is not None:
+            bezier_draw(own_cps)
+
         # For each object
         for idx, obj in enumerate(self.objects):
             obj.render(self.draw_bbox)
@@ -1600,7 +1642,7 @@ class Simulator(gym.Env):
 
         return observation
 
-    def render(self, mode='human', close=False):
+    def render(self, mode='human', close=False, own_cps=None):
         """
         Render the environment for human viewing
         """
@@ -1618,7 +1660,8 @@ class Simulator(gym.Env):
                 self.multi_fbo_human,
                 self.final_fbo_human,
                 self.img_array_human,
-                top_down=top_down
+                top_down=top_down,
+                own_cps=own_cps
         )
 
         # self.undistort - for UndistortWrapper

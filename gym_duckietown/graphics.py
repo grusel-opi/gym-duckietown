@@ -234,10 +234,10 @@ def bezier_point(cps, t):
     B(t) = (1-t)^3 * P0 + 3t(1-t)^2 * P1 + 3t^2(1-t) * P2 + t^3 * P3
     """
 
-    p  = ((1-t)**3) * cps[0,:]
-    p += 3 * t * ((1-t)**2) * cps[1,:]
-    p += 3 * (t**2) * (1-t) * cps[2,:]
-    p += (t**3) * cps[3,:]
+    p  = ((1-t)**3) * cps[0, :]
+    p += 3 * t * ((1-t)**2) * cps[1, :]
+    p += 3 * (t**2) * (1-t) * cps[2, :]
+    p += (t**3) * cps[3, :]
 
     return p
 
@@ -272,6 +272,7 @@ def bezier_closest(cps, p, t_bot=0, t_top=1, n=8):
         return bezier_closest(cps, p, t_bot, mid, n-1)
 
     return bezier_closest(cps, p, mid, t_top, n-1)
+
 
 def bezier_draw(cps, n = 20, red=False):
     from pyglet import gl

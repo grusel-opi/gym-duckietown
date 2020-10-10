@@ -1,12 +1,18 @@
 pyglet
-gym>=0.9.0
-numpy>=1.10.0
+gym
+numpy
 
-pyzmq>=16.0.0
+pyzmq
 scikit-image>=0.13.1
-opencv-python>=3.4
-pyyaml>=3.11
+opencv-python
+pyyaml
 cloudpickle
 duckietown_slimremote>=2018.8.2
 pygeometry
 dataclasses
+
+Pillow
+setuptools
+matplotlib
+tensorflow
+scipy

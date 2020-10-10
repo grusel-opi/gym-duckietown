@@ -1,0 +1,38 @@
+\documentclass[11pt,a4paper,toc=listof,bibliography=totoc]{scrreprt}
+
+\input{preamble/packete}
+\input{preamble/optionen}
+\input{preamble/variablen}
+
+\begin{document}
+%% Nummerierung aus
+\pagenumbering{gobble}
+
+% HTWG Templates fuer Titelseite etc.
+\include{htwg/cover}
+\pagenumbering{Roman}
+\tableofcontents
+\addcontentsline{toc}{chapter}{Inhaltsverzeichnis}
+\input{preamble/acronym}
+
+\clearpage
+%% Starte Paginierung
+\pagenumbering{arabic}
+
+\include{kapitel1/Einleitung}
+
+\include{kapitel2/DuckieTown}
+
+\include{kapitel3/DeepLearning}
+
+\include{kapitel4/Vorgehensweise}
+
+\include{kapitel5/Ergebnisse}
+
+\include{kapitel6/Fazit}
+\listoffigures
+\lstlistoflistings
+\bibliographystyle{unsrt}
+\bibliography{citeulike} 
+\end{document}
+

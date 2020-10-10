@@ -14,7 +14,7 @@ from gym_duckietown.envs import DuckietownEnv
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--env-name', default=None)
-parser.add_argument('--map-name', default='udem1')
+parser.add_argument('--map-name', default='own_test')
 parser.add_argument('--no-pause', action='store_true', help="don't pause on failure")
 args = parser.parse_args()
 
@@ -22,7 +22,7 @@ if args.env_name is None:
     env = DuckietownEnv(
         map_name = args.map_name,
         domain_rand = False,
-        draw_bbox = False
+        draw_bbox = False,
     )
 else:
     env = gym.make(args.env_name)
@@ -37,6 +37,8 @@ while True:
     lane_pose = env.get_lane_pos2(env.cur_pos, env.cur_angle)
     distance_to_road_center = lane_pose.dist
     angle_from_straight_in_rads = lane_pose.angle_rad
+
+    print(env.cur_pos, env.cur_angle)
 
     ###### Start changing the code here.
     # TODO: Decide how to calculate the speed and direction.

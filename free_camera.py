@@ -13,6 +13,7 @@ import gym
 import gym_duckietown
 from gym_duckietown.envs import DuckietownEnv
 from gym_duckietown.simulator import Simulator
+from PIL import Image
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--env-name', default=None)
@@ -69,19 +70,23 @@ def on_key_press(symbol, modifiers):
         cam_angle[2] += 5
     elif symbol == key.UP:
         if modifiers:  # Mod+Up for height
-            cam_offset[1] += .1
+            cam_offset[1] += 0.5
         else:
-            cam_offset[0] += .1
+            cam_offset[0] += 0.5
     elif symbol == key.DOWN:
         if modifiers:  # Mod+Down for height
-            cam_offset[1] -= .1
+            cam_offset[1] -= 0.5
         else:
-            cam_offset[0] -= .1
+            cam_offset[0] -= 0.5
     elif symbol == key.LEFT:
-        cam_offset[2] -= .1
+        cam_offset[2] -= 0.5
     elif symbol == key.RIGHT:
-        cam_offset[2] += .1
+        cam_offset[2] += 0.5
+    elif symbol == key.RETURN:
+        im = Image.fromarray(obs)
+        im.save('screen.png')
 
+    print(cam_offset)
     # Take a screenshot
     # UNCOMMENT IF NEEDED - Skimage depencency
     # elif symbol == key.RETURN:

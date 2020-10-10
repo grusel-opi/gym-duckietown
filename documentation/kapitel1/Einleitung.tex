@@ -27,19 +27,28 @@ für Navigation und Lokalisierung mit dem Duckietown-Simulator\\
 
 \noindent Nach einer Einarbeitung in die Fähigkeiten des Simulators sollen Algorithmen für die
 Linienverfolgung, Lokalisierung mit einem Partikelfilter bei bekannter Umgebungskarte,
-Navigation (Planung, Wegeverfolgung und Hindernisvermeidung) realisiert werden. Ein Multi-
-Vehicle-Szenario soll berücksichtigt werden. Optional können auch KI-Komponenten für
+Navigation (Planung, Wegeverfolgung und Hindernisvermeidung) realisiert werden. Optional können auch KI-Komponenten für
 Fahrverhalten und Erkennung von Verkehrszeichen entwickelt werden. Hierzu sollen neue
 Techniken wie Deep Neural Networks und Deep Reinforcement Learning zum Einsatz
 kommen.\\
 
-\noindent Das Projekt, das für etwa 2-4 Personen vorgesehen ist, soll in Python realisiert werden.
+\noindent Das Projekt, das für etwa 4-6 Personen in zwei bis drei Teams vorgesehen ist, soll in Python realisiert werden.
 Eventuell kommt das \acf{ros} zum Einsatz.
 
 \newpage
 
 \section{Aufgabenstellung}
 
-Das Ziel des Teamprojekts war es, die relative Position eines DuckieBots im Bezug zur rechten Fahrbahnmarkierung eines Straßenabschnittes im DuckieTown-Simulator zu ermitteln. Die relative Position beinhaltet hierbei den Abstand $d$ zur Seitenmarkierung, sowie die Orientierung $\Theta$ zu dieser. Dabei soll ein Deep Learning Ansatz zum Einsatz kommen, um die Position des DuckieBots inferieren zu können. \\
+Das Ziel unseres Teams ist die Auswertung der Kamerabilder eines Agenten in einer Duckietown-Umgebung. Mit den daraus gewonnenen Informationen soll der Agent in der Lage sein, vollständig autonom die Fahrspur halten zu können. Benötigt wird daher ein System, welches anhand einer Kameraaufnahme Steuerbefehle für den Agenten berechnet.
 
-Die ermittelte relative Position kann dann für die Lokalisation (z.B. mittels Partikel-Filter) des DuckieBots verwendet werden, sowie für die autonome Steuerung (beispielsweise mittels PID-Regler).
+Ein weiteres mögliches Ziel ist die Nutzung der Informationen zur Lokalisierung des Agenten. Über Odometrie kann die Orientierung relativ zur Startpose geschätzt werden. Weißt die Trajektorie über einen gewissen Zeitraum eine Änderung der Orientierung von etwa 90 bzw. 270 Grad auf, kann davon ausgegangen werden, dass der Agent eine Kurve durchfahren hat. Ist außerdem die Umgebungskarte bekannt, kann mit Hilfe eines Monte-Carlo-Verfahrens der Agent global lokalisiert werden.\\
+
+Wir werden zur Berechnung des Steuerbefehls auf zwei Ansätze eingehen:
+
+\begin{itemize}
+	\item Inferenz der Pose des Agenten:\\
+	Aus der Aufnahme wird zunächst die relative Pose des Agenten zur Fahrspur inferiert. Diese besteht aus dem kürzesten Abstand $d$ zu einer Straßenmarkierung, sowie aus der Winkeldifferenz $\Theta$ zwischen Orientierung des Agenten und der Fahrbahn. Diese Werte werden dann mit einem PID-Regler konstant gehalten.\\
+	Dieser Ansatz hat den Vorteil, dass die Poseninformationen außerdem noch für die schnellere Lokalisierung des Agenten genutzt werden können, da das Durchfahren einer Kurve von dem Fahren von Schlangenlinien unterschieden werden kann, wenn die Steuerbefehle mit $d$ abgeglichen werden.
+	\item Direkte Inferenz des Steuerbefehls:\\
+	Der weiter verbreitete Ansatz der direkten Inferenz übergeht die Schätzung der Pose. Da für einen optimalen Steuerbefehl mehr Informationen nützlich sind als $d$ und $\Theta$, ist dieser Ansatz ebenfalls vielversprechend. So kann ein Expertensystem für Steuerbefehle beispielsweise den weiteren Verlauf der Spur berücksichtigen, konkret die Winkeldifferenz zwischen der aktuellen Orientierung des Agenten und der Orientierung der Fahrspur an einem kommenden Zielpunkt.
+\end{itemize}

@@ -27,8 +27,9 @@ Bei diesem Ansatz wird der DuckieBot ebenfalls mit Hilfe eines PID-Reglers (wie 
 \subsection{Netzwerkarchitektur}
 
 Unsere Netzwerkarchitektur besteht aus 12 Schichten: einer Normalisierungsschicht, fünf Faltunsschichten, 2 Dropoutschichten, einer Flattenschicht und drei Fully-Connected-Schichten.
+Eine schematische Darstellung der Netzarchitektur ist in Abbildung \ref{network-architecture} dargestellt. \\
 
-Das Netzwerk nimmt das  Kamerabild des DuckieBots als Eingabe entgegen, wobei das obere drittel des Kamerabildes entfernt wurde. Dies hat den Vorteil, dass somit nur die relevanten Informationen für das Netzwerk im Kamerabild enthalten sind, wodurch sich das Training des Netzwerks verbessert. Das Netzwerk verarbeitet dann das eingehende Kamerabild und liefert anschließend die geschätze Pose, bestehend aus dem kürzestem Abstand $d$ zur rechten Fahrbahnmarkierung sowie der Winkeldifferenz $\Theta$ zwischen Orientierung des DuckieBots und der Fahrbahn. Eine schematsche Darstellung der Netzarchitektur ist in Abbildung \ref{network-architecture} dargestellt. \\
+Das Netzwerk nimmt das  Kamerabild des DuckieBots als Eingabe entgegen, wobei das obere drittel des Kamerabildes entfernt wurde. Dies hat den Vorteil, dass somit nur die relevanten Informationen für das Netzwerk im Kamerabild enthalten sind, wodurch sich das Training des Netzwerks verbessert. Das Netzwerk verarbeitet dann das eingehende Kamerabild und liefert anschließend die geschätze Pose, bestehend aus dem kürzestem Abstand $d$ zur rechten Fahrbahnmarkierung sowie der Winkeldifferenz $\Theta$ zwischen Orientierung des DuckieBots und der Fahrbahn. \\ 
 
 \subsection{Normalisierungsschicht}
 Die Grundidee der Normalisierungsschicht besteht darin, die Ausgabe einer Aktivierungsschicht zu normalisieren, wodurch die Konvergenz während des Trainingsprozesses verbessert wird. \cite{tensorflow} \\

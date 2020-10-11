@@ -2,7 +2,7 @@
 
 \section{Was ist Deep Learning?}
 
-Unter \textbf{Deep Learning} (zu deutsch tiefes Lernen) versteht man ein Teilgebiet des maschinellen Lernens, welches sich mit künstlichen neuronalen Netzen und große Datenmengen befasst. Es eignet sich für eine Vielzahl von Anwendungsfällen wie beispielsweise für selbstfahrende Autos, in der Medizin als auch im Marketing. \cite{datasolut2}\\
+Unter Deep Learning (zu deutsch tiefes Lernen) versteht man ein Teilgebiet des maschinellen Lernens, welches sich mit künstlichen neuronalen Netzen und große Datenmengen befasst. Es eignet sich für eine Vielzahl von Anwendungsfällen wie beispielsweise für selbstfahrende Autos, in der Medizin als auch im Marketing. \cite{datasolut2}\\
 
 Mit Deep Learning können Probleme gelöst werden, die ohne diese Ansätze nicht lösbar wären. Tiefes Lernen ist allerdings sehr rechenaufwändig, wodurch das Training über Monate hinweg andauern kann, um gute Entscheidungen treffen zu können. Gründe hierfür sind komplexe Architekturen sowie eine Vielzahl an Modell-Parametern. \cite{datasolut2} \\
 
@@ -18,7 +18,7 @@ Die Grundlage des Deep Learnings stellt die Verwendung von künstlichen neuronal
 
 \newpage
 
-Ein einfaches künstliches neuronales Netz besteht dabei aus einer \textbf{Eingabeschicht} (Input Layer), einer \textbf{Zwischenschicht} (Hidden Layer) und einer \textbf{Ausgabeschicht} (Output Layer). \cite{datasolut2}
+Ein einfaches künstliches neuronales Netz besteht dabei aus einer Eingabeschicht (Input Layer), einer Zwischenschicht (Hidden Layer) und einer Ausgabeschicht (Output Layer). \cite{datasolut2}
 
 \begin{figure}[H]
 	\centering
@@ -46,20 +46,20 @@ Es gibt Problemstellungen (wie beispielsweise die unstrukturierte Bilderkennung)
 
 \section{Lernverfahren}
 
-Beim maschinellen Lernen bzw. beim Deep Learning stehen drei unterschiedliche \textbf{Lernverfahren} zur Verfügung:
+Beim maschinellen Lernen bzw. beim Deep Learning stehen drei unterschiedliche Lernverfahren zur Verfügung:
 
 \subsection{Überwachtes Lernen (Supervised Learning)}
 
-	Das \textbf{überwachte Lernen} nutzt für den Lernprozess \textbf{bekannte Daten}, um daraus Muster und Zusammenhänge zu erkennen. Die Muster werden  anhand eines \textbf{Trainingsdatensatzes} (Beispieldaten) erlernt. Dabei wird der Zusammenhang zu einer Zielvariable erlernt und es wird versucht diese richtig vorherzusagen. \cite{datasolut3}
+	Das überwachte Lernen nutzt für den Lernprozess bekannte Daten, um daraus Muster und Zusammenhänge zu erkennen. Die Muster werden  anhand eines Trainingsdatensatzes (Beispieldaten) erlernt. Dabei wird der Zusammenhang zu einer Zielvariable erlernt und es wird versucht diese richtig vorherzusagen. \cite{datasolut3}
 
 \subsection{Unüberwachtes Lernen (Unsupervised Learning)}
 
-	Das \textbf{unüberwachte Lernen} nutzt für den Lernprozess keine Beispieldaten, sondern \textbf{Rohdaten}, aus denen eigenständig Muster erkannt werden sollen. \\
+	Das unüberwachte Lernen nutzt für den Lernprozess keine Beispieldaten, sondern Rohdaten, aus denen eigenständig Muster erkannt werden sollen. \\
 	Der hauptsächliche Unterschied zum überwachten Lernen ist also, dass das unüberwachte Lernen nicht dafür ausgelegt ist, eine Vorhersage für eine bekannte Zielvariable zu treffen. \cite{datasolut3}
 	
 \subsection{Bestärkendes Lernen (Reinforcment Learning)}
 
-	Anders als das überwachte bzw. unüberwachte Lernen nutzt das \textbf{bestärkende Lernen} zunächst \textbf{keine Daten}, sondern diese entstehen in einer Simulationsumgebung nach einem \textbf{Versuch-und-Irrtum-Verfahren}. \cite{der-onliner_blogspot}
+	Anders als das überwachte bzw. unüberwachte Lernen nutzt das bestärkende Lernen zunächst keine Daten, sondern diese entstehen in einer Simulationsumgebung nach einem Versuch-und-Irrtum-Verfahren. \cite{der-onliner_blogspot}
 	
 \begin{figure}[H]
 	\centering
@@ -74,23 +74,23 @@ Welches Lernverfahren schlussendlich eingesetzt wird, hängt hierbei vom Anwendu
 
 \section{Datensatz}
 
-Damit ein künstliches neuronales Netz mit überwachtem Lernen, seine Aufgabe erfüllen kann, muss zunächst ein \textbf{Datensatz} erstellt werden, damit das Netz trainiert werden kann. Der Datensatz besteht dabei aus einem \textbf{Trainingsdatensatz}, einem \textbf{Validierungsdatensatz} sowie aus einem \textbf{Testdatensatz}. \\
+Damit ein künstliches neuronales Netz mit überwachtem Lernen, seine Aufgabe erfüllen kann, muss zunächst ein Datensatz erstellt werden, damit das Netz trainiert werden kann. Der Datensatz besteht dabei aus einem Trainingsdatensatz, einem Validierungsdatensatz sowie aus einem Testdatensatz. \\
 
 \subsection{Trainingsdatensatz}
 
-Der \textbf{Trainingsdatensatz} ist ein Beispieldatensatz der für das \textbf{Lernen} der Muster und Zusammenhänge in den Daten verwendet wird. Das Modell des neuronalen Netz nutzt also diese Daten um zu lernen. \cite{datasolut} \\
+Der Trainingsdatensatz ist ein Beispieldatensatz der für das Lernen der Muster und Zusammenhänge in den Daten verwendet wird. Das Modell des neuronalen Netz nutzt also diese Daten um zu lernen. \cite{datasolut} \\
 
 \subsection{Validierungsdatensatz}
 
-Der \textbf{Validierungsdatensatz} ist ebenso ein Beispieldatensatz, welcher für die \textbf{Abstimmung der Hyperparameter} des Modells des neuronalen Netzes verwendet wird. Dadurch wird das sogenannte \glqq Overfitting\grqq{} (Überanpassung) des Modells auf die Trainingsdaten verhindert. \cite{datasolut} \\
+Der Validierungsdatensatz ist ebenso ein Beispieldatensatz, welcher für die Abstimmung der Hyperparameter des Modells des neuronalen Netzes verwendet wird. Dadurch wird das sogenannte \glqq Overfitting\grqq{} (Überanpassung) des Modells auf die Trainingsdaten verhindert. \cite{datasolut} \\
 
 \subsection{Testdatensatz}
 
-Der \textbf{Testdatensatz} ist ebenfalls ein Beispieldatensatz, jedoch sind die Daten von den Trainingsdaten unabhängig. Die Testdaten werden beim Training des neuronalen Netzes nicht benutzt, sondern dienen zur abschließenden \textbf{Verifikation} des Modells. Dadurch kann die Qualität des Modell erfasst werden, damit man eine Aussage über die Leistungsfähigkeit des neuronalen Netzes treffen kann. \cite{datasolut} \\
+Der Testdatensatz ist ebenfalls ein Beispieldatensatz, jedoch sind die Daten von den Trainingsdaten unabhängig. Die Testdaten werden beim Training des neuronalen Netzes nicht benutzt, sondern dienen zur abschließenden Verifikation des Modells. Dadurch kann die Qualität des Modell erfasst werden, damit man eine Aussage über die Leistungsfähigkeit des neuronalen Netzes treffen kann. \cite{datasolut} \\
 
 \section{Funktionsweise und Aufbau künstlicher neuronaler Netze}
 
-Die \textbf{Neuronen} (Knotenpunkte) eines künstlichen neuronalen Netzes sind \textbf{schichtweise} angeordnet. Diese werden normalerweise in einer festen Hierarchie miteinander verbunden. Die Neuronen sind dabei im Regelfall zwischen zwei Schichten verbunden, jedoch in Ausnahmefällen aber auch innerhalb einer Schicht. \cite{jaai} \\
+Die Neuronen (Knotenpunkte) eines künstlichen neuronalen Netzes sind schichtweise angeordnet. Diese werden normalerweise in einer festen Hierarchie miteinander verbunden. Die Neuronen sind dabei im Regelfall zwischen zwei Schichten verbunden, jedoch in Ausnahmefällen aber auch innerhalb einer Schicht. \cite{jaai} \\
 
 Die Informationen fließen beginnend mit der Eingabeschicht über eine oder mehrere Zwischenschichten bis hin zur Ausgabeschicht. Dabei ist der Ausgabewert eines Neurons der Eingabewert des nächsten Neurons. \cite{jaai} \\
 
@@ -99,23 +99,23 @@ Die Anzahl der Schichten die in einem künstlichen neuronalen Netz verwendet wer
 
 \subsection{Eingabeschicht (input layer)}
 	
-	Die \textbf{Eingabeschicht} definiert den \textbf{Startpunkt} des Informationsflusses in einem künstlichen neuronalen Netz. Die Eingangssignale werden dabei von den Neuronen am Anfang dieser Schicht entgegengenommen und am Ende gewichtet an die Neuronen der ersten Zwischenschicht weitergegeben. \cite{jaai}
+	Die Eingabeschicht definiert den Startpunkt des Informationsflusses in einem künstlichen neuronalen Netz. Die Eingangssignale werden dabei von den Neuronen am Anfang dieser Schicht entgegengenommen und am Ende gewichtet an die Neuronen der ersten Zwischenschicht weitergegeben. \cite{jaai}
 	
 \subsection{Zwischenschichten (hidden layer)}
 
-	\textbf{Zwischen} der Eingabe- und der Ausgabeschicht befindet sich mindestens eine \textbf{Zwischenschicht}. Je \textbf{mehr} Zwischenschichten ein künstliches neuronales Netz besitzt, desto \textbf{tiefer} ist das Netz, jedoch bewirkt jede weitere hinzukommende Zwischenschicht auch einen Anstieg der benötigten Rechenleistung. \cite{jaai}
+	Zwischen der Eingabe- und der Ausgabeschicht befindet sich mindestens eine Zwischenschicht. Je mehr Zwischenschichten ein künstliches neuronales Netz besitzt, desto tiefer ist das Netz, jedoch bewirkt jede weitere hinzukommende Zwischenschicht auch einen Anstieg der benötigten Rechenleistung. \cite{jaai}
 	
 \subsection{Ausgabeschicht (output layer)}
 
-	Die \textbf{Ausgabeschicht} bildet die \textbf{letzte} Schicht eines künstlichen neuronalen Netzes, wobei diese sich hinter den Zwischenschichten befindet. Sie stellt das \textbf{Ende} des Informationsflusses eines künstlichen neuronalen Netz dar und enthält das \textbf{Ergebnis} der Informationsverarbeitung. \cite{jaai}
+	Die Ausgabeschicht bildet die letzte Schicht eines künstlichen neuronalen Netzes, wobei diese sich hinter den Zwischenschichten befindet. Sie stellt das Ende des Informationsflusses eines künstlichen neuronalen Netz dar und enthält das Ergebnis der Informationsverarbeitung. \cite{jaai}
 	
 \subsection{Modellparameter}
 
-Die \textbf{Modellparameter} eines künstlichen neuronalen Netzes werden beim Training des Netzes \textbf{selbständig} erlernt. Basierend auf bereits vorhandenen Parametern trainiert der Trainingsalgorithmus und versucht dadurch, die Modellparameter immer weiter zu verbessern. \cite{divis}
+Die Modellparameter eines künstlichen neuronalen Netzes werden beim Training des Netzes selbständig erlernt. Basierend auf bereits vorhandenen Parametern trainiert der Trainingsalgorithmus und versucht dadurch, die Modellparameter immer weiter zu verbessern. \cite{divis}
 
 \subsection{Hyperparameter}
 
-Die \textbf{Hyperparameter} eines künstlichen neuronalen Netz dienen zur Steuerung des Trainingsalgorithmus. In der Regel müssen die Werte der Hyperparameter im Gegensatz zu den Modellparametern \textbf{vor} dem eigentlichen Training des Modells festgelegt werden, wodurch diese \textbf{nicht selbständig} erlernt werden können. \cite{wiki} \\
+Die Hyperparameter eines künstlichen neuronalen Netz dienen zur Steuerung des Trainingsalgorithmus. In der Regel müssen die Werte der Hyperparameter im Gegensatz zu den Modellparametern vor dem eigentlichen Training des Modells festgelegt werden, wodurch diese nicht selbständig erlernt werden können. \cite{wiki} \\
 
 Einige Beispiele für Hyperparameter sind:
 
@@ -129,13 +129,13 @@ Einige Beispiele für Hyperparameter sind:
 	
 \subsection{Gewichte und Verzerrung (Bias)}
 
-	Durch die \textbf{Gewichte} wird die \textbf{Intensität} des Informationsflusses entlang einer Verbindung eines künstlichen neuronalen Netzes beschrieben. Dazu vergibt jedes Neuron ein Gewicht für die durchfließende Information. Diese wird anschließend mit diesem Gewicht gewichtet und es wird ein Wert für die neuronen-spezifische \textbf{Verzerrung} (Bias) addiert. Das resultierende Ergebnis wird in der Regel durch eine sogenannte \textbf{Aktivierungsfunktion} geleitet, bevor es an die Neuronen der nächsten Schicht weitergegeben wird. \cite{jaai} \\
+	Durch die Gewichte wird die Intensität des Informationsflusses entlang einer Verbindung eines künstlichen neuronalen Netzes beschrieben. Dazu vergibt jedes Neuron ein Gewicht für die durchfließende Information. Diese wird anschließend mit diesem Gewicht gewichtet und es wird ein Wert für die neuronen-spezifische Verzerrung (Bias) addiert. Das resultierende Ergebnis wird in der Regel durch eine sogenannte Aktivierungsfunktion geleitet, bevor es an die Neuronen der nächsten Schicht weitergegeben wird. \cite{jaai} \\
 	
-	Während des Trainingsprozesses werden die Gewichte und Verzerrungen so angepasst, dass das Endresultat möglichst \textbf{genau} den Anforderungen entspricht. \cite{jaai}
+	Während des Trainingsprozesses werden die Gewichte und Verzerrungen so angepasst, dass das Endresultat möglichst genau den Anforderungen entspricht. \cite{jaai}
 	
 \subsection{Aktivierungsfunktion (activation function)}
 
-	\textbf{Aktivierungsfunktionen} spielen in künstlichen neuronalen Netzen eine bedeutende Rolle, da sie dabei helfen, die \textbf{komplizierte} und \textbf{nichtlineare funktionale Beziehung} zwischen den \textbf{Eingangsdaten} und den abhängigen \textbf{Ergebnissen} zu lernen und zu verstehen. Ein Eingangssignal eines Neurons wird dabei in ein Ausgangssignal konvertiert, welches anschließend als Eingabe der nächsten Schicht verwendet wird. \cite{ai-united} \\
+	Aktivierungsfunktionen spielen in künstlichen neuronalen Netzen eine bedeutende Rolle, da sie dabei helfen, die komplizierte und nichtlineare funktionale Beziehung zwischen den Eingangsdaten und den abhängigen Ergebnissen zu lernen und zu verstehen. Ein Eingangssignal eines Neurons wird dabei in ein Ausgangssignal konvertiert, welches anschließend als Eingabe der nächsten Schicht verwendet wird. \cite{ai-united} \\
 	
 	Einige Beispiele für Aktivierungsfunktionen sind:
 	
@@ -181,7 +181,7 @@ Einige Beispiele für Hyperparameter sind:
 
 \subsection{Verlustfunktion (loss function)}
 
-	Die \textbf{Verlustfunktion} wird zur \textbf{Berechnung des Fehlers} zwischen den realen Ergebnissen und erhaltenen Antworten des künstlichen neuronalen Netzes verwendet. Das Ziel des Lernprozesses ist die \textbf{Minimierung} dieser Fehler.  \cite{ai-united} \\
+	Die Verlustfunktion wird zur Berechnung des Fehlers zwischen den realen Ergebnissen und erhaltenen Antworten des künstlichen neuronalen Netzes verwendet. Das Ziel des Lernprozesses ist die Minimierung dieser Fehler.  \cite{ai-united} \\
 
 	Einige Beispiele für Verlustfunktionen sind:
 	
@@ -211,7 +211,7 @@ Einige Beispiele für Hyperparameter sind:
 
 \subsection{Fehlerrückführung (Backpropagation)}
 
-	Bei der \textbf{Fehlerrückführung} wird die Antwort des künstlichen neuronalen Netzes mit dem gewünschten Ergebnis verglichen. Dabei wird der Fehler bestimmt und dieser wird anschließend \textbf{rückwärtig} in das Netz gespeist, wodurch die Gewichte der Neuronen so angepasst werden, dass der Fehler immer \textbf{kleiner} wird. In der Praxis werden dafür verschiedene \textbf{Optimierungsstrategien} eingesetzt. \cite{rocketloop}
+	Bei der Fehlerrückführung (Backpropagation) wird die Antwort des künstlichen neuronalen Netzes mit dem gewünschten Ergebnis verglichen. Dabei wird der Fehler bestimmt und dieser wird anschließend rückwärtig in das Netz gespeist, wodurch die Gewichte der Neuronen so angepasst werden, dass der Fehler immer kleiner wird. In der Praxis werden dafür verschiedene Optimierungsstrategien eingesetzt. \cite{rocketloop}
 	
 \subsubsection{Optimierungsstrategien (Optimizer)}
 
@@ -253,7 +253,7 @@ Es gibt eine Vielzahl von künstlichen neuronalen Netzwerk-Architekturen. Im fol
 
 \subsection{Perceptron}
 
-	Ein \textbf{Perceptron} ist das einfachste künstliche neuronale Netz. Es nimmt die Eingabeparameter entgegen, addiert diese, wendet die Aktivierungsfunktion an und schickt das Ergebnis an die Ausgabeschicht. Das Ergebnis ist hierbei binär und somit vergleichbar mit einer Ja- bzw. Nein-Entscheidung. Die Entscheidung erfolgt dadurch, dass der Wert der Aktivierungsfunktion mit einem Schwellwert verglichen wird. Wird der Schwellwert unterschritten, so wird dem Ergebnis 0 zugeordnet und bei einer Überschreitung des Schwellwerts wird dem Ergebnis 1 zugeordnet.
+	Ein Perceptron ist das einfachste künstliche neuronale Netz. Es nimmt die Eingabeparameter entgegen, addiert diese, wendet die Aktivierungsfunktion an und schickt das Ergebnis an die Ausgabeschicht. Das Ergebnis ist hierbei binär und somit vergleichbar mit einer Ja- bzw. Nein-Entscheidung. Die Entscheidung erfolgt dadurch, dass der Wert der Aktivierungsfunktion mit einem Schwellwert verglichen wird. Wird der Schwellwert unterschritten, so wird dem Ergebnis 0 zugeordnet und bei einer Überschreitung des Schwellwerts wird dem Ergebnis 1 zugeordnet.
 	
 	\begin{figure}[H]
 		\centering
@@ -265,7 +265,7 @@ Es gibt eine Vielzahl von künstlichen neuronalen Netzwerk-Architekturen. Im fol
 
 \subsection{Fully Connected Neural Networks (FCNNs)}
 
-	\textbf{Fully Connected Neural Networks} (FCNNs) zeichnen sich dadurch aus, dass die Schichten immer nur mit der nächst höheren Schicht verbunden sind, d.h. es gibt \textbf{keine} zurückgerichteten Kanten. \cite{datasolut4}
+	Fully Connected Neural Networks (FCNNs) zeichnen sich dadurch aus, dass die Schichten immer nur mit der nächst höheren Schicht verbunden sind, d.h. es gibt keine zurückgerichteten Kanten. \cite{datasolut4}
 	
 	\begin{figure}[H]
 		\centering
@@ -277,7 +277,7 @@ Es gibt eine Vielzahl von künstlichen neuronalen Netzwerk-Architekturen. Im fol
 
 \subsection{Convolutional Neural Networks (CNNs)}
 
-	\textbf{Convolutional Neural Networks} (CNNs) können besonders effizient mit 2D- bzw. 3D-Eingabedaten arbeiten. Insbesondere werden CNNs für die Objektdetektion in Bildern angewendet. \cite{datasolut4} \\
+	Convolutional Neural Networks (CNNs) können besonders effizient mit 2D- bzw. 3D-Eingabedaten arbeiten. Insbesondere werden CNNs für die Objektdetektion in Bildern angewendet. \cite{datasolut4} \\
 	
 	\begin{figure}[H]
 		\centering
@@ -287,5 +287,12 @@ Es gibt eine Vielzahl von künstlichen neuronalen Netzwerk-Architekturen. Im fol
 		\quelle\url{https://de.wikipedia.org/wiki/Convolutional_Neural_Network#/media/Datei:Typical_cnn.png}
 	\end{figure}
 	
+<<<<<<< HEAD
 	Der Unterschied zu den klassischen künstlichen neuronalen Netzen liegt in der Architektur der CNNs: Die Zwischenschicht basiert hierbei auf einer Abfolge von Faltungs- und Poolingoperationen. Bei der Faltung wird ein sogenannter Faltungskernel über die Daten geschoben und das Ergebnis der Faltungsoperation wird berechnet. Anschließend werden die Neuronen aktualisiert. Die nachfolgende Poolingoperation sorgt dann dafür, dass die Ergebnisse vereinfacht werden. Dadurch bleiben nur die wichtigsten Informationen erhalten.	Des Weiteren wird dadurch erreicht, dass die 2D- oder 3D-Eingangsdaten kleiner werden. \cite{datasolut4} 
+=======
+	Der Unterschied zu den klassischen künstlichen neuronalen Netzen liegt in der Architektur der CNNs: Die Zwischenschicht basiert hierbei auf einer Abfolge von Faltungs- und Poolingoperationen. Bei der Faltung wird ein sogenannter Faltungskernel über die Daten geschoben und das Ergebnis der Faltungsoperation wird berechnet. Anschließend werden die Neuronen aktualisiert. Die nachfolgende Poolingoperation sorgt dann dafür, dass die Ergebnisse vereinfacht werden. Dadurch bleiben nur die wichtigsten Informationen erhalten.	Des Weiteren wird dadurch erreicht, dass die 2D- oder 3D-Eingangsdaten kleiner werden. \cite{datasolut4}
+
+
+
+>>>>>>> 7de5955919b6360a37afdd5d2b7a2afa179d4fe3
 

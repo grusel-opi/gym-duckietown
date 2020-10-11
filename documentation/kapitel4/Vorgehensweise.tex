@@ -3,17 +3,17 @@
 
 \section{Datengewinnung}
 
-Die \textbf{Trainingsdaten} wurden mit Hilfe des DuckieTown-Simulator erstellt.
+Die Trainingsdaten wurden mit Hilfe des DuckieTown-Simulator erstellt.
 
 \section{Netzwerkarchitektur}
 
-Unsere \textbf{Netzwerkarchitektur} besteht aus \textbf{einer Normalisierungsschicht} (normalization layer), \textbf{fünf Faltunsschichten} (convolutional layers) und \textbf{drei Fully-Connected-Schichten} (fully connected layers). Das Netzwerk nimmt das  Kamerabild des DuckieBots als Eingabe entgegen, wobei das obere drittel des Kamerabildes entfernt wurde. Eine schematsche Darstellung der Netzarchitektur ist in Abbildung \ref{network-architecture} dargestellt. \\
+Unsere Netzwerkarchitektur besteht aus einer Normalisierungsschicht (normalization layer), fünf Faltunsschichten (convolutional layers) und drei Fully-Connected-Schichten (fully connected layers). Das Netzwerk nimmt das  Kamerabild des DuckieBots als Eingabe entgegen, wobei das obere drittel des Kamerabildes entfernt wurde. Eine schematsche Darstellung der Netzarchitektur ist in Abbildung \ref{network-architecture} dargestellt. \\
 
-Die \textbf{Normalisierungsschicht} des Netzwerks kümmert sich um die Normalisierung des Eingabebildes, wodruch die GPU-Verabeitung beschleunigt wird. \\
+Die Normalisierungsschicht des Netzwerks kümmert sich um die Normalisierung des Eingabebildes, wodruch die GPU-Verabeitung beschleunigt wird. \\
 
-Die \textbf{Faltungsschichten} kümmern sich um die \textbf{Extraktion von Bildmerkmalen}. Die ersten drei Faltungsschichten nutzen dabei einen 5x5 Kernel mit einer 2x2 Schrittbreite (stride) und die letzen beiden einen 3x3 Kernel mit einer 1x1-Schrittbreite. \\
+Die Faltungsschichten kümmern sich um die Extraktion von Bildmerkmalen. Die ersten drei Faltungsschichten nutzen dabei einen 5x5 Kernel mit einer 2x2 Schrittbreite (stride) und die letzen beiden einen 3x3 Kernel mit einer 1x1-Schrittbreite. \\
 
-Nach den Faltungsschichten folgen drei \textbf{Fully-Connected-Schichten} die uns schlussendlich die \textbf{geschätzte Distanz} $d$ und \textbf{geschätzte Orientierung} $\Theta$ liefern.
+Nach den Faltungsschichten folgen drei Fully-Connected-Schichten die uns schlussendlich die geschätzte Distanz $d$ und geschätzte Orientierung $\Theta$ liefern.
 
 
 \begin{figure}[H]

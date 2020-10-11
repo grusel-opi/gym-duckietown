@@ -3,7 +3,28 @@
 
 \section{Datengewinnung}
 
-Die Trainingsdaten wurden mit Hilfe des DuckieTown-Simulator erstellt.
+Die Trainingsdaten wurden mit Hilfe des DuckieTown-Simulators automatisiert gesammelt. Dabei haben wir verschiedene Ansätze verfolgt:
+
+\subsection{Inferenz der Pose des Agenten}
+
+Zur Erzeugung der Trainingsdaten wird in jedem \texttt{step}-Aufruf des Simulators das dazugehörige Kamerabild der DuckieBots abgegriffen, mit dem korrespondierenden Label versehen und anschließend abgespeichert. Das Label beinhaltet hierbei folgende Informationen:
+
+\begin{enumerate}
+	\item Kürzester Abstand $d$ zur rechten Fahrbahnmarkierung
+	\item Winkeldifferenz $\Theta$ zwischen Orientierung des DuckieBots und der Fahrbahn
+	\item Name der Kachelart, auf der sich der DuckieBot zur Zeit der Aufnahme des Kamerabildes befindet
+\end{enumerate}
+
+\subsubsection{Ansatz 1 - PID-Fahrt ohne Neuplatzierung des Agenten:}
+
+Der DuckieBot wird mittels eines PID-Reglers gesteuert, so dass er die Mitte der rechten Fahrspur hält und den Streckenverlauf der Fahrbahn verfolgt. Dabei wird der DuckieBot auf einer zufälligen befahrbaren Kachel der Umgebung platziert. Die Orientierung des DuckieBots  wird hierbei ebenfalls zufällig ausgewählt.
+
+\subsubsection{Ansatz 2 - PID-Fahrt mit Neuplatzierungen des Agenten:}
+
+Bei diesem Ansatz wird der DuckieBot ebenfalls mit Hilfe eines PID-Reglers (wie in Anstatz 1 beschrieben) gesteuert. Der Unterschied hierbei ist, dass der DuckieBot nach einer gewissen Anzahl von \texttt{step}-Aufrufen des Simulators neu platziert wird. Die Platzierung des DuckieBots erfolgt hierbei ebenfalls zufällig, nach dem im Ansatz 1 beschriebenen Verfahren. 
+
+\subsection{Direkte Inferenz des Steuerbefehls}
+
 
 \section{Netzwerkarchitektur}
 

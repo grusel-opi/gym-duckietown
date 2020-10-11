@@ -2,13 +2,12 @@
 *.pyc
 *.egg-info
 .idea/
-
 xvfb.log
 bin
 venv
 
-venv
+neural_perception/model/saved_model/
+neural_preception/model/caches/
 
-neural_perception/model/caches
-neural_perception/model/saved_model
+documentation/*
 

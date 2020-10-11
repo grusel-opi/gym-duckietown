@@ -3,13 +3,14 @@ import os
 
 AUTOTUNE = tf.data.experimental.AUTOTUNE
 
-DATA_DIR = "/home/gandalf/ws/team/datasets/rand_tilekind/"
+DATA_DIR_0 = "/home/gandalf/ws/team/datasets/pd_random/"
+DATA_DIR_1 = "/home/gandalf/ws/team/datasets/pd/"
 
-ds_size = 79_994
+ds_size = 99_999 + 100_000
 
-TRAIN_CACHE_FILE = "/home/gandalf/ws/team/gym-duckietown/neural_perception/model/caches/train-rand_tilekind.tfcache"
-TEST_CACHE_FILE = "/home/gandalf/ws/team/gym-duckietown/neural_perception/model/caches/test-rand_tilekind.tfcache"
-VAL_CACHE_FILE = "/home/gandalf/ws/team/gym-duckietown/neural_perception/model/caches/val-rand_tilekind.tfcache"
+TRAIN_CACHE_FILE = "/home/gandalf/ws/team/gym-duckietown/neural_perception/model/caches/train-pd_concat.tfcache"
+TEST_CACHE_FILE = "/home/gandalf/ws/team/gym-duckietown/neural_perception/model/caches/test-pd_concat.tfcache"
+VAL_CACHE_FILE = "/home/gandalf/ws/team/gym-duckietown/neural_perception/model/caches/val-pd_concat.tfcache"
 
 ORIG_IMG_SHAPE = (480, 640, 3)
 RESIZE_IMG_SHAPE = (120, 160, 3)
@@ -29,7 +30,7 @@ def get_label(file_path):
     file_name = parts[-1]
     label = tf.strings.regex_replace(input=file_name, pattern='\[|\]|.png', rewrite='')
     label = tf.strings.split(label)
-    label = tf.strings.to_number(label)
+    label = tf.strings.to_number(label)[:2]  # third value in label is tilekind, not used for training
     return label
 
 
@@ -47,7 +48,9 @@ def process_path(file_path):
 
 
 def get_datasets_unprepared(train_fraction=0.7, test_fraction=0.3):
-    list_ds = tf.data.Dataset.list_files(DATA_DIR + '*')
+    list_ds_0 = tf.data.Dataset.list_files(DATA_DIR_0 + '*')
+    list_ds_1 = tf.data.Dataset.list_files(DATA_DIR_1 + '*')
+    list_ds = list_ds_0.concatenate(list_ds_1)
 
     dataset_size = ds_size
 

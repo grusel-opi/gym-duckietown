@@ -289,24 +289,3 @@ Es gibt eine Vielzahl von künstlichen neuronalen Netzwerk-Architekturen. Im fol
 	
 	Der Unterschied zu den klassischen künstlichen neuronalen Netzen liegt in der Architektur der CNNs: Die Zwischenschicht basiert hierbei auf einer Abfolge von Faltungs- und Poolingoperationen. Bei der Faltung wird ein sogenannter Faltungskernel über die Daten geschoben und das Ergebnis der Faltungsoperation wird berechnet. Anschließend werden die Neuronen aktualisiert. Die nachfolgende Poolingoperation sorgt dann dafür, dass die Ergebnisse vereinfacht werden. Dadurch bleiben nur die wichtigsten Informationen erhalten.	Des Weiteren wird dadurch erreicht, dass die 2D- oder 3D-Eingangsdaten kleiner werden. \cite{datasolut4} 
 
-\subsection{Recurrent Neural Networks (RNNs)}
-
-	Bei den \textbf{Recurrent Neural Networks} (RNNs) werden der Netzstruktur wiederkehrende Zellen hinzugefügt, wodurch das Netz eine Art  Gedächtnis erhält. \cite{datasolut4} \\ 
-	
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.9\textwidth]{kapitel3/images/rnn.png}
-		\caption{Darstellung eines beispielhaften RNN}
-		\vspace{0.2cm}
-		\quelle\url{https://datasolut.com/wp-content/uploads/2020/09/recurrent-neuronal-network.png}
-	\end{figure}
-	
-	
-	RNNs werden insbesondere dann eingesetzt, wenn der Kontext wichtig ist. Dadurch beeinflussen Entscheidungen aus vergangenen Iterationen maßgeblich die aktuellen Entscheidungen. \cite{datasolut4} \\
-	
-	Recurrent Neural Networks besitzen jedoch einen entscheidenden Nachteil: Sie werden über die Zeit instabil. Um dies zu verhindern werden sogenannte Long Short-Term Memory Units (LSTMs) eingesetzt. Diese stabilisieren Netz auch für Abhängigkeiten, die über einen längeren Zeitraum bestehen. \cite{datasolut4}
-
-
-
-
-

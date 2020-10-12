@@ -1,8 +1,13 @@
 \chapter{DuckieTown}
 
-\section{Umgebung}
+\section{Umgebung und Simulator}
 
-In einer DuckieTown-Umgebung wird die Umwelt für einen DuckieBot definiert. Ein DuckieBot kann diese Umgebung dann observieren und sich in dieser bewegen. Eine DuckieTown-Umgebug wird dabei aus verschiedenen Kacheln und Objekten aufgebaut. 
+
+Der \href{https://github.com/duckietown/gym-duckietown}{DuckieTown-Simulator} ist ein in \href{https://www.python.org/}{\texttt{Python}} und \href{https://www.opengl.org/}{\texttt{OpenGL}} \acf{bzw} \href{http://pyglet.org/}{\texttt{Pyglet}} geschriebener Simulator für das \glqq DuckieTown-Universum\grqq. Der Simulator bietet die Möglichkeit DuckieBots (Agenten) in einer beliebigen DuckieTown-Umgebung zu platzieren und die Agenten darin zu navigieren. \cite{gym_duckietown} \\
+
+Der Simulator ist schnell, quelloffen und ausgesprochen anpassungsfähig. Er wurde zunächst für die einfache Linienverfolgung konzipiert und wurde dann im Laufe der Zeit zu einem voll funktionsfähigen Simulator für autonom fahrende Fahrzeuge, insbesondere im Bezug zur künstlichen Intelligenz. \cite{gym_duckietown}
+
+In einer DuckieTown-Umgebung wird die Umwelt für einen DuckieBot definiert. Ein DuckieBot kann diese Umgebung dann observieren und sich in dieser bewegen. Eine DuckieTown-Umgebung wird dabei aus verschiedenen Kacheln und Objekten aufgebaut. 
 
 \begin{figure}[H]
 	\centering
@@ -18,7 +23,7 @@ Bei den Kacheln wird zwischen befahrbaren und nicht befahrbaren Kacheln untersch
 \begin{itemize}
 	\item 
 		\begin{tabular}[t]{lll}
-			\textbf{Leere Kachel} & (nicht befahrbar) & \hspace{2.45cm} 
+			Leere Kachel & (nicht befahrbar) & \hspace{2.45cm} 
 			$ \begin{array}{l}
 				\setlength{\fboxsep}{0pt}
 				\fbox{\includegraphics[scale=0.135]{kapitel2/images/empty.png}}
@@ -27,18 +32,17 @@ Bei den Kacheln wird zwischen befahrbaren und nicht befahrbaren Kacheln untersch
 	
 	\item 
 		\begin{tabular}[t]{lll}
-			\textbf{Gerader Streckenabschnitt} & (befahrbar) & \hspace{0.8cm}
+			Gerader Streckenabschnitt & (befahrbar) & \hspace{1.15cm}
 			$ \begin{array}{l}
 				\setlength{\fboxsep}{0pt}
 				\fbox{\includegraphics[scale=0.17]{kapitel2/images/straight.png}}
 		  	\end{array} $
 		\end{tabular}
 	
-	\newpage
 	
 	\item 
 		\begin{tabular}[t]{lll}
-			\textbf{Linkskurve} & (befahrbar) & \hspace{3.85cm}
+			Linkskurve & (befahrbar) & \hspace{3.75cm}
 			$ \begin{array}{l}
 				\setlength{\fboxsep}{0pt}
 				\fbox{\includegraphics[scale=0.17]{kapitel2/images/left.png}}
@@ -47,7 +51,7 @@ Bei den Kacheln wird zwischen befahrbaren und nicht befahrbaren Kacheln untersch
 	
 	\item 
 		\begin{tabular}[t]{lll}
-			\textbf{Rechtskurve} & (befahrbar) & \hspace{3.55cm}
+			Rechtskurve & (befahrbar) & \hspace{3.55cm}
 			$ \begin{array}{l}
 				\setlength{\fboxsep}{0pt}
 				\fbox{\includegraphics[scale=0.17]{kapitel2/images/right.png}}
@@ -56,7 +60,7 @@ Bei den Kacheln wird zwischen befahrbaren und nicht befahrbaren Kacheln untersch
 	
 	\item 
 		\begin{tabular}[t]{lll}
-			\textbf{3-Wege Kreuzung} & (befahrbar) & \hspace{2.5cm}
+			3-Wege Kreuzung & (befahrbar) & \hspace{2.6cm}
 			$ \begin{array}{l}
 				\setlength{\fboxsep}{0pt}
 				\fbox{\includegraphics[scale=0.17]{kapitel2/images/3way.png}}
@@ -65,7 +69,7 @@ Bei den Kacheln wird zwischen befahrbaren und nicht befahrbaren Kacheln untersch
 	
 	\item 
 		\begin{tabular}[t]{lll}
-			\textbf{4-Wege Kreuzung} & (befahrbar) & \hspace{2.5cm}
+			4-Wege Kreuzung & (befahrbar) & \hspace{2.6cm}
 			$ \begin{array}{l}
 				\setlength{\fboxsep}{0pt}
 				\fbox{\includegraphics[scale=0.17]{kapitel2/images/4way.png}}
@@ -73,7 +77,7 @@ Bei den Kacheln wird zwischen befahrbaren und nicht befahrbaren Kacheln untersch
 		\end{tabular}
 	\item 
 		\begin{tabular}[t]{lll}
-			\textbf{Asphaltkachel} & (nicht befahrbar) & \hspace{2.25cm}
+			Asphaltkachel & (nicht befahrbar) & \hspace{2.25cm}
 			$ \begin{array}{l}
 				\setlength{\fboxsep}{0pt}
 				\fbox{\includegraphics[scale=0.17]{kapitel2/images/asphalt.png}}
@@ -82,7 +86,7 @@ Bei den Kacheln wird zwischen befahrbaren und nicht befahrbaren Kacheln untersch
 	
 	\item 
 		\begin{tabular}[t]{lll}
-			\textbf{Graskachel} & (nicht befahrbar) & \hspace{2.85cm}
+			Graskachel & (nicht befahrbar) & \hspace{2.75cm}
 			$ \begin{array}{l}
 				\setlength{\fboxsep}{0pt}
 				\fbox{\includegraphics[scale=0.132]{kapitel2/images/grass.png}}
@@ -91,7 +95,7 @@ Bei den Kacheln wird zwischen befahrbaren und nicht befahrbaren Kacheln untersch
 	
 	\item 
 		\begin{tabular}[t]{lll}
-			\textbf{Bodenkachel} & (nicht befahrbar) & \hspace{2.55cm}
+			Bodenkachel & (nicht befahrbar) & \hspace{2.45cm}
 			$ \begin{array}{l}
 				\setlength{\fboxsep}{0pt}
 				\fbox{\includegraphics[scale=0.26]{kapitel2/images/floor.png}}
@@ -99,22 +103,13 @@ Bei den Kacheln wird zwischen befahrbaren und nicht befahrbaren Kacheln untersch
 		\end{tabular}
 \end{itemize}
 
-Objekte sind ebenfalls nicht befahrbar und befinden sich in der Regel außerhalb des Streckenverlaufes. Es werden standardmäßig eine Vielzahl von Objekten zur Verfügung gestellt, wie zum Beispiel:
+Objekte sind ebenfalls nicht befahrbar und befinden sich in der Regel außerhalb des Streckenverlaufes. Es werden standardmäßig eine Vielzahl von Objekten zur Verfügung gestellt, wie zum Beispiel Häuser, Bäume, Busse und Verkehrsschilder.
 
-\newpage
-
-\begin{itemize}
-	\item Haus
-	\item Baum
-	\item Bus
-	\item Verkehrsschilder etc.
-\end{itemize}
-
-Eine Duckietown-Umgebung wird hierbei in einer \texttt{.yaml}-Datei definiert, die dann vom Simulator geladen und dargestellt wird.
+Eine DuckieTown-Umgebung wird hierbei in einer \texttt{.yaml}-Datei definiert, die dann vom Simulator geladen und dargestellt wird.
 
 \hspace{1cm}
 \begin{minipage}{.73\linewidth}
-	\begin{lstlisting}[caption={Beispieldefinition einer Duckietown-Umgebung}]
+	\begin{lstlisting}[caption={Beispieldefinition einer DuckieTown-Umgebung}]
 		# 3x3 tiles with left turns at the corners
 		# going in a counter-clockwise loop
 	
@@ -127,24 +122,6 @@ Eine Duckietown-Umgebung wird hierbei in einer \texttt{.yaml}-Datei definiert, d
 	\end{lstlisting}
 \end{minipage}
 
-\section{DuckieBot}
-
-Ein \href{https://get.duckietown.com/products/duckiebot-db18}{DuckieBot} ist ein kleiner mobiler Roboter mit Differenzialantrieb, der seine Umgebung über eine Kamera wahrnehmen kann. Er ist mit einem \href{https://www.raspberrypi.org/}{Raspberry Pi} ausgestattet, welcher für Berechnungen und die Datenverarbeitung zuständig ist. Die  Räder werden über Gleichstrommotoren angetrieben. Mittels eines Steuerbefehls kann ein DuckieBot in einer Umgebung navigiert werden. \cite{duckietown_platform}
-Der Simulator ist dabei in der Lage einen solchen DuckieBot zu simulieren.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.4\textwidth]{kapitel2/images/duckiebot.jpg}
-	\label{fig:duckiebot}
-	\caption{Drastellung eines DuckieBots}
-	\vspace{0.2cm}
-	\quelle\url{https://cdn-blog.adafruit.com/uploads/2016/05/mercedes.jpg}
-\end{figure}
-
-
-\section{Simulator}
-
-Der \href{https://github.com/duckietown/gym-duckietown}{DuckieTown-Simulator} ist ein in \href{https://www.python.org/}{\texttt{Python}} und \href{https://www.opengl.org/}{\texttt{OpenGL}} \acf{bzw} \href{http://pyglet.org/}{\texttt{Pyglet}} geschriebener Simulator für das \glqq DuckieTown-Universum\grqq. Der Simulator bietet die Möglichkeit DuckieBots (Agenten) in einer beliebigen DuckieTown-Umgebung zu platzieren und die Agenten darin zu navigieren. \cite{gym_duckietown} \\
 
 \begin{figure}[H]
 	\centering
@@ -155,5 +132,54 @@ Der \href{https://github.com/duckietown/gym-duckietown}{DuckieTown-Simulator} is
 	\quelle\url{https://raw.githubusercontent.com/grusel-opi/gym-duckietown/master/media/simplesim_free.png}
 \end{figure}
 
-Der Simulator ist schnell, quelloffen und ausgesprochen anpassungsfähig. Er wurde zunächst für die einfache Linienverfolgung konzipiert und wurde dann im Laufe der Zeit zu einem voll funktionsfähigen Simulator für autonom fahrende Fahrzeuge, insbesondere im Bezug zur künstlichen Intelligenz. \cite{gym_duckietown}
+\section{DuckieBot}
+\label{duckiebot}
 
+Ein \href{https://get.duckietown.com/products/duckiebot-db18}{DuckieBot} ist ein kleiner mobiler Roboter mit Differenzialantrieb, der seine Umgebung über eine Kamera wahrnehmen kann. Er ist mit einem \href{https://www.raspberrypi.org/}{Raspberry Pi} ausgestattet, welcher für Berechnungen und die Datenverarbeitung zuständig ist. Die  Räder werden über Gleichstrommotoren angetrieben. Mittels eines Steuerbefehls (bestehend aus Geschwindigkeit und Richtungsänderung) kann ein DuckieBot in einer Umgebung navigiert werden. \cite{duckietown_platform}
+Der Simulator ist dabei in der Lage einen solchen DuckieBot zu simulieren.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.385\textwidth]{kapitel2/images/duckiebot.jpg}
+	\label{fig:duckiebot}
+	\caption{Darstellung eines DuckieBots}
+	\vspace{0.2cm}
+	\quelle\url{https://cdn-blog.adafruit.com/uploads/2016/05/mercedes.jpg}
+\end{figure}
+
+
+\section{Bedienung}
+
+Die Bedienung des Simulators erfolgt in einer einfachen Kontrollschleife. Zunächst wird eine \texttt{DuckietownEnv}-Umgebung definiert und instanziiert. Anschließend wird in einer Schleife über die \texttt{step(action)} Methode der Agent gesteuert. Da die  \texttt{DuckietownEnv}-Umgebung einen Differenzialantrieb simuliert, ist \texttt{action} dabei ein Tupel aus Geschwindigkeit und Winkelgeschwindigkeit. Die Basisklasse \texttt{Simulator} dagegen nimmt zwei Werte als Dutycycle im Wertebereich -1 bis 1 für die beiden Antriebe entgegen.
+
+\begin{minipage}{\linewidth}
+	\begin{lstlisting}[caption={Bedienung einer DuckieTown-Umgebung}]
+	env = DuckietownEnv()
+	obs = env.reset()
+	env.render()
+	
+	while True:
+		
+		lane_pose = get_lane_pos(env)
+		
+		steering = k_p * lane_pose.dist + k_d * lane_pose.angle_rad
+		
+		obs, reward, done, info = env.step(np.array([speed, steering]))
+		
+		env.render()
+		
+		if done:
+			env.reset()
+	
+	\end{lstlisting}
+\end{minipage}
+
+Über die Methode \texttt{reset()} wird der Agent in einer zufälligen aber validen Pose platziert, also an einem befahrbaren und nicht durch andere Objekte besetzten Ort. Mit \texttt{render()} wird ein GL-Fenster geöffnet und ein Bild aus der Perspektive des Agenten angezeigt.\\
+
+Die Methode \texttt{get\_lane\_pos(env)}, auch gerne ``Cheat-Modul'' genannt, liefert Poseninformationen des Agenten relativ zur Fahrbahn. Diese bestehen aus dem Abstand zur ``Ideallinie'', dem Abstand zur rechten Fahrbahnmarkierung, dem Skalarprodukt aus Richungsvektor des Agenten und Tangente der Ideallinie am nächstgelegenen Punkt, sowie Winkeldifferenz (Arkuskosinus des Skalarprodukts).\\
+
+Die Steuerung des Agenten erfolgt in diesem Beispiel über einen einfachen PD-Regler, wobei der Abstand zur Ideallinie \texttt{lane\_pose.dist} als Fehler zum Sollwert interpretiert wird und die Differenz der Orientierungen von Agent und Fahrspur \texttt{lane\_pose.angle\_rad} als Ableitung des Fehlers.\\
+
+Entgegengenommen wird der Steuerbefehl von der \texttt{step()} Methode des Simulators. Diese integriert den Befehl über eine definierte Zeitspanne \texttt{delta\_time}, standartmäßig festgelegt als der Kehrwert der Bildrate des Simulators von 30 Bildern pro Sekunde. Zurück liefert die Methode eine RGB-Bildaufnahme aus Perspektive des Agenten (\texttt{obs}), einen Belohnungswert \texttt{reward} für das Halten der Spur und Vermeiden von Kollisionen, ein Flag \texttt{done}, welches anzeigt ob der Agent ``verunglückt'' ist und neu platziert werden muss, und das Wörterbuch \texttt{info} mit Zustandsinformationen des Agenten.\\
+
+Das Ziel unseres Teams ist aus dem RGB-Bild \texttt{obs} den Wert \texttt{steering} zu inferieren.

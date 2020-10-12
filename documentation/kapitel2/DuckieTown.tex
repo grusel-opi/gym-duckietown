@@ -109,7 +109,7 @@ Eine DuckieTown-Umgebung wird hierbei in einer \texttt{.yaml}-Datei definiert, d
 
 \hspace{1cm}
 \begin{minipage}{.73\linewidth}
-	\begin{lstlisting}[caption={Beispieldefinition einer DuckieTown-Umgebung}]
+	\begin{lstlisting}[caption={Beispieldefinition einer DuckieTown-Umgebung}, language=python]
 		# 3x3 tiles with left turns at the corners
 		# going in a counter-clockwise loop
 	
@@ -153,7 +153,7 @@ Der Simulator ist dabei in der Lage einen solchen DuckieBot zu simulieren.
 Die Bedienung des Simulators erfolgt in einer einfachen Kontrollschleife. Zunächst wird eine \texttt{DuckietownEnv}-Umgebung definiert und instanziiert. Anschließend wird in einer Schleife über die \texttt{step(action)} Methode der Agent gesteuert. Da die  \texttt{DuckietownEnv}-Umgebung einen Differenzialantrieb simuliert, ist \texttt{action} dabei ein Tupel aus Geschwindigkeit und Winkelgeschwindigkeit. Die Basisklasse \texttt{Simulator} dagegen nimmt zwei Werte als Dutycycle im Wertebereich -1 bis 1 für die beiden Antriebe entgegen.
 
 \begin{minipage}{\linewidth}
-	\begin{lstlisting}[caption={Bedienung einer DuckieTown-Umgebung}]
+	\begin{lstlisting}[caption={Bedienung einer DuckieTown-Umgebung}, language=Python]
 	env = DuckietownEnv()
 	obs = env.reset()
 	env.render()
@@ -164,7 +164,7 @@ Die Bedienung des Simulators erfolgt in einer einfachen Kontrollschleife. Zunäc
 		
 		steering = k_p * lane_pose.dist + k_d * lane_pose.angle_rad
 		
-		obs, reward, done, info = env.step(np.array([speed, steering]))
+		obs,reward,done,info = env.step(np.array([speed, steering]))
 		
 		env.render()
 		

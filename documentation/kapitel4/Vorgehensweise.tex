@@ -13,6 +13,7 @@ Zur Erzeugung der Trainingsdaten wird in jedem \texttt{step}-Aufruf des Simulato
 \end{enumerate}
 
 Die Labelinformationen können dabei direkt aus dem DuckieTown-Simulator entnommen bzw. berechnet werden. Des Weiteren kann gesteuert werden, wie viele Kamerabilder aufgenommen werden sollen. \\
+
 Im folgenden werden wir auf zwei verschiedene Ansätze eingehen, die wir zur Gewinnung der Daten verfolgt haben:
 
 \subsection{Ansatz 1 - PID-Fahrt ohne Neuplatzierung des Agenten:}
@@ -29,12 +30,13 @@ Die Gewinnung der Kamerabilder des DuckieBots läuft hierbei analog, wie im Absc
 
 \begin{enumerate}
 	\item Geschwindigkeit $v$
-	\item Lenkwinkel $\omega$
+	\item Winkelgeschwindigkeit $\omega$
 	\item Name der Kachelart, auf der sich der DuckieBot zur Zeit der Aufnahme des Kamerabildes befindet
 \end{enumerate}
 
 
-Der optimale Steuerbefehl (bestehend aus Geschwindikeit $v$ und Lenkwinkel $\omega$) wird hierbei durch ein sogenanntes Expertensystem zu Verfügung gestellt. Der Name der Kachelart, auf der sich der DuckieBot zur Zeit der Aufnahme befindet, kann wieder dirket aus dem Simulator abgegriffen werden. \\
+Der optimale Steuerbefehl (bestehend aus $v$ und $\omega$) wird hierbei durch ein sogenanntes Expertensystem zu Verfügung gestellt. Der Name der Kachelart, auf der sich der DuckieBot zur Zeit der Aufnahme befindet, kann wieder dirket aus dem Simulator abgegriffen werden. \\
+
 Hierbei haben wir ebenfalls zwei verschiedene Ansätze zur Gewinnung der Daten verfolgt, auf die wir im folgenden eingehen werden:
 
 \subsection{Ansatz 1 - Expertenfahrt ohne Neuplatzierung des Agenten:}
@@ -95,7 +97,7 @@ Nach den Faltungsschichten folgen anschließend drei Fully-Connected-Schichten d
 	\quelle\url{https://d3i71xaburhd42.cloudfront.net/0e3cc46583217ec81e87045a4f9ae3478a008227/5-Figure4-1.png}
 \end{figure}
 
-Das Netzwerk nimmt das  Kamerabild des DuckieBots als Eingabe entgegen, wobei das obere drittel des Kamerabildes entfernt wurde. Dies hat den Vorteil, dass somit nur die relevanten Informationen für das Netzwerk im Kamerabild enthalten sind, wodurch sich das Training des Netzwerks verbessert. Das Netzwerk verarbeitet dann das eingehende Kamerabild und liefert anschließend die geschätze Pose, bestehend aus dem kürzestem Abstand $d$ zur rechten Fahrbahnmarkierung sowie der Winkeldifferenz $\Theta$ zwischen Orientierung des DuckieBots und der Fahrbahn.
+Das Netzwerk nimmt das  Kamerabild des DuckieBots als Eingabe entgegen, wobei das obere drittel des Kamerabildes entfernt wurde. Dies hat den Vorteil, dass somit nur die relevanten Informationen für das Netzwerk im Kamerabild enthalten sind, wodurch sich das Training des Netzwerks verbessert. Das Netzwerk verarbeitet dann das eingehende Kamerabild und liefert anschließend die geschätze Pose, nd aus dem kürzestem Abstand $d$ zur rechten Fahrbahnmarkierung sowie der Winkeldifferenz $\Theta$ zwischen Orientierung des DuckieBots und der Fahrbahn.
 
 
 \section{Lernprozess}

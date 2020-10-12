@@ -161,13 +161,13 @@ if __name__ == '__main__':
         for test_images, test_labels in test_ds:
             test_step(test_images, test_labels)
             values = [('Loss', test_loss.result()),
-                      ('Mean Abs. Error d', train_abs_error_d.result()),
+                      ('Mean Abs. Error d', test_abs_error_d.result()),
                       ('Mean Abs. Error a', test_abs_error_a.result())]
             test_progress_bar.add(step + 1, values=values)
 
         with test_summary_writer.as_default():
             tf.summary.scalar('Loss', test_loss.result(), step=epoch)
-            tf.summary.scalar('Mean Abs. Error d', train_abs_error_d.result(), step=epoch)
+            tf.summary.scalar('Mean Abs. Error d', test_abs_error_d.result(), step=epoch)
             tf.summary.scalar('Mean Abs. Error a', test_abs_error_a.result(), step=epoch)
 
         end = tf.timestamp()

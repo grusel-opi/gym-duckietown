@@ -22,7 +22,7 @@ Der DuckieBot wird mittels eines PID-Reglers gesteuert, so dass er die Mitte der
 
 \subsection{Ansatz 2 - PID-Fahrt mit Neuplatzierungen des Agenten:}
 
-Bei diesem Ansatz wird der DuckieBot ebenfalls mit Hilfe eines PID-Reglers (wie in Anstatz 1 beschrieben) gesteuert. Der Unterschied hierbei ist, dass der DuckieBot nach einer gewissen Anzahl von \texttt{step}-Aufrufen des Simulators neu platziert wird. Die Platzierung des DuckieBots erfolgt hierbei ebenfalls zufällig, nach dem im Ansatz 1 beschriebenen Verfahren.
+Bei diesem Ansatz wird der DuckieBot ebenfalls mit Hilfe eines PID-Reglers (wie in Ansatz 1 beschrieben) gesteuert. Der Unterschied hierbei ist, dass der DuckieBot nach einer gewissen Anzahl von \texttt{step}-Aufrufen des Simulators neu platziert wird. Die Platzierung des DuckieBots erfolgt hierbei ebenfalls zufällig, nach dem im Ansatz 1 beschriebenen Verfahren.
 
 \section{Datengewinnung - Direkte Inferenz des Steuerbefehls}
 
@@ -35,7 +35,7 @@ Die Gewinnung der Kamerabilder des DuckieBots läuft hierbei analog, wie im Absc
 \end{enumerate}
 
 
-Der optimale Steuerbefehl (bestehend aus $v$ und $\omega$) wird hierbei durch ein sogenanntes Expertensystem zu Verfügung gestellt. Der Name der Kachelart, auf der sich der DuckieBot zur Zeit der Aufnahme befindet, kann wieder dirket aus dem Simulator abgegriffen werden. \\
+Der optimale Steuerbefehl (bestehend aus $v$ und $\omega$) wird hierbei durch ein sogenanntes Expertensystem zu Verfügung gestellt. Der Name der Kachelart, auf der sich der DuckieBot zur Zeit der Aufnahme befindet, kann wieder direkt aus dem Simulator abgegriffen werden. \\
 
 Hierbei haben wir ebenfalls zwei verschiedene Ansätze zur Gewinnung der Daten verfolgt, auf die wir im folgenden eingehen werden:
 
@@ -50,10 +50,10 @@ Bei diesem Ansatz wird der DuckieBot ebenfalls mit dem vom Expertensystem vorher
 
 \section{Netzwerkarchitektur}
 
-Die entworfene Netzwerkarchitektur ist sowhol für die Inferenz der Pose des Agenten als auch für die direkte Inferenz des Steuerbefehls identisch.
+Die entworfene Netzwerkarchitektur ist sowohl für die Inferenz der Pose des Agenten als auch für die direkte Inferenz des Steuerbefehls identisch.
 Für die Realisation des Netzwerkes haben wir \href{https://www.tensorflow.org/}{TensorFlow} verwendet. TensorFlow ist ein von Google entwickeltes Framework für maschinelles Lernen und Künstliche Intelligenz \cite{bigdata}. \\
 
-Unsere Netzwerkarchitektur besteht aus 12 Schichten: einer Normalisierungsschicht, fünf Faltunsschichten, 2 Dropoutschichten, einer Flattenschicht und drei Fully-Connected-Schichten.
+Unsere Netzwerkarchitektur besteht aus 12 Schichten: einer Normalisierungsschicht, fünf Faltungsschichten, 2 Dropoutschichten, einer Flattenschicht und drei Fully-Connected-Schichten.
 Dabei haben wir uns an einer bereits vorhanden Netzwerkarchitektur eines NVIDIA-Papers orientiert. Der Titel des Paper lautet: \glqq End to End Learning for Self-Driving Cars\grqq{} und kann unter \href{https://arxiv.org/pdf/1604.07316.pdf}{https://arxiv.org/pdf/1604.07316.pdf} gefunden werden.
 Eine schematische Darstellung der Netzarchitektur ist in Abbildung \ref{network-architecture} dargestellt. \\
 
@@ -82,7 +82,7 @@ Nach den Faltungsschichten folgt eine sogenannte Flattenschicht, die dafür zust
 
 \subsection{Dropoutschichten}
 
-Zwischen der vierten und der fünften Faltungsschicht befindet sich eine Dropoutschicht, sowie nach der Flattenschicht. \\ Die Droputschichten dienen zur Minimierung der Gefahr einer Überanpassung des Modells an die Trainingsdaten. Dabei wird beim Training des Modells eine vorher spezifizierte Anzahl von Neuronen ausgeschaltet, die dann im kommenden Berechnungsschritt nicht berücksichtigt werden. \cite{wiki2}
+Zwischen der vierten und der fünften Faltungsschicht befindet sich eine Dropoutschicht, sowie nach der Flattenschicht. \\ Die Dropoutschichten dienen zur Minimierung der Gefahr einer Überanpassung des Modells an die Trainingsdaten. Dabei wird beim Training des Modells eine vorher spezifizierte Anzahl von Neuronen ausgeschaltet, die dann im kommenden Berechnungsschritt nicht berücksichtigt werden. \cite{wiki2}
 
 \subsection{Fully-Connected-Schichten}
 
@@ -97,12 +97,12 @@ Nach den Faltungsschichten folgen anschließend drei Fully-Connected-Schichten d
 	\quelle\url{https://d3i71xaburhd42.cloudfront.net/0e3cc46583217ec81e87045a4f9ae3478a008227/5-Figure4-1.png}
 \end{figure}
 
-Das Netzwerk nimmt das  Kamerabild des DuckieBots als Eingabe entgegen, wobei das obere drittel des Kamerabildes entfernt wurde. Dies hat den Vorteil, dass somit nur die relevanten Informationen für das Netzwerk im Kamerabild enthalten sind, wodurch sich das Training des Netzwerks verbessert. Das Netzwerk verarbeitet dann das eingehende Kamerabild und liefert anschließend die geschätze Pose, nd aus dem kürzestem Abstand $d$ zur rechten Fahrbahnmarkierung sowie der Winkeldifferenz $\Theta$ zwischen Orientierung des DuckieBots und der Fahrbahn.
+Das Netzwerk nimmt das Kamerabild des DuckieBots als Eingabe entgegen, wobei das obere drittel des Kamerabildes entfernt wurde. Dies hat den Vorteil, dass somit nur die relevanten Informationen für das Netzwerk im Kamerabild enthalten sind, wodurch sich das Training des Netzwerks verbessert. Das Netzwerk verarbeitet dann das eingehende Kamerabild und liefert anschließend die geschätzte Pose, bestehend aus dem kürzestem Abstand $d$ zur rechten Fahrbahnmarkierung sowie der Winkeldifferenz $\Theta$ zwischen Orientierung des DuckieBots und der Fahrbahn.
 
 
 \section{Lernprozess}
 
-Für den Lernprozess wird das überwachte Lernen als Lernverfahren eingesetzt.Zu Beginn des Lernprozesses werden zunächst die Hyperparameter des Modells festgelegt:
+Für den Lernprozess wird das überwachte Lernen als Lernverfahren eingesetzt. Zu Beginn des Lernprozesses werden zunächst die Hyperparameter des Modells festgelegt:
 \vspace{-0.4cm}
 \begin{center}
 	\begin{tabular}[t]{|l|l|}

@@ -69,6 +69,7 @@ class DuckietownImager(DuckietownEnv):
             reset_counter += 1
             if done or reset_counter == reset_steps:
                 self.reset()
+                reset_counter = 0
 
     def produce_pd_images(self):
         obs = self.reset()
@@ -172,7 +173,7 @@ class DuckietownImager(DuckietownEnv):
 if __name__ == '__main__':
     imgs = 100_000
     path = '/home/gandalf/ws/team/datasets/'
-    name = 'pd_random/'
+    name = 'expert_random/'
     env = DuckietownImager(path=path+name)
-    env.generate_and_save(imgs, kind='pd random')
+    env.generate_and_save(imgs, kind='expert random')
     sys.exit()

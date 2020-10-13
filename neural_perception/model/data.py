@@ -3,7 +3,7 @@ import os
 
 AUTOTUNE = tf.data.experimental.AUTOTUNE
 
-DATA_DIR = "/home/gandalf/ws/team/datasets/expert_tilekind/"
+DATA_DIR = "/home/gandalf/ws/team/datasets/pd/"
 
 expert_action_size = 79_914
 

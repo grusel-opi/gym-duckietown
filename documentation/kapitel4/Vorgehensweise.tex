@@ -1,6 +1,21 @@
 
 \chapter{Vorgehensweise}
 
+\section{Netzarchitektur}
+
+Als Basismodell dient uns das von Nvidia entworfene CNN zur Schätzung eines Steuerbefehls für ein Fahrzeug \cite{nvidia}. Dieses Netz nutzt fünf Faltungsschichten zur Extraktion von Features und drei Dense-Schichten als Regressor. Unsere Variante dieses Modells nutzt außerdem als Aktivierungsfunktion statt der ReLu-Funktion eine ELU-Funktion. Zusätzlich haben wir eine L2 Regularisierung für die Gewichte aller Schichten und Dropout jeweils nach den letzten beiden Faltungsschichten hinzugefügt. Eine Darstellung unseres Netzes mitsamt Vorverarbeitung der Daten ist in \ref{nvidia-model} zu sehen.
+
+Außerdem wird in der Vorverarbeitung der Daten die Größe der Bilder von $(640, 480, 3)$ (im Format ($H$, $W$, $C$)) auf $(120, 160, 3)$ reduziert und anschließend das obere Drittel des Bildes abgeschnitten, da dies meißt nur Horizont und sonstige Objekte beinhaltet. Endgültigte Größe des Inputs ist dann $(80, 160, 3)$.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.65\textwidth]{kapitel4/images/drawio.png}
+	\caption{Unsere Variante des Nvidia Modells}
+	\label{nvidia-model}
+	\vspace{0.2cm}
+\end{figure}
+
+
 \section{Inferenz der Pose des Agenten}
 
 \subsection{Datengewinnung}
@@ -16,13 +31,13 @@ Zur Erzeugung der Trainingsdaten wird in jedem \texttt{step}-Aufruf des Simulato
 Es kann außerdem gesteuert werden, wie viele Kamerabilder aufgenommen werden sollen.
 Im folgenden werden wir auf zwei verschiedene Ansätze eingehen, die wir zur Gewinnung der Daten verfolgt haben:
 
-\subsubsection{Ansatz 1 - PID-Fahrt ohne Neuplatzierung des Agenten:}
+\subsubsection{Ansatz 1 - PD-Fahrt ohne Neuplatzierung des Agenten:}
 
-Der DuckieBot wird mittels eines PID-Reglers gesteuert, so dass er die Mitte der rechten Fahrspur hält und den Streckenverlauf der Fahrbahn verfolgt. Dabei wird der DuckieBot auf einer zufälligen befahrbaren Kachel der Umgebung platziert. Die Orientierung des DuckieBots  wird hierbei ebenfalls zufällig ausgewählt.
+Der DuckieBot wird mittels eines PD-Reglers gesteuert, so dass er die Mitte der rechten Fahrspur hält und den Streckenverlauf der Fahrbahn verfolgt. Dabei wird der DuckieBot auf einer zufälligen befahrbaren Kachel der Umgebung platziert. Die Orientierung des DuckieBots  wird hierbei ebenfalls zufällig ausgewählt.
 
-\subsubsection{Ansatz 2 - PID-Fahrt mit Neuplatzierungen des Agenten:}
+\subsubsection{Ansatz 2 - PD-Fahrt mit Neuplatzierungen des Agenten:}
 
-Bei diesem Ansatz wird der DuckieBot ebenfalls mit Hilfe eines PID-Reglers (wie in Anstatz 1 beschrieben) gesteuert. Der Unterschied hierbei ist, dass der DuckieBot nach einer gewissen Anzahl von \texttt{step}-Aufrufen des Simulators neu platziert wird. Die Platzierung des DuckieBots erfolgt hierbei ebenfalls zufällig, nach dem im Ansatz 1 beschriebenen Verfahren. 
+Bei diesem Ansatz wird der DuckieBot ebenfalls mit Hilfe eines +-Reglers (wie in Anstatz 1 beschrieben) gesteuert. Der Unterschied hierbei ist, dass der DuckieBot nach einer gewissen Anzahl von \texttt{step}-Aufrufen des Simulators neu platziert wird. Die Platzierung des DuckieBots erfolgt hierbei ebenfalls zufällig, nach dem im Ansatz 1 beschriebenen Verfahren. 
 
 \subsection{Netzwerkarchitektur}
 

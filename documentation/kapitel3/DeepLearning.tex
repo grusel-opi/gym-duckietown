@@ -33,7 +33,7 @@ Von tiefem Lernen spricht man dann, wenn die eingesetzten neuronalen Netze mehr 
 
 \section{Warum Deep Learning?}
 
-Es gibt Problemstellungen (wie beispielsweise die unstrukturierte Bilderkennung), die sich besonders gut mit künstlichen neuronalen Netzen lösen lassen. Das Erlernen dieser komplexen Muster ist jedoch mit klassischen Machine Learning Algorithmen nur sehr schwer lösbar. Hier kommen dann tiefe künstliche neuronale Netze zum Einsatz. Je größer die Datenmenge ist, die zum lernen verwendet wird, desto besser funktioniert das tiefe Lernen. \cite{datasolut2}
+Es gibt Problemstellungen (wie beispielsweise die unstrukturierte Bilderkennung), die sich besonders gut mit künstlichen neuronalen Netzen lösen lassen. Das Erlernen dieser komplexen Muster ist jedoch mit klassischen Machine Learning Algorithmen nur sehr schwer lösbar. Hier kommen dann tiefe künstliche neuronale Netze zum Einsatz. Je größer die Datenmenge ist, die zum Lernen verwendet wird, desto besser funktioniert das tiefe Lernen. \cite{datasolut2}
 
 \begin{figure}[H]
 	\centering
@@ -48,19 +48,19 @@ Es gibt Problemstellungen (wie beispielsweise die unstrukturierte Bilderkennung)
 
 Beim maschinellen Lernen bzw. beim Deep Learning stehen drei unterschiedliche Lernverfahren zur Verfügung:
 
-\subsection{Überwachtes Lernen (Supervised Learning)}
-
+\begin{itemize}
+	
+	\item Überwachtes Lernen (Supervised Learning)\\
 	Das überwachte Lernen nutzt für den Lernprozess bekannte Daten, um daraus Muster und Zusammenhänge zu erkennen. Die Muster werden  anhand eines Trainingsdatensatzes (Beispieldaten) erlernt. Dabei wird der Zusammenhang zu einer Zielvariable erlernt und es wird versucht diese richtig vorherzusagen. \cite{datasolut3}
-
-\subsection{Unüberwachtes Lernen (Unsupervised Learning)}
-
+	
+	\item Unüberwachtes Lernen (Unsupervised Learning)\\
 	Das unüberwachte Lernen nutzt für den Lernprozess keine Beispieldaten, sondern Rohdaten, aus denen eigenständig Muster erkannt werden sollen. \\
 	Der hauptsächliche Unterschied zum überwachten Lernen ist also, dass das unüberwachte Lernen nicht dafür ausgelegt ist, eine Vorhersage für eine bekannte Zielvariable zu treffen. \cite{datasolut3}
-	
-\subsection{Bestärkendes Lernen (Reinforcment Learning)}
-
+	\item Bestärkendes Lernen (Reinforcment Learning)\\
 	Anders als das überwachte bzw. unüberwachte Lernen nutzt das bestärkende Lernen zunächst keine Daten, sondern diese entstehen in einer Simulationsumgebung nach einem Versuch-und-Irrtum-Verfahren. \cite{der-onliner_blogspot}
 	
+\end{itemize}
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.6\textwidth]{kapitel3/images/lernverfahren.png}
@@ -120,11 +120,12 @@ Die Hyperparameter eines künstlichen neuronalen Netz dienen zur Steuerung des T
 Einige Beispiele für Hyperparameter sind:
 
 \begin{enumerate}
-	\item \textbf{Lerngeschwindigkeit} (learning rate)
-	\item \textbf{Batch Size}
-	\item \textbf{Anzahl Epochen}
-	\item \textbf{Optimizer}
-	\item \textbf{Dropout}
+	\item Lerngeschwindigkeit (learning rate):\\
+	Schrittgrößte in Richtung Minimum der Fehlerfunktion pro Iteration 
+	\item Batch Size:\\
+	Anzahl an Beispielen welche pro Iteration in das Netz eingespeißt werden
+	\item Anzahl Epochen:\\
+	Anzahl der Trainingsdurchläufe über den Datensatz
 \end{enumerate}
 	
 \subsection{Gewichte und Verzerrung (Bias)}
@@ -162,15 +163,7 @@ Einige Beispiele für Hyperparameter sind:
 			\addvbuffer[0.05cm]{\includegraphics[scale=0.5]{kapitel3/images/relu.png}}
 		\end{tabular} \\
 		\hline
-	\end{tabular}
-	\end{center}
-
-	\begin{center}
-	\begin{tabular}[t]{|c|c|c|}
-		\hline
-		\textbf{Bezeichnung} & \textbf{Funktion} & \textbf{Plot} \\
-		\hline
-		\begin{tabular}{l} ELu \end{tabular} &  
+		\begin{tabular}{l} ELU \end{tabular} &  
 		\begin{tabular}{l} $ f(\alpha, x) = \begin{cases} \alpha (e^x - 1) \quad \textrm{für} \ x \leq 0 \\ x \hspace{1.75cm} \textrm{für} \ x > 0 \end{cases} $ \end{tabular} &
 		\begin{tabular}{l}
 			\addvbuffer[0.05cm]{\includegraphics[scale=0.25]{kapitel3/images/elu.jpg}}
@@ -247,35 +240,29 @@ Einige Beispiele für Hyperparameter sind:
 			
 	\end{enumerate}
 
-\section{Arten von  künstlichen neuronalen Netzen}
+\subsubsection{Faltungsschicht}
 
-Es gibt eine Vielzahl von künstlichen neuronalen Netzwerk-Architekturen. Im folgenden wird auf die wichtigsten Arten eingegangen:
+Arbeitet man mit Daten mit großter Dimensionalität, wie zum Beispiel Bildern, wird das Training mit vollständig verbundenen Netzen schnell unpraktikabel. Allein die Kombination eines ein-megapixel großen Bildes mit einer Schicht aus tausend Neuronen würde eine Milliarde Modellparameter ergeben.
+Es bietet sich daher das Arbeiten mit der Faltung an, wobei nur ein Faltungskern erlernt werden muss.
 
-\subsection{Perceptron}
+\subsubsection{Dropout}
 
-	Ein Perceptron ist das einfachste künstliche neuronale Netz. Es nimmt die Eingabeparameter entgegen, addiert diese, wendet die Aktivierungsfunktion an und schickt das Ergebnis an die Ausgabeschicht. Das Ergebnis ist hierbei binär und somit vergleichbar mit einer Ja- bzw. Nein-Entscheidung. Die Entscheidung erfolgt dadurch, dass der Wert der Aktivierungsfunktion mit einem Schwellwert verglichen wird. Wird der Schwellwert unterschritten, so wird dem Ergebnis 0 zugeordnet und bei einer Überschreitung des Schwellwerts wird dem Ergebnis 1 zugeordnet.
-	
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.8\textwidth]{kapitel3/images/perceptron.png}
-		\caption{Darstellung eines Perceptrons}
-		\vspace{0.2cm}
-		\quelle\url{https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Rosenblattperceptron.png/500px-Rosenblattperceptron.png}
-		\end{figure}
+Eine weit verbreitete Methode um das Überstimmen von neuronalen Netzen zu minimieren sind Dropout-Schichten. Die Idee ist, dass ein für das Netz wichtiges Merkmal nicht aus der Aktivierung eines einzelnen Neurons besteht, sondern aus der Kombination mehrerer.
+Um die Abhänigkeit des Outputs des Netzes von einzelnen Aktivierungen zu verhindern, werden diese mit einer festgelegten Wahrscheinlichkeit auf null gesetzt. Dies geschieht nur während des Trainings und wird zur Inferenz abgeschaltet.
 
-\subsection{Fully Connected Neural Networks (FCNNs)}
+\subsubsection{Normalisierung}
 
-	Fully Connected Neural Networks (FCNNs) zeichnen sich dadurch aus, dass die Schichten immer nur mit der nächst höheren Schicht verbunden sind, d.h. es gibt keine zurückgerichteten Kanten. \cite{datasolut4}
-	
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.65\textwidth]{kapitel3/images/Simples_Neuronales_Netz.jpg}
-		\caption{Darstellung eines beispielhaften FCNN}
-		\vspace{0.2cm}
-		\quelle\url{https://datasolut.com/wp-content/uploads/2019/10/ku%CC%88nstliche-neuronale-Netze.jpg}
-	\end{figure}
+Die Normalisierung der Input-Daten gilt weithin als Best-Practice. Der wichtigste Grund dafür ist schnellere Konvergenz und damit ein schnellerer Lernprozess.
+Dies lässt sich damit erklären, dass das Lernverfahren als eine Minimumssuche auf der Oberfläche der Fehlerfunktion verstanden werden kann, wobei die Größenordnung der Input-Daten die Verzerrung dieser Oberfläche bestimmen. Da das Netz den Wert der Fehlerfunktion mit seinen Parametern minimieren soll, müssen bei unterschiedlich großen Inputs auch die Gewichte unterschiedlich groß sein. Das wiederrum zieht unterschiedlich große ideale Lernraten nach sich.
 
-\subsection{Convolutional Neural Networks (CNNs)}
+Diese Verzerrung der Oberfläche der Fehlerfunktion kann also durch Normalisierung minimiert werden.
+
+\subsubsection{Regularisierung}
+
+Neuronale Netze bilden Input über ihre Gewichte auf einen gewissen Output ab. Ist die Größenordnung mancher Gewichte größer als die von anderen, ist die Wahrscheinlichkeit hoch, dass das Netz überstimmt ist. Eine kleine Abweichung im Input kann dann drastische Auswirkungen auf den Output haben.
+Um zu verhindern, dass der Lernprozess die Gewichte beliebig groß gestaltet, kann an die Fehlerfunktion ein zusätzlicher Term angefügt werden, welcher die Größe der Gewichte beinhaltet. L2 Regularisierung zum Beispiel, multipliziert das Quadrat der Größe der Gewichte mit einem Vorfaktor, einem Hyperparameter, und addiert das Ergebniss auf den Wert der Fehlerfunktion. Große Gewichte werden so bestraft.
+
+\section{Convolutional Neural Networks (CNNs)}
 
 	Convolutional Neural Networks (CNNs) können besonders effizient mit 2D- bzw. 3D-Eingabedaten arbeiten. Insbesondere werden CNNs für die Objektdetektion in Bildern angewendet. \cite{datasolut4} \\
 	

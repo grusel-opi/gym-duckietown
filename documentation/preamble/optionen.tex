@@ -18,13 +18,16 @@
 \renewcommand*\chapterheadstartvskip{\vspace{-\topskip}}
 
 \setlength\parindent{0pt}
+\definecolor{keywordsColor}{rgb}{0.000000, 0.000000, 0.635294}
+\definecolor{stringColor}{rgb}{0.558215, 0.000000, 0.135316}
 
 \lstset{
 	frame=top,frame=bottom,
 	basicstyle=\small\normalfont\sffamily,
+	commentstyle=\color{gray}\textit,
 	stepnumber=1,                           
 	numbersep=2pt,
-	tabsize=1,
+	tabsize=2,
 	extendedchars=true,
 	breaklines=true,
 	captionpos=t,
@@ -38,7 +41,12 @@
 	framexbottommargin=5pt,
 	framextopmargin=5pt,
 	showstringspaces=false,
-	numbers=left
+	numbers=left,
+	backgroundcolor=\color{white},
+	numberstyle=\color{black},
+	stringstyle=\color{stringColor},
+	keywordstyle=\color{keywordsColor}\bfseries,
+	rulecolor=\color{black}
 }
 
 \DeclareCaptionFormat{listing}{\rule{\dimexpr\textwidth+17pt\relax}{0.4pt}\par\vskip1pt#1#2#3}
@@ -47,3 +55,4 @@
 \renewcommand{\lstlistingname}{Codebeispiel}
 \renewcommand{\lstlistlistingname}{Codeauflistung}
 \newcommand{\source}[1]{\caption*{\hfill Source: {#1}} }
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}

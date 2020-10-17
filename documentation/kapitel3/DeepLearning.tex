@@ -141,7 +141,7 @@ Einige Beispiele für Hyperparameter sind:
 	Einige Beispiele für Aktivierungsfunktionen sind:
 	
 	\begin{center}
-	\begin{tabular}[t]{|c|c|c|}
+	\begin{tabular}[t]{|M{2.5cm}|M{6cm}|M{5cm}|}
 		\hline
 		\textbf{Bezeichnung} & \textbf{Funktion} & \textbf{Plot} \\
 		\hline
@@ -236,7 +236,7 @@ Einige Beispiele für Hyperparameter sind:
 			
 		\item \textbf{Adam Optimierung:}
 		
-			Die Adam Optimierung ist eine Kombination aus der Idee des Momentum Optimierers und RMSProp. Das Verfahren betrachtet hierbei sowohl den Durchschnitt der vorigen Gradienten als auch den Durchschnitt der quadrieten Gradienten, beide unter exponentiellem Zerfall. \cite{lucas_plagwitz}
+			Die Adam Optimierung ist eine Kombination aus der Idee des Momentum Optimierers und RMSProp. Das Verfahren betrachtet hierbei sowohl den Durchschnitt der vorigen Gradienten als auch den Durchschnitt der quadrierten Gradienten, beide unter exponentiellem Zerfall. \cite{lucas_plagwitz}
 			
 	\end{enumerate}
 
@@ -262,6 +262,7 @@ Diese Verzerrung der Oberfläche der Fehlerfunktion kann also durch Normalisieru
 Neuronale Netze bilden Input über ihre Gewichte auf einen gewissen Output ab. Ist die Größenordnung mancher Gewichte größer als die von anderen, ist die Wahrscheinlichkeit hoch, dass das Netz überstimmt ist. Eine kleine Abweichung im Input kann dann drastische Auswirkungen auf den Output haben.
 Um zu verhindern, dass der Lernprozess die Gewichte beliebig groß gestaltet, kann an die Fehlerfunktion ein zusätzlicher Term angefügt werden, welcher die Größe der Gewichte beinhaltet. L2 Regularisierung zum Beispiel, multipliziert das Quadrat der Größe der Gewichte mit einem Vorfaktor, einem Hyperparameter, und addiert das Ergebniss auf den Wert der Fehlerfunktion. Große Gewichte werden so bestraft.
 
+
 \section{Convolutional Neural Networks (CNNs)}
 
 	Convolutional Neural Networks (CNNs) können besonders effizient mit 2D- bzw. 3D-Eingabedaten arbeiten. Insbesondere werden CNNs für die Objektdetektion in Bildern angewendet. \cite{datasolut4} \\
@@ -275,5 +276,4 @@ Um zu verhindern, dass der Lernprozess die Gewichte beliebig groß gestaltet, ka
 	\end{figure}
 
 	Der Unterschied zu den klassischen künstlichen neuronalen Netzen liegt in der Architektur der CNNs: Die Zwischenschicht basiert hierbei auf einer Abfolge von Faltungs- und Poolingoperationen. Bei der Faltung wird ein sogenannter Faltungskernel über die Daten geschoben und das Ergebnis der Faltungsoperation wird berechnet. Anschließend werden die Neuronen aktualisiert. Die nachfolgende Poolingoperation sorgt dann dafür, dass die Ergebnisse vereinfacht werden. Dadurch bleiben nur die wichtigsten Informationen erhalten.	Des Weiteren wird dadurch erreicht, dass die 2D- oder 3D-Eingangsdaten kleiner werden. \cite{datasolut4}
-
 

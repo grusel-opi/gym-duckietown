@@ -253,9 +253,7 @@ Um die Abhänigkeit des Outputs des Netzes von einzelnen Aktivierungen zu verhin
 \subsubsection{Normalisierung}
 
 Die Normalisierung der Input-Daten gilt weithin als Best-Practice. Der wichtigste Grund dafür ist schnellere Konvergenz und damit ein schnellerer Lernprozess.
-Dies lässt sich damit erklären, dass das Lernverfahren als eine Minimumssuche auf der Oberfläche der Fehlerfunktion verstanden werden kann, wobei die Größenordnung der Input-Daten die Verzerrung dieser Oberfläche bestimmen. Da das Netz den Wert der Fehlerfunktion mit seinen Parametern minimieren soll, müssen bei unterschiedlich großen Inputs auch die Gewichte unterschiedlich groß sein. Das wiederrum zieht unterschiedlich große ideale Lernraten nach sich.
-
-Diese Verzerrung der Oberfläche der Fehlerfunktion kann also durch Normalisierung minimiert werden.
+Dies lässt sich damit erklären, dass das Lernverfahren als eine Minimumssuche auf der Oberfläche der Fehlerfunktion verstanden werden kann, wobei die Größenordnung der Input-Daten die Verzerrung dieser Oberfläche bestimmen. Da das Netz den Wert der Fehlerfunktion mit seinen Parametern minimieren soll, müssen bei unterschiedlich großen Inputs auch die Gewichte unterschiedlich groß sein. Das wiederum zieht unterschiedlich große ideale Lernraten nach sich. Diese Verzerrung der Oberfläche der Fehlerfunktion kann durch Normalisierung der Daten minimiert werden.
 
 \subsubsection{Regularisierung}
 

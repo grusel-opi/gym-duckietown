@@ -3,9 +3,13 @@
 
 \section{Netzarchitektur}
 
-Als Basismodell dient uns das von Nvidia entworfene CNN zur Schätzung eines Steuerbefehls für ein Fahrzeug \cite{nvidia}. Dieses Netz nutzt fünf Faltungsschichten zur Extraktion von Features und drei Dense-Schichten als Regressor. Unsere Variante dieses Modells nutzt außerdem als Aktivierungsfunktion statt der ReLu-Funktion eine ELU-Funktion. Zusätzlich haben wir eine L2 Regularisierung für die Gewichte aller Schichten und Dropout jeweils nach den letzten beiden Faltungsschichten hinzugefügt. Eine Darstellung unseres Netzes mitsamt Vorverarbeitung der Daten ist in \ref{nvidia-model} zu sehen.
+Als Basismodell dient uns das von Nvidia entworfene CNN zur Schätzung eines Steuerbefehls für ein Fahrzeug \cite{nvidia}. Dieses Netz nutzt fünf Faltungsschichten zur Extraktion von Merkmalen und drei Dense-Schichten als Regressor.
 
-Außerdem wird in der Vorverarbeitung der Daten die Größe der Bilder von $(640, 480, 3)$ (im Format ($H$, $W$, $C$)) auf $(120, 160, 3)$ reduziert und anschließend das obere Drittel des Bildes abgeschnitten, da dies meißt nur Horizont und sonstige Objekte beinhaltet. Endgültigte Größe des Inputs ist dann $(80, 160, 3)$.
+Unsere Variante dieses Modells nutzt statt der ReLu die ELU als Aktivierungsfunktion. Diese soll den Lernprozess zusätzlich beschleunigen und die Fähigkeit des Netzes zu Generalisieren verbessern \cite{elu}. Zusätzlich haben wir eine L2 Regularisierung für die Gewichte aller Schichten und Dropout jeweils nach den letzten beiden Faltungsschichten hinzugefügt.
+
+In der Vorverarbeitung der Daten wird die Größe der Bilder von $(640, 480, 3)$ (im Format ($H$, $W$, $C$)) auf $(120, 160, 3)$ reduziert und anschließend das obere Drittel des Bildes abgeschnitten, da dies meißt nur Horizont und sonstige Objekte beinhaltet. Die endgültige Größe des Inputs ist dann $(80, 160, 3)$.
+
+Eine Darstellung unseres Netzes mitsamt Vorverarbeitung der Daten ist in \ref{nvidia-model} zu sehen.
 
 \begin{figure}[H]
 	\centering
@@ -14,6 +18,55 @@ Außerdem wird in der Vorverarbeitung der Daten die Größe der Bilder von $(640
 	\label{nvidia-model}
 	\vspace{0.2cm}
 \end{figure}
+
+
+\section{Datengewinnung}
+
+Da wir uns in einer simulierten Umgebung befinden, gestaltet sich die Gewinnung von Daten mit entsprechenden Labeln als unproblematisch.
+
+\subsection{Label}
+
+Wir verfolgen zwei Ansätze in welchen wir das Netz auf unterschiedliche Ausgaben trainieren. Neben den beiden Werten, auf deren Berechnung im Folgenden eingegangen wird, nutzen wir noch einen dritten Wert als Label, die Art der Kachel auf welcher die Aufnahme entstanden ist.
+
+Im ersten Ansatz ist die Aufgabe des Netzes die Schätzung der Pose des Agenten. Dazu wird vom Simulator eine Aufnahme erzeugt, die Pose des Agenten relativ zur Fahrbahn berechnet und als Label zur Aufnahme abgespeichert. Die Poseninformationen bestehen aus der Distanz zur rechten Fahrbahnmarkierung und der Differenz der Orientierungen von Agent und Tangente der Ideallinie. Mit einem einfachen PD-Regler kann dann ein Steuerbefehl für den Agenten berechnet werden, wobei die Geschwindigkeit fix gewählt wird und die Winkelgeschwindigkeit das Ergebnis des Reglers ist. Da der Distanzwert $d$ von uns als hundertstel Kachelgröße und die Winkeldifferenz in Grad festgelegt wurde, hat eine typische Berechnung folgende Form:\\
+
+\begin{minipage}{\linewidth}
+	\begin{lstlisting}[caption={Berechnung eines Steuerbefehls mit PD-Regler}, language=python]
+	d, a = environment.cheatmodul.get_lane_pose()
+	d_hat_to_center = (d - 20.5) / 100.
+	a_hat_in_rad = (a * 2 * np.pi) / 360.
+	steering = k_p * d_hat_to_center + k_d * a_hat_in_rad
+	speed = 0.2
+	observation = environment.step((speed, steering))
+	data.append((observation, (d, a)))
+	\end{lstlisting}
+\end{minipage}
+
+\vspace{.5cm}
+Die magische Zahl von 20,5 ist einfach die Verschiebung des Wertes vom rechten Fahrbahnrand zur Mitte der Fahrspur, so dass das Ergebnis als Fehler zum Soll (also null) interpretiert werden kann. Das Teilen durch hundert ergibt dann einen Wert in Kachelgrößen, statt hundertstel Kachelgröße.
+Zur Vollständigkeit ist im Code noch stark vereinfacht verdeutlicht, wie Aufnahme und zugehöriges Label zustande kommen und gespeichert werden.
+
+Das Schätzen der Pose hat den Vorteil, dass die Informationen anderweitig verwendet werden könnten, beispielsweise zur Lokalisierung des Agenten in einem Monte-Carlo Verfahren.\\
+
+Im zweiten Ansatz trainieren wir das Netz direkt auf entsprechende Steuerbefehle in der Form Geschwindigkeit und Winkelgeschwindigkeit $(v, \omega)$. Dazu benutzen wir ein einfaches Expertensystem, welches mehr Informationen in die Berechnung des Befehls miteinbezieht, als nur die relative Pose des Agenten zum aktuellen Zeitpunkt. Dabei wird ein in einer definierten Distanz voraus liegender Punkt auf der Ideallinie gesucht. Befindet sich dieser Punkt in einer Kurve, oder sind die Orientierungen von Agent und Tangente der Fahrspur zu verschieden, wird $v$ als die Hälfte einer festgelegten Referenz-Geschwindigkeit festgelegt. Bei Geraden ist $v$ die volle Referenz-Geschwindigkeit. Die Winkelgeschwindigkeit $\omega$ ist das Skalarprodukt aus dem Vektor, welcher von Roboter in Richtung voraus liegenden Punkt zeigt und dem Einheitsvektor, welcher vom Agenten aus nach rechts zeigt.
+
+\begin{minipage}{\linewidth}
+	\begin{lstlisting}[caption={Berechnung eines Steuerbefehls mit einfachem Expertensystem}, language=python]
+	
+	projected_angle, closest_point, curve_point = environment._get_projected_angle_difference(lookup_distance)
+	tile = environment.get_tile(curve_point)
+	if 'curve' in tile['kind'] or abs(projected_angle) < 0.92:
+		v *= 0.5
+	point_vec = curve_point - environment.cur_pos
+	point_vec /= np.linalg.norm(point_vec)
+	right_vec = np.array([math.sin(self.env.cur_angle), 0, math.cos(self.env.cur_angle)])
+	omega = np.dot(right_vec, point_vec)
+	
+	\end{lstlisting}
+\end{minipage}
+
+\subsection{Observationen}
+
 
 
 \section{Inferenz der Pose des Agenten}

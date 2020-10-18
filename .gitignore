@@ -9,7 +9,8 @@ bin
 venv
 
 neural_perception/model/saved_model/
-neural_preception/model/caches/
+neural_perception/model/caches/
+neural_perception/model/logs*
 
 documentation/Dokumentation_Teamprojekt.aux
 documentation/Dokumentation_Teamprojekt.bbl

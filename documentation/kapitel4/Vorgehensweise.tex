@@ -123,13 +123,13 @@ Wie in \ref{pd-angles} und \ref{pd-distances} erkennbar, ist die Verteilung von 
 		\hline
 		\textbf{Datensatz} & \textbf{Größe} \\
 		\hline
-		PD & 100.000 \\
+		PD & 100000 \\
 		\hline
-		PD-Rand & 100.000 \\
+		PD-Rand & 100000 \\
 		\hline
-		Expert & 100.000 \\
+		Expert & 99943 \\
 		\hline
-		Expert-Rand & 100.000 \\
+		Expert-Rand & 99812 \\
 		\hline
 	\end{tabular}
 	\caption{Größe der erzeugten vier Datensätze}
@@ -160,6 +160,10 @@ Auf die berechneten Geschwindigkeiten der Expertendatensätze muss nicht eingega
 
 \section{Lernprozess}
 
+Für einen erfolgreichen Lernprozess ist zunächst die Wahl der Hyperparameter festzulegen, um eine stabile Konvergenz zu ermöglichen. Anschließend kann diese Konfiguration auf Kombinationen von Datensätzen angewand und verglichen werden.
+
+\subsection{Hyperparameter}
+
 Das Feintuning des Modells und die Wahl der Hyperparameter wurden in einem langwierigen Prozess experimentell erarbeitet.\\
 
 
@@ -184,6 +188,14 @@ Wir setzen den Adam Optimizer ein, da dieser durch adaptive Lernraten oft einen 
 
 Die Größe der Batch von 32 soll einen Kompromiss bilden zwischen Geschwindigkeit des Prozesses und der Fähigkeit des Netzes zu Generalisieren. Eine Batchgröße über 32 hat sich bereits als unvorteilhaft erwiesen \cite{keskar2017largebatch}.
 
-Als Fehlerfunktion wären prinzipiell sowohl MSE als auch MAE vorstellbar. Eine l2 Fehlerfunktion hat den Vorteil, dass Ausreißer in den Daten durch das Quadrat in der Funktion härter bestraft werden. Aber obwohl unsere Daten nur wenige Ausreißer aufweisen, hat sich in Experimenten die MAE nicht deutlich von der MSE unterschieden. Da MSE in der Literatur häufiger zum Einsatz kommt, blieben wir mit unserer Wahl bei ihr.
+Als Fehlerfunktion wären prinzipiell sowohl MSE als auch MAE vorstellbar. Eine l2 Fehlerfunktion hat den Vorteil, dass Ausreißer in den Daten durch das Quadrat in der Funktion härter bestraft werden. Unsere Daten weisen allerdings nur wenige Ausreißer auf, so dass sich in Experimenten die MAE nicht deutlich von der MSE unterschieden hat. Da MSE in der Literatur häufiger zum Einsatz kommt, blieben wir mit unserer Wahl bei ihr.
 
 Den Prozess ließen wir mit einer Dauer von 50 Epochen laufen.  Häufig ist schon nach wenigen Epochen erkennbar, ob die Kombination an gewählten Parametern eine gute Konvergenz ergibt. Aber sollte die Konfiguration konvergieren, geben 50 Durchläufe genug Zeit ein Minimum zu finden.
+
+\subsection{Anwendung}
+
+Wir haben vier Datensätze und kombinieren die Datensätze von beiden Ansätzen zur Erzeugung (ein mal durch einfaches Zusehen und ein mal durch häufiges Zurücksetzen), so dass sich insgesamt sechs ergeben (``PD'', ``PD-Rand'', ``PD + PD-Rand'',``Expert'',``Expert-Rand'',``Expert + Expert-Rand''). Natürlich muss beachtet werden, dass die beiden kombinierten Datensätze etwa doppelt so groß sind, wie die übrigen.\\
+
+Außerdem variiren wir den Output unserers Netzes. Beim Inferieren der relativen Pose testen wir, ob sich Unterschiede in der Performance des Netzes ergeben, je nach dem ob ein zwei- oder eindimensionaler Zustandsvektor geschätzt werden soll. Wir trainieren dabei ein mal nur auf den Distanzwert zur Fahrbahnbegrenzung und ein mal auf sowohl Distanz, als auch Winkeldifferenz.
+
+Das Gleiche testen wir ebenfalls an unsererm Experten Ansatz. Hier entfernen wir die Geschwindigkeit als Ziel beim Training und verwenden nur die wesentlich wichtigere Winkelgeschwindigkeit.

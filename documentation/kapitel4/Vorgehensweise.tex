@@ -23,6 +23,7 @@ Eine Darstellung unseres Netzes mitsamt Vorverarbeitung der Daten ist in \ref{nv
 \section{Datengewinnung}
 
 Da wir uns in einer simulierten Umgebung befinden, gestaltet sich die Gewinnung von Daten mit entsprechenden Labeln als unproblematisch.
+Im Folgenden gehen wir auf zwei Arten möglicher Label und zwei Methoden zur Generierung der Datensätze ein.
 
 \subsection{Label}
 
@@ -48,7 +49,7 @@ Zur Vollständigkeit ist im Code noch stark vereinfacht verdeutlicht, wie Aufnah
 
 Das Schätzen der Pose hat den Vorteil, dass die Informationen anderweitig verwendet werden könnten, beispielsweise zur Lokalisierung des Agenten in einem Monte-Carlo Verfahren.\\
 
-Im zweiten Ansatz trainieren wir das Netz direkt auf entsprechende Steuerbefehle in der Form Geschwindigkeit und Winkelgeschwindigkeit $(v, \omega)$. Dazu benutzen wir ein einfaches Expertensystem, welches mehr Informationen in die Berechnung des Befehls miteinbezieht, als nur die relative Pose des Agenten zum aktuellen Zeitpunkt. Dabei wird ein in einer definierten Distanz voraus liegender Punkt auf der Ideallinie gesucht. Befindet sich dieser Punkt in einer Kurve, oder sind die Orientierungen von Agent und Tangente der Fahrspur zu verschieden, wird $v$ als die Hälfte einer festgelegten Referenz-Geschwindigkeit festgelegt. Bei Geraden ist $v$ die volle Referenz-Geschwindigkeit. Die Winkelgeschwindigkeit $\omega$ ist das Skalarprodukt aus dem Vektor, welcher von Roboter in Richtung voraus liegenden Punkt zeigt und dem Einheitsvektor, welcher vom Agenten aus nach rechts zeigt.
+Im zweiten Ansatz trainieren wir das Netz direkt auf entsprechende Steuerbefehle in der Form Geschwindigkeit und Winkelgeschwindigkeit $(v, \omega)$. Dazu benutzen wir ein einfaches Expertensystem, welches mehr Informationen in die Berechnung des Befehls miteinbezieht, als nur die relative Pose des Agenten zum aktuellen Zeitpunkt. Dabei wird ein in einer definierten Distanz voraus liegender Punkt auf der Ideallinie gesucht. Befindet sich dieser Punkt in einer Kurve, oder sind die Orientierungen von Agent und Tangente der Fahrspur zu verschieden, wird $v$ als die Hälfte einer Referenz-Geschwindigkeit festgelegt. Bei Geraden ist $v$ die volle Referenz-Geschwindigkeit. Die Winkelgeschwindigkeit $\omega$ ist das Skalarprodukt aus dem Vektor, welcher von Roboter in Richtung voraus liegenden Punkt zeigt und dem Einheitsvektor, welcher vom Agenten aus nach rechts zeigt.
 
 \begin{minipage}{\linewidth}
 	\begin{lstlisting}[caption={Berechnung eines Steuerbefehls mit einfachem Expertensystem}, language=python]
@@ -70,7 +71,7 @@ Im zweiten Ansatz trainieren wir das Netz direkt auf entsprechende Steuerbefehle
 Bei der Gernerierung der Datensätze verfolgen wir ebenfalls zwei Ansätze. Im ersten, naiven Ansatz lassen wir den Agenten selbstständig durch die Umgebung fahren, wobei für jeden Aufruf der \texttt{step()} Methode eine Aufnahme mit entsprechendem Label gespeichert wird. Die Verteilung der Werte sollte demnach jener entsprechen, welche der Agent beim selbstständigen Fahren tatsächlich erlebt.
 
 Im zweiten Ansatz lassen wir den Agenten nur eine gewisse Anzahl von Schritten, also \texttt{step()} Aufrufen, fahren und rufen dann die \texttt{reset()} Methode des Simulators auf, welche den Agenten an eine zufällige, aber valide Pose zurücksetzt. Valide bedeutet, dass die Position befahrbar und frei von Kollisionen mit anderen Objekten ist.
-Der Gedanke dahinter ist, dass so die Verteilung der Werte mehr ``Ausnahmefälle'' beinhaltet. Denn sollte das Netz nicht im Stande sein, die Spur ähnlich gut halten zu können wie der PD-Regler oder das Expertensystem, wird es oft in Situationen geraten, auf welche es nicht trainiert wurde. Die Werteverteilung sollte so ähnlich sein zu dem, was der Agent erlebt falls er öfters ``crashen'' sollte.
+Der Gedanke dahinter ist, dass so die Verteilung der Werte mehr ``Ausnahmefälle'' beinhaltet. Denn sollte das Netz nicht im Stande sein, die Spur ähnlich gut halten zu können wie der PD-Regler oder das Expertensystem, wird es oft in Situationen geraten, auf welche es nicht trainiert wurde. Die Werteverteilung sollte so ähnlich sein zu dem, was der Agent erlebt, falls er öfters ``crashen'' sollte.
 
 \subsection{Datensätze}
 
@@ -113,28 +114,76 @@ Wie erleutert, ergeben sich zwei Ansätze zur Zusammensetzung des Labels und zwe
 	\label{pd-distances}
 \end{figure}
 
+Wie in \ref{pd-angles} und \ref{pd-distances} erkennbar, ist die Verteilung von sowohl Entfernungswerten, als auch Winkeldifferenzen im  ``PD-Rand'' Datensatz wesentlich gleichmäßiger als im ``PD''-Datensatz.
+
+
+\begin{figure}[H]
+	\centering
+	\begin{tabular}[t]{|l|l|}
+		\hline
+		\textbf{Datensatz} & \textbf{Größe} \\
+		\hline
+		PD & 100.000 \\
+		\hline
+		PD-Rand & 100.000 \\
+		\hline
+		Expert & 100.000 \\
+		\hline
+		Expert-Rand & 100.000 \\
+		\hline
+	\end{tabular}
+	\caption{Größe der erzeugten vier Datensätze}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{kapitel4/images/plots/expert/expert-angular_velocities.png}
+		\caption{Winkelgeschwindigkeiten des Expert Datensatzes}
+		\label{expert-angular}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{kapitel4/images/plots/expert-rand/expert-random-angular_velocities.png}
+		\caption{Winkelgeschwindigkeiten des Expert-Rand Datensatzes}
+		\label{expert-rand-angular}
+	\end{subfigure}
+	\caption{Verteilungen der Winkelgeschwindigkeiten der Expert Datensätze}
+	\label{expert-angles}
+\end{figure}
+
+
+In den Expertendatensätzen \ref{expert-angles} lässt sich ebenfalls ein deutlicher Unterschied in der Verteilung der berechneten Winkelgeschwindigkeiten des Steuerbefehls feststellen. In \ref{expert-rand-angular} ist eine Menge an Maximalwerten von -1 und 1 erkennbar (der Wertebereich durch das Skalarprodukt, kann zum Beispiel mit Faktor $\pi$ multipliziert werden).
+Auf die berechneten Geschwindigkeiten der Expertendatensätze muss nicht eingegangen werden, da zum einen aufgrund unseres einfachen Expertensystems die Verteilung nur aus zwei Werten besteht und zum Anderen sich diese Verteilung durch die Ansätze nicht wesentlich unterscheidet.\\
+
 
 \section{Lernprozess}
 
-Für den Lernprozess wird das überwachte Lernen als Lernverfahren eingesetzt. Zu Beginn des Lernprozesses werden zunächst die Hyperparameter des Modells festgelegt:
-\vspace{-0.4cm}
+Das Feintuning des Modells und die Wahl der Hyperparameter wurden in einem langwierigen Prozess experimentell erarbeitet.\\
+
+
 \begin{center}
 	\begin{tabular}[t]{|l|l|}
 		\hline
-		\textbf{Lerngeschwindigkeit} & 0.0002 \\
+		Lerngeschwindigkeit & 0.0002 \\
 		\hline
-		\textbf{Batch Größe} & 32 \\
+		Batch Größe & 32 \\
 		\hline
-		\textbf{Optimizer} & Adam \\
+		Optimizer & Adam \\
 		\hline
-		\textbf{Anzahl Epochen} & 50 \\
+		Anzahl Epochen & 50 \\
 		\hline
-		\textbf{Verlustfunktion} & MSE \\
+		Verlustfunktion & MSE \\
 		\hline
 	\end{tabular}
 \end{center}
 
-Anschließend wird einer der zuvor vorbereiteten Datensätze geladen, womit dann das Training des Modells erfolgt. \\
 
-Der Hauptmechanismus des Trainings stellt eine Feedback-Schleife dar. Die grundlegende Idee dabei ist, dass wir dem Modell die aufgenommenen Kamerabilder zeigen und uns die Vorhersagen des Modells merken. Anschließend können wir die Korrektheit der erhalten Vorhersagen prüfen und den Fehler im Bezug zum tatsächlichen Wert ermitteln. Daraufhin erfolgt im Modell eine Anpassung der einzelnen Gewichte der Neuronen (durch den Backpropagation-Mechanismus), mit dem Ziel bessere Vorhersagen treffen zu können. Anschließend wird der Vorgang wiederholt. Ein einzelner Durchlauf der  Feedback-Schleife wird dabei als eine Epoche bezeichnet. Je größer die Anzahl der Epochen eines künstlichen neuronalen Netzes ist, desto länger wurde es trainiert. Zum Schluss wird das trainierte Modell abgespeichert, damit es in den Simulator integriert werden kann.
+Wir setzen den Adam Optimizer ein, da dieser durch adaptive Lernraten oft einen schnelleren Lernprozess ermöglicht und generell in der Literatur oft zum Einsatz kommt. Wir parametrisieren Adam mit einer initialen Lernrate von $0.0002$. Diese ergab in Kombination mit einer Batchgröße von 32 in den meißten Fällen eine gute Konvergenz.
 
+Die Größe der Batch von 32 soll einen Kompromiss bilden zwischen Geschwindigkeit des Prozesses und der Fähigkeit des Netzes zu Generalisieren. Eine Batchgröße über 32 hat sich bereits als unvorteilhaft erwiesen \cite{keskar2017largebatch}.
+
+Als Fehlerfunktion wären prinzipiell sowohl MSE als auch MAE vorstellbar. Eine l2 Fehlerfunktion hat den Vorteil, dass Ausreißer in den Daten durch das Quadrat in der Funktion härter bestraft werden. Aber obwohl unsere Daten nur wenige Ausreißer aufweisen, hat sich in Experimenten die MAE nicht deutlich von der MSE unterschieden. Da MSE in der Literatur häufiger zum Einsatz kommt, blieben wir mit unserer Wahl bei ihr.
+
+Den Prozess ließen wir mit einer Dauer von 50 Epochen laufen.  Häufig ist schon nach wenigen Epochen erkennbar, ob die Kombination an gewählten Parametern eine gute Konvergenz ergibt. Aber sollte die Konfiguration konvergieren, geben 50 Durchläufe genug Zeit ein Minimum zu finden.

@@ -162,11 +162,8 @@ Die Bedienung des Simulators erfolgt in einer einfachen Kontrollschleife. Zunäc
 	while True:
 		
 		lane_pose = get_lane_pos(env)
-		
 		steering = k_p * lane_pose.dist + k_d * lane_pose.angle_rad
-		
 		obs,reward,done,info = env.step(np.array([speed, steering]))
-		
 		env.render()
 		
 		if done:

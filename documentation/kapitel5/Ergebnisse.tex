@@ -26,3 +26,53 @@ Anschließend integrieren wir das Netz in den DuckieTown-Simulator und bewerten 
 	\caption{MAE des Winkels mit 2D-Posenschätzung}
 	\label{2d-poses-mae-a}
 \end{figure}
+
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{kapitel5/images/d-only/Loss-d-only.png}
+	\caption{MSE der Distanz mit 1D-Posenschätzung}
+	\label{1d-poses-mse-d}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{kapitel5/images/d-only/Mean_Abs_Error_d-d-only.png}
+	\caption{MAE der Distanz mit 1D-Posenschätzung}
+	\label{1d-poses-mae-d}
+\end{figure}
+
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{kapitel5/images/expert/Loss-expert.png}
+	\caption{MSE der Winkelgeschwindigkeit mit Expertenbefehl}
+	\label{expert-mse-omega}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{kapitel5/images/expert/Mean_Abs_Error_omega-expert.png}
+	\caption{MAE der Winkelgeschwindigkeit mit Expertenbefehl}
+	\label{expert-mae-omega}
+\end{figure}
+
+
+\begin{table}
+	\begin{tabular}[t]{|l|l|r|r|r|r|r|}
+		\hline
+		\multirow{5}{*}{Datensatz} &
+		Kacheltyp & mean & std & min & max & n \\
+		\hline
+		 & Alle \\
+		\hline
+		 & Gerade \\
+		\hline
+		 & Linkskurve \\
+		\hline
+		 & Dreier \\
+		\hline
+	\end{tabular}
+\end{table}

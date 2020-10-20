@@ -47,7 +47,7 @@ Wir werden zur Berechnung des Steuerbefehls auf zwei Ansätze eingehen:
 
 \begin{itemize}
 	\item Inferenz der Pose des Agenten:\\
-	Aus der Aufnahme wird zunächst die relative Pose des Agenten zur Fahrspur inferiert. Diese besteht aus dem kürzesten Abstand $d$ zu einer Straßenmarkierung, sowie aus der Winkeldifferenz $\theta$ zwischen Orientierung des Agenten und der Fahrbahn. Diese Werte werden dann mit einem PID-Regler konstant gehalten.\\
+	Aus der Aufnahme wird zunächst die relative Pose des Agenten zur Fahrspur inferiert. Diese besteht aus dem kürzesten Abstand $d$ zu einer Straßenmarkierung, sowie aus der Winkeldifferenz $\theta$ zwischen Orientierung des Agenten und der Fahrbahn. Diese Werte werden dann mit einem \acs{pid}-Regler konstant gehalten.\\
 	Dieser Ansatz hat den Vorteil, dass die Poseninformationen außerdem noch für die schnellere Lokalisierung des Agenten genutzt werden können, da das Durchfahren einer Kurve von dem Fahren von Schlangenlinien unterschieden werden kann, wenn die Steuerbefehle mit $d$ abgeglichen werden.
 	\item Direkte Inferenz des Steuerbefehls:\\
 	Der weiter verbreitete Ansatz der direkten Inferenz übergeht die Schätzung der Pose. Anhand der Daten wird direkt ein Steuerbefehl geschätzt, bestehend aus der Geschwindigkeit $v$ und Winkelgeschwindigkeit $\omega$. Da für einen optimalen Steuerbefehl mehr Informationen nützlich sind als $d$ und $\theta$, ist dieser Ansatz ebenfalls vielversprechend. So kann ein Expertensystem für Steuerbefehle beispielsweise den weiteren Verlauf der Spur berücksichtigen, konkret die Winkeldifferenz zwischen der aktuellen Orientierung des Agenten und der Orientierung der Fahrspur an einem kommenden Zielpunkt.

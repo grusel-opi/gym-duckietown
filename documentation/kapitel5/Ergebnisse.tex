@@ -1,10 +1,10 @@
 \chapter{Ergebnisse}
 
-Zunächst testen wir, welche Art von Output sich für das Netz eignet. Dazu vergleichen wir die Performance unter Variation des Outputs mit den jeweils drei entsprechenden Datensätzen. 
+Zunächst testen wir, wie gut welche Art von Output während Trainings- und Testphase abschneidet. Dazu vergleichen wir die Performance unter Variation des Outputs mit den jeweils drei entsprechenden Datensätzen. 
 
-Anschließend integrieren wir das Netz in den DuckieTown-Simulator und bewerten die tatsächliche Performance.
+Anschließend integrieren wir das Netz in den DuckieTown-Simulator und bewerten die tatsächliche Performance in einer Validierungsphase.
 
-\section{Variation des Outputs}
+\section{Training und Test}
 
 Wie zu erwarten ist der Fehler des Netzes stark abhängig von der Verteilung der Trainingsdaten. So ergab sich in allen Fällen ein höherer Fehler, je größer der Anteil an Zufallsposen im Datensatz. 
 
@@ -34,21 +34,21 @@ Bei dem Schätzen der Distanz $d$ ist selbst mit dem ``\acs{pd}-Rand'' Datensatz
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\linewidth]{kapitel5/images//single-loss/Loss-single-loss.png}
+	\includegraphics[width=\linewidth]{kapitel5/images/tensorboard/single-loss/Loss-single-loss.png}
 	\caption{\acs{mse} mit \acs{2d}-Posenschätzung}
 	\label{2d-poses-mse}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\linewidth]{kapitel5/images/single-loss/Mean_Abs_Error_d-single-loss.png}
+	\includegraphics[width=\linewidth]{kapitel5/images/tensorboard/single-loss/Mean_Abs_Error_d-single-loss.png}
 	\caption{\acs{mae} der Distanz mit \acs{2d}-Posenschätzung}
 	\label{2d-poses-mae-d}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\linewidth]{kapitel5/images/single-loss/Mean_Abs_Error_a-single-loss.png}
+	\includegraphics[width=\linewidth]{kapitel5/images/tensorboard/single-loss/Mean_Abs_Error_a-single-loss.png}
 	\caption{\acs{mae} des Winkels mit \acs{2d}-Posenschätzung}
 	\label{2d-poses-mae-a}
 \end{figure}
@@ -76,7 +76,7 @@ Das Entfernen des Winkels aus dem Zustandsvektor bringt eine leichte Verbesserun
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\linewidth]{kapitel5/images/d-only/Loss-d-only.png}
+	\includegraphics[width=\linewidth]{kapitel5/images/tensorboard/d-only/Loss-d-only.png}
 	\caption{\acs{mse} der Distanz mit \acs{1d}-Posenschätzung}
 	\label{1d-poses-mse-d}
 \end{figure}
@@ -114,7 +114,7 @@ Wie zuvor zeigt sich auch hier, dass das Training mit hohem Anteil an Zufallspos
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\linewidth]{kapitel5/images/expert/Loss-expert.png}
+	\includegraphics[width=\linewidth]{kapitel5/images/tensorboard/expert/Loss-expert.png}
 	\caption{\acs{mse} der Winkelgeschwindigkeit mit Expertenbefehl}
 	\label{expert-mse-omega}
 \end{figure}
@@ -125,6 +125,8 @@ Wie zuvor zeigt sich auch hier, dass das Training mit hohem Anteil an Zufallspos
 % 	\caption{MAE der Winkelgeschwindigkeit mit Expertenbefehl}
 % 	\label{expert-mae-omega}
 % \end{figure}
+
+\section{Validierung}
 
 \begin{tabular}[t]{|c|l|r|r|}
 	\hline

@@ -7,7 +7,7 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 import time
 
-from neural_perception.util.pid_controller import PID, calculate_out_lim
+from learning.imitation.iil_dagger.teacher import PurePursuitPolicy
 from neural_perception.util.util import preprocess, get_lane_pos, own_render, get_mean_and_std
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
@@ -16,24 +16,11 @@ env = DuckietownEnv(domain_rand=False,
                     draw_bbox=False)
 
 model = tf.keras.models.load_model(
-    '/home/gandalf/ws/team/gym-duckietown/neural_perception/model/saved_model/12.10.2020-15:06:43')
+    '/home/gandalf/ws/team/gym-duckietown/neural_perception/model/saved_model/14.10.2020-18:53:08')
+
+expert = PurePursuitPolicy(env)
 
 speed = 0.2
-
-target = 25
-
-k_p_cheat = 0.075
-k_i_cheat = 0.0075
-k_d_cheat = 0.1875
-
-k_p_modell = 0.075
-k_i_modell = 0.00075
-k_d_modell = 0.000075
-
-pid = PID(k_p_modell, k_i_modell, k_d_modell, target)
-out_lim = calculate_out_lim(env, speed)
-pid.set_out_lim(out_lim)
-correction = 0
 
 steps = env.max_steps = 1_000
 visual = False
@@ -64,36 +51,33 @@ for i in range(steps):
     percent = round(i * 100 / steps, 2)
     print(f'\rrunning: {percent} %', end='\r')
 
-    lane_pose = get_lane_pos(env)
+    omega = expert.predict()
 
-    distance_to_road_edge = lane_pose.dist_to_edge * 100
-    distance_to_road_center = lane_pose.dist
+    omega_hat = model(obs)[0][0].numpy()
 
-    d = model(obs)[0][0].numpy()
+    omega_err = abs(omega_hat - omega)
 
-    dist_err = abs(distance_to_road_edge - d)
-
-    errors.append(dist_err)
-    labels.append(distance_to_road_edge)
-    predictions.append(d)
+    errors.append(omega_err)
+    labels.append(omega)
+    predictions.append(omega_hat)
 
     kind = env._get_tile(env.cur_pos[0], env.cur_pos[2])['kind']
 
     if kind.startswith('straight'):
-        straight_tile_errors.append(dist_err)
+        straight_tile_errors.append(omega_err)
     elif kind == 'curve_left':
-        curve_left_errors.append(dist_err)
+        curve_left_errors.append(omega_err)
     elif kind == 'curve_right':
-        curve_right_errors.append(dist_err)
+        curve_right_errors.append(omega_err)
     elif kind.startswith('3way'):
-        three_way_errors.append(dist_err)
+        three_way_errors.append(omega_err)
     elif kind.startswith('4way'):
-        four_way_errors.append(dist_err)
+        four_way_errors.append(omega_err)
 
     if nn_control:
-        correction = pid.update(d)
+        correction = omega_hat
     else:
-        correction = pid.update(distance_to_road_edge)
+        correction = omega
 
     action = np.array([speed, correction])
 
@@ -116,8 +100,6 @@ for i in range(steps):
 t1 = time.perf_counter()
 
 x = np.arange(len(errors))
-distances = labels
-distances_err = errors
 
 print("time: {}".format(t1 - t0))
 print()
@@ -162,15 +144,15 @@ if len(four_way_errors) != 0:
 # histograms for label distribution
 fig_hist, ax_hist_d = plt.subplots(1, 1)
 
-ax_hist_d.set_title("distances distribution")
-ax_hist_d.hist(distances)
+ax_hist_d.set_title("ideal angular velocities distribution")
+ax_hist_d.hist(labels)
 
 # error bar plot for label -> error mapping
 fig_scatter, ax_scat_d = plt.subplots(1, 1)
 
-distances_discrete, distances_err_mean, distances_err_std = get_mean_and_std(distances, distances_err)
+distances_discrete, distances_err_mean, distances_err_std = get_mean_and_std(labels, errors)
 
-ax_scat_d.set_title("distances error")
+ax_scat_d.set_title("omega error")
 ax_scat_d.errorbar(distances_discrete, distances_err_mean, yerr=distances_err_std, fmt='o')
 
 # line plot for (dist, angle) -> dist err
@@ -179,15 +161,15 @@ fig_line, ax_line_d_0 = plt.subplots(1, 1)
 
 color = 'tab:red'
 ax_line_d_0.set_xlabel('step')
-ax_line_d_0.set_ylabel('d error', color=color)
-ax_line_d_0.plot(x, distances_err, color=color)
+ax_line_d_0.set_ylabel('omega error', color=color)
+ax_line_d_0.plot(x, errors, color=color)
 ax_line_d_0.tick_params(axis='y', labelcolor=color)
 ax_line_d_0.axhline(c=color)
 
 ax_line_d_1 = ax_line_d_0.twinx()
 color = 'tab:blue'
-ax_line_d_1.set_ylabel('distances', color=color)
-ax_line_d_1.plot(x, distances, color=color)
+ax_line_d_1.set_ylabel('angular velocities', color=color)
+ax_line_d_1.plot(x, labels, color=color)
 ax_line_d_1.tick_params(axis='y', labelcolor=color)
 ax_line_d_1.axhline(y=25, c=color)
 

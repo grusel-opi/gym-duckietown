@@ -128,71 +128,170 @@ Wie zuvor zeigt sich auch hier, dass das Training mit hohem Anteil an Zufallspos
 
 \section{Validierung}
 
-\begin{tabular}[t]{|c|l|r|r|}
+\begin{tabular}[t]{|c|l|r|r|r|}
 	\hline
-	 & \textbf{Kacheltyp} & \textbf{MAE} & \textbf{n} \\
+	 & \textbf{Kacheltyp} & \textbf{MAE} & \textbf{n} & Chrashes \\
 	\hline
 	\multirow{4}{*}{PD} 
 	& Alle
 	& 12.59, 20.41
-	& 100000\\
+	& 100000
+	& \multirow{4}{*}{790}\\
 	\cline{2-4}
 	& Gerade
 	&  9.76, 13.79
-	& 53433\\
+	& 53433
+	&\\
 	\cline{2-4}
 	& Linkskurve
 	& 16.70,  35.28
-	& 20311\\
+	& 20311
+	&\\
 	\cline{2-4}
 	& Rechtskurve
 	& 23.78, 37.95 
-	& 4728\\
+	& 4728
+	&\\
 	\cline{2-4}
 	& 3-Wege
 	&  13.27, 18.95
-	& 21528\\
+	& 21528
+	&\\
 	\hline
 	\multirow{4}{*}{PD-Rand} 
 	& Alle
 	& 11.63, 17.19
-	& 100000\\
+	& 100000
+	& \multirow{4}{*}{485}\\
 	\cline{2-4}
 	& Gerade
 	&  9.67, 13.08
-	& 55325\\
+	& 55325 & \\
 	\cline{2-4}
 	& Linkskurve
 	& 14.38, 26.80
-	& 18513\\
+	& 18513
+	&\\
 	\cline{2-4}
 	& Rechtskurve
 	& 16.44, 31.53
-	& 3796\\
+	& 3796
+	&\\
 	\cline{2-4}
 	& 3-Wege
 	& 13.36, 16.97
-	& 22366\\
+	& 22366
+	&\\
 	\hline
 	\multirow{4}{*}{PD-Concat} 
 	& Alle
 	& 10.62, 16.37
-	& 100000\\
+	& 100000
+	& \multirow{4}{*}{592}\\
 	\cline{2-4}
 	& Gerade
 	& 7.67, 11.04
-	& 49792\\
+	& 49792
+	&\\
 	\cline{2-4}
 	& Linkskurve
 	& 13.73, 23.53
-	& 24695\\
+	& 24695
+	&\\
 	\cline{2-4}
 	& Rechtskurve
 	& 17.59, 29.68
-	& 5163\\
+	& 5163
+	&\\
 	\cline{2-4}
 	& 3-Wege
 	& 12.28, 17.35
-	& 20350\\
+	& 20350
+	&\\
+	\hline
+\end{tabular}
+
+
+\begin{tabular}[t]{|c|l|r|r|r|}
+	\hline
+	& \textbf{Kacheltyp} & \textbf{MAE} & \textbf{n} & Chrashes \\
+	\hline
+	\multirow{4}{*}{PD} 
+	& Alle
+	& 5.32
+	& 100000
+	& \multirow{4}{*}{1}\\
+	\cline{2-4}
+	& Gerade
+	&  3.09
+	& 45990
+	&\\
+	\cline{2-4}
+	& Linkskurve
+	& 9.77
+	& 34287
+	&\\
+	\cline{2-4}
+	& Rechtskurve
+	& 7.85
+	& 4403
+	&\\
+	\cline{2-4}
+	& 3-Wege
+	&  1.34
+	& 15320
+	&\\
+	\hline
+	\multirow{4}{*}{PD-Rand} 
+	& Alle
+	& 14.44
+	& 100000
+	& \multirow{4}{*}{27}\\
+	\cline{2-4}
+	& Gerade
+	&  9.73
+	& 7974
+	& \\
+	\cline{2-4}
+	& Linkskurve
+	& 13.01
+	& 1324
+	&\\
+	\cline{2-4}
+	& Rechtskurve
+	& 14.83
+	& 89228
+	&\\
+	\cline{2-4}
+	& 3-Wege
+	& 17.22
+	& 1474
+	&\\
+	\hline
+	\multirow{4}{*}{PD-Concat} 
+	& Alle
+	& 8.37
+	& 100000
+	& \multirow{4}{*}{49}\\
+	\cline{2-4}
+	& Gerade
+	& 6.36
+	& 80467
+	&\\
+	\cline{2-4}
+	& Linkskurve
+	& 16.04
+	& 9792
+	&\\
+	\cline{2-4}
+	& Rechtskurve
+	& 23.76
+	& 4276
+	&\\
+	\cline{2-4}
+	& 3-Wege
+	& 12.19
+	& 5465
+	&\\
 	\hline
 \end{tabular}

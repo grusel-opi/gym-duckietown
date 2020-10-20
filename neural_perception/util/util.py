@@ -9,7 +9,7 @@ from scipy.spatial.transform import Rotation
 from scipy.stats import truncnorm
 
 from gym_duckietown.simulator import WINDOW_WIDTH, WINDOW_HEIGHT, NotInLane, get_dir_vec
-from neural_perception.simulator.lane_extractor import detect_lane, display_lines
+from neural_perception.util.lane_extractor import detect_lane, display_lines
 from pyglet import gl, window, image
 
 

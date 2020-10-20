@@ -194,7 +194,7 @@ Den Prozess ließen wir mit einer Dauer von 50 Epochen laufen.  Häufig ist scho
 
 \subsection{Anwendung}
 
-Wir haben vier Datensätze und kombinieren die Datensätze von beiden Ansätzen zur Erzeugung (ein mal durch einfaches Zusehen und ein mal durch häufiges Zurücksetzen), so dass sich insgesamt sechs ergeben (``PD'', ``PD-Rand'', ``PD + PD-Rand'',``Expert'',``Expert-Rand'',``Expert + Expert-Rand''). Natürlich muss beachtet werden, dass die beiden kombinierten Datensätze etwa doppelt so groß sind, wie die übrigen.\\
+Wir haben vier Datensätze und kombinieren die Datensätze der beiden Ansätzen zur Erzeugung (ein mal durch einfaches Zusehen und ein mal durch häufiges Zurücksetzen), so dass sich insgesamt sechs ergeben (``PD'', ``PD-Rand'', ``PD + PD-Rand'',``Expert'',``Expert-Rand'',``Expert + Expert-Rand''). Natürlich muss beachtet werden, dass die beiden kombinierten Datensätze etwa doppelt so groß sind, wie die übrigen. Wir wählen eine Aufteilung der Datensätze von 70 \% und 30\% für Trainings- und Testdaten. Eine Validierung wird anschließend durch eine Integration des Netzes in den Simulator durchgeführt.\\
 
 Außerdem variiren wir den Output unserers Netzes. Beim Inferieren der relativen Pose testen wir, ob sich Unterschiede in der Performance des Netzes ergeben, je nach dem ob ein zwei- oder eindimensionaler Zustandsvektor geschätzt werden soll. Wir trainieren dabei ein mal nur auf den Distanzwert zur Fahrbahnbegrenzung und ein mal auf sowohl Distanz, als auch Winkeldifferenz.
 

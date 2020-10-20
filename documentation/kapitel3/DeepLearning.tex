@@ -2,7 +2,7 @@
 
 \section{Was ist Deep Learning?}
 
-Unter Deep Learning (zu deutsch tiefes Lernen) versteht man ein Teilgebiet des maschinellen Lernens, welches sich mit künstlichen neuronalen Netzen und große Datenmengen befasst. Es eignet sich für eine Vielzahl von Anwendungsfällen wie beispielsweise für selbstfahrende Autos, in der Medizin als auch im Marketing. \cite{datasolut2}\\
+Unter Deep Learning (zu deutsch tiefes Lernen) versteht man ein Teilgebiet des maschinellen Lernens (\acs{s.} \acs{abb.} \ref{overview-ki}), welches sich mit künstlichen neuronalen Netzen und große Datenmengen befasst. Es eignet sich für eine Vielzahl von Anwendungsfällen wie beispielsweise für selbstfahrende Autos, in der Medizin als auch im Marketing. \cite{datasolut2}\\
 
 Mit Deep Learning können Probleme gelöst werden, die ohne diese Ansätze nicht lösbar wären. Tiefes Lernen ist allerdings sehr rechenaufwändig, wodurch das Training über Monate hinweg andauern kann, um gute Entscheidungen treffen zu können. Gründe hierfür sind komplexe Architekturen sowie eine Vielzahl an Modell-Parametern. \cite{datasolut2} \\
 
@@ -10,6 +10,7 @@ Mit Deep Learning können Probleme gelöst werden, die ohne diese Ansätze nicht
 	\centering
 	\includegraphics[width=\textwidth]{kapitel3/images/KI_Uebersicht.png}
 	\caption{Übersicht Künstliche Intelligenz}
+	\label{overview-ki}
 	\vspace{0.2cm}
 	\quelle\url{https://datasolut.com/wp-content/uploads/2019/11/KI-und-Deep-Learning.002-e1558385989498.jpeg}
 \end{figure}
@@ -18,13 +19,13 @@ Die Grundlage des Deep Learnings stellt die Verwendung von künstlichen neuronal
 
 \newpage
 
-Ein einfaches künstliches neuronales Netz besteht dabei aus einer Eingabeschicht (Input Layer), einer Zwischenschicht (Hidden Layer) und einer Ausgabeschicht (Output Layer). \cite{datasolut2}
+Ein einfaches künstliches neuronales Netz besteht dabei aus einer Eingabeschicht (Input Layer), einer Zwischenschicht (Hidden Layer) und einer Ausgabeschicht (Output Layer) \cite{datasolut2}. Abbildung \ref{simple-net} zeigt eine einfache Darstellung eines beispielhaften künstlichen neuronalen Netzes.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.65\textwidth]{kapitel3/images/Simples_Neuronales_Netz.jpg}
 	\caption{Darstellung eines beispielhaften künstlichen neuronalen Netzes \\ (vereinfacht)}
-	\label{fig:simples-neuronales-netz}
+	\label{simple-net}
 	\vspace{0.2cm}
 	\quelle\url{https://datasolut.com/wp-content/uploads/2019/10/ku%CC%88nstliche-neuronale-Netze.jpg}
 \end{figure}
@@ -33,13 +34,13 @@ Von tiefem Lernen spricht man dann, wenn die eingesetzten neuronalen Netze mehr 
 
 \section{Warum Deep Learning?}
 
-Es gibt Problemstellungen (wie beispielsweise die unstrukturierte Bilderkennung), die sich besonders gut mit künstlichen neuronalen Netzen lösen lassen. Das Erlernen dieser komplexen Muster ist jedoch mit klassischen Machine Learning Algorithmen nur sehr schwer lösbar. Hier kommen dann tiefe künstliche neuronale Netze zum Einsatz. Je größer die Datenmenge ist, die zum Lernen verwendet wird, desto besser funktioniert das tiefe Lernen. \cite{datasolut2}
+Es gibt Problemstellungen (wie beispielsweise die unstrukturierte Bilderkennung), die sich besonders gut mit künstlichen neuronalen Netzen lösen lassen. Das Erlernen dieser komplexen Muster ist jedoch mit klassischen Machine Learning Algorithmen nur sehr schwer lösbar. Hier kommen dann tiefe künstliche neuronale Netze zum Einsatz. Je größer die Datenmenge ist, die zum Lernen verwendet wird, desto besser funktioniert das tiefe Lernen \cite{datasolut2}. In \acs{abb.} \ref{deep-learning-performance} ist die Performance von Deep Learning Algorithmen im Vergleich zu älteren Lernalgorithmen dargestellt.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.4]{kapitel3/images/Deep_Learning_Performance.png}
-	\label{fig:deep-learning-performance}
 	\caption{Darstellung der Performance von Deep Learning Algorithmen im Vergleich zu älteren Lernalgorithmen}
+	\label{deep-learning-performance}
 	\vspace{0.2cm}
 	\quelle\url{https://datasolut.com/wp-content/uploads/2019/11/Warum-deep-learning-1024x742.png}
 \end{figure}
@@ -57,20 +58,21 @@ Beim maschinellen Lernen bzw. beim Deep Learning stehen drei unterschiedliche Le
 	Das unüberwachte Lernen nutzt für den Lernprozess keine Beispieldaten, sondern Rohdaten, aus denen eigenständig Muster erkannt werden sollen. \\
 	Der hauptsächliche Unterschied zum überwachten Lernen ist also, dass das unüberwachte Lernen nicht dafür ausgelegt ist, eine Vorhersage für eine bekannte Zielvariable zu treffen. \cite{datasolut3}
 	\item Bestärkendes Lernen (Reinforcment Learning)\\
-	Anders als das überwachte bzw. unüberwachte Lernen nutzt das bestärkende Lernen zunächst keine Daten, sondern diese entstehen in einer Simulationsumgebung nach einem Versuch-und-Irrtum-Verfahren. \cite{der-onliner_blogspot}
-	
+	Anders als das überwachte \acs{bzw} unüberwachte Lernen nutzt das bestärkende Lernen zunächst keine Daten, sondern diese entstehen in einer Simulationsumgebung nach einem Versuch-und-Irrtum-Verfahren. \cite{der-onliner_blogspot}
 \end{itemize}
+
+In Abbildung \ref{overview-machine-learning-algorithms} ist eine Übersicht über die  verschiedenen Lernverfahren dargestellt.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.6\textwidth]{kapitel3/images/lernverfahren.png}
-	\label{fig:machine-learning-algorithms}
 	\caption{Darstellung der verschiedenen Lernverfahren}
+	\label{overview-machine-learning-algorithms}
 	\vspace{0.2cm}
 	\quelle\url{https://1.bp.blogspot.com/-xstYqLb9OBw/XSYZUUD0WrI/AAAAAAAAML4/4sxvpGjIsDgmR7bDYyhcKdfM0TbvIIHdwCEwYBhgL/s400/machine-learning-lernverfahren.png}
 \end{figure}
 
-Welches Lernverfahren schlussendlich eingesetzt wird, hängt hierbei vom Anwendungsfall ab sowie mit den daraus resultierenden Datensätzen.
+Welches Lernverfahren schlussendlich eingesetzt wird, hängt hierbei vom Anwendungsfall ab sowie mit den daraus resultierenden Datensätzen. 
 
 \section{Datensatz}
 
@@ -224,7 +226,7 @@ Einige Beispiele für Hyperparameter sind:
 			\begin{enumerate}
 				\item \textbf{AdaGrad:}
 				
-					Der Kerngedanke hinter AdaGrad ist das Herunterskalieren des Gradientenvektors, d.h. die Lernrate wird pro Dimension nach und nach verringert, wobei die Verringerung bei steilen Dimensionen schneller erfolgt. \cite{lucas_plagwitz}
+					Der Kerngedanke hinter AdaGrad ist das Herunterskalieren des Gradientenvektors, \acs{d.h.} die Lernrate wird pro Dimension nach und nach verringert, wobei die Verringerung bei steilen Dimensionen schneller erfolgt. \cite{lucas_plagwitz}
 					
 				\item \textbf{RMSProp:}
 				
@@ -263,21 +265,22 @@ Um zu verhindern, dass der Lernprozess die Gewichte beliebig groß gestaltet, ka
 
 \section{Convolutional Neural Networks (CNNs)}
 
-	Convolutional Neural Networks (CNNs) können besonders effizient mit 2D- bzw. 3D-Eingabedaten arbeiten. Insbesondere werden CNNs für die Objektdetektion in Bildern angewendet. \cite{datasolut4} \\
+	\acf{cnns} können besonders effizient mit \acs{2d}- \acs{bzw} \acs{3d}-Eingabedaten arbeiten. Insbesondere werden \acs{cnns} für die Objektdetektion in Bildern angewendet \cite{datasolut4}. In \acs{abb.} \ref{example-cnn} kann man die Darstellung eines beispielhaftes \acs{cnn} sehen. \\
 	
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.9\textwidth]{kapitel3/images/cnn.png}
 		\caption{Darstellung eines beispielhaften CNN}
+		\label{example-cnn}
 		\vspace{0.2cm}
 		\quelle\url{https://de.wikipedia.org/wiki/Convolutional_Neural_Network#/media/Datei:Typical_cnn.png}
 	\end{figure}
 
-	Der Unterschied zu den klassischen künstlichen neuronalen Netzen liegt in der Architektur der CNNs: Die Zwischenschicht basiert hierbei auf einer Abfolge von Faltungs- und Poolingoperationen. Bei der Faltung wird ein sogenannter Faltungskernel über die Daten geschoben und das Ergebnis der Faltungsoperation wird berechnet. Anschließend werden die Neuronen aktualisiert. Die nachfolgende Poolingoperation sorgt dann dafür, dass die Ergebnisse vereinfacht werden. Dadurch bleiben nur die wichtigsten Informationen erhalten.	Des Weiteren wird dadurch erreicht, dass die 2D- oder 3D-Eingangsdaten kleiner werden. \cite{datasolut4}
+	Der Unterschied zu den klassischen künstlichen neuronalen Netzen liegt in der Architektur der \acs{cnns}: Die Zwischenschicht basiert hierbei auf einer Abfolge von Faltungs- und Poolingoperationen. Bei der Faltung wird ein sogenannter Faltungskernel über die Daten geschoben und das Ergebnis der Faltungsoperation wird berechnet. Anschließend werden die Neuronen aktualisiert. Die nachfolgende Poolingoperation sorgt dann dafür, dass die Ergebnisse vereinfacht werden. Dadurch bleiben nur die wichtigsten Informationen erhalten.	Des Weiteren wird dadurch erreicht, dass die \acs{2d}- oder \acs{3d}-Eingangsdaten kleiner werden. \cite{datasolut4}
 	
 \section{Multilayer-Perzeptron (MLP)}
 
-Ein einzelnes Perzeptron kann für sich genommen lediglich eine lineare Klassifikation erzielen (s. Abb. \ref{linear-classification}) Es ist jedoch des Öfteren notwendig, weitaus komplexere Klassifikationen zu bewerkstelligen. Dies lässt sich erreichen, indem mehrere Perzeptronen miteinander verschaltet werden. Dabei werden die einzelnen Perzeptrone zunächst in Schichten angeordnet. Die Perzeptronen einer Schicht, sind dann jeweils mit jedem Perzeptron der folgenden Schicht verschaltet. Innerhalb einer Schicht werden die Perzeptronen nicht miteinander verbunden und es darf auch keine zyklischen Verschaltungen zwischen den Schichten geben. Das resultierende Ergebnis wird dann als sogenanntes Multilayer-Perzeptron (MLP) bezeichnet. Die erste Schicht ist hierbei die Eingabeschicht. Sie ist dafür zuständig, die einzelnen Werte der Eingänge über die Eingabeperzeptronen an jedes Perzeptron der nächsten Schicht weiter zu leiten. Nach der Eingabeschicht folgen eine bzw. mehrere Zwischenschichten. In den Zwischenschichten findet dann der eigentliche Klassifikationsprozess statt. Die nichtlineare Klassifikation (s. Abb. \ref{non-linear-classification}) entsteht dabei durch den Einsatz von mehreren Perzeptronen. Nach den Zwischenschichten folgt letztendlich die Ausgabeschicht, welche aus den sogenannten Ausgabeperzeptronen besteht. Das Ergebnis des Klassifikationsprozesses wird dann schlussendlich über diese Schicht ausgegeben. Jede Schicht des MLP kann dabei aus mehreren Perzeptronen bestehen, aber es muss immer mindestens ein Perzeptron vorhanden sein. \cite{oliver-gableske}
+Ein einzelnes Perzeptron kann für sich genommen lediglich eine lineare Klassifikation erzielen (\acs{s.} \acs{abb.} \ref{linear-classification}) Es ist jedoch des Öfteren notwendig, weitaus komplexere Klassifikationen zu bewerkstelligen. Dies lässt sich erreichen, indem mehrere Perzeptronen miteinander verschaltet werden. Dabei werden die einzelnen Perzeptrone zunächst in Schichten angeordnet. Die Perzeptronen einer Schicht, sind dann jeweils mit jedem Perzeptron der folgenden Schicht verschaltet. Innerhalb einer Schicht werden die Perzeptronen nicht miteinander verbunden und es darf auch keine zyklischen Verschaltungen zwischen den Schichten geben. Das resultierende Ergebnis wird dann als sogenanntes \acf{mlp} bezeichnet. Die erste Schicht ist hierbei die Eingabeschicht. Sie ist dafür zuständig, die einzelnen Werte der Eingänge über die Eingabeperzeptronen an jedes Perzeptron der nächsten Schicht weiter zu leiten. Nach der Eingabeschicht folgen eine \acs{bzw} mehrere Zwischenschichten. In den Zwischenschichten findet dann der eigentliche Klassifikationsprozess statt. Die nichtlineare Klassifikation (s. Abb. \ref{non-linear-classification}) entsteht dabei durch den Einsatz von mehreren Perzeptronen. Nach den Zwischenschichten folgt letztendlich die Ausgabeschicht, welche aus den sogenannten Ausgabeperzeptronen besteht. Das Ergebnis des Klassifikationsprozesses wird dann schlussendlich über diese Schicht ausgegeben. Jede Schicht des \acs{mlp} kann dabei aus mehreren Perzeptronen bestehen, aber es muss immer mindestens ein Perzeptron vorhanden sein. \cite{oliver-gableske}
 
 \begin{figure}[h]
 	\captionsetup[subfigure]{position=b}

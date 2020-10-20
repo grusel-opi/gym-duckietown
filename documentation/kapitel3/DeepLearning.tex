@@ -159,13 +159,13 @@ Einige Beispiele für Hyperparameter sind:
 			\addvbuffer[0.05cm]{\includegraphics[scale=0.5]{kapitel3/images/sigmoid.png}}
 		\end{tabular} \\
 		\hline
-		\begin{tabular}{l} ReLu \end{tabular} &  
+		\begin{tabular}{l} \acs{relu} \end{tabular} &  
 		\begin{tabular}{l} $ f(x) = \max (0,x) $ \end{tabular} &
 		\begin{tabular}{l}
 			\addvbuffer[0.05cm]{\includegraphics[scale=0.5]{kapitel3/images/relu.png}}
 		\end{tabular} \\
 		\hline
-		\begin{tabular}{l} ELU \end{tabular} &  
+		\begin{tabular}{l} \acs{elu} \end{tabular} &  
 		\begin{tabular}{l} $ f(\alpha, x) = \begin{cases} \alpha (e^x - 1) \quad \textrm{für} \ x \leq 0 \\ x \hspace{1.75cm} \textrm{für} \ x > 0 \end{cases} $ \end{tabular} &
 		\begin{tabular}{l}
 			\addvbuffer[0.05cm]{\includegraphics[scale=0.25]{kapitel3/images/elu.jpg}}
@@ -187,17 +187,17 @@ Einige Beispiele für Hyperparameter sind:
 		\hline
 		Mittlere quadratische Abweichung  &  
 		\addvbuffer[0.05cm]{
-			$ \textrm{MSE} = \frac{\sum_{i=1}^{n} (y_i - \hat{y_i})^2}{n} $
+			$ \textrm{\acs{mse}} = \frac{\sum_{i=1}^{n} (y_i - \hat{y_i})^2}{n} $
 		} \\
 		\hline
 		Mittlerer absoluter Fehler  &  
 		\addvbuffer[0.05cm]{
-			$ \textrm{MAE} = \frac{\sum_{i=1}^{n} |y_i - \hat{y_i}|}{n} $
+			$ \textrm{\acs{mae}} = \frac{\sum_{i=1}^{n} |y_i - \hat{y_i}|}{n} $
 		} \\
 		\hline
 		Mittlerer Bias Fehler  &  
 		\addvbuffer[0.05cm]{
-			$ \textrm{MBE} = \frac{\sum_{i=1}^{n} (y_i - \hat{y_i})}{n} $
+			$ \textrm{\acs{mbe}} = \frac{\sum_{i=1}^{n} (y_i - \hat{y_i})}{n} $
 		} \\
 		\hline
 		
@@ -260,7 +260,7 @@ Dies lässt sich damit erklären, dass das Lernverfahren als eine Minimumssuche 
 \subsubsection{Regularisierung}
 
 Neuronale Netze bilden Input über ihre Gewichte auf einen gewissen Output ab. Ist die Größenordnung mancher Gewichte größer als die von anderen, ist die Wahrscheinlichkeit hoch, dass das Netz überstimmt ist. Eine kleine Abweichung im Input kann dann drastische Auswirkungen auf den Output haben.
-Um zu verhindern, dass der Lernprozess die Gewichte beliebig groß gestaltet, kann an die Fehlerfunktion ein zusätzlicher Term angefügt werden, welcher die Größe der Gewichte beinhaltet. L2 Regularisierung zum Beispiel, multipliziert das Quadrat der Größe der Gewichte mit einem Vorfaktor, einem Hyperparameter, und addiert das Ergebniss auf den Wert der Fehlerfunktion. Große Gewichte werden so bestraft.
+Um zu verhindern, dass der Lernprozess die Gewichte beliebig groß gestaltet, kann an die Fehlerfunktion ein zusätzlicher Term angefügt werden, welcher die Größe der Gewichte beinhaltet. Eine L2-Regularisierung zum Beispiel, multipliziert das Quadrat der Größe der Gewichte mit einem Vorfaktor, einem Hyperparameter, und addiert das Ergebniss auf den Wert der Fehlerfunktion. Große Gewichte werden so bestraft.
 
 
 \section{Convolutional Neural Networks (CNNs)}
@@ -298,7 +298,7 @@ Ein einzelnes Perzeptron kann für sich genommen lediglich eine lineare Klassifi
 		\caption{Nichtlineare Klassifikation mittels MLP}
 		\label{non-linear-classification}
 	\end{subfigure}
-	\caption{Lineare Klassifikation vs. Nichtlineare Klassifikation}
+	\caption{Lineare Klassifikation \acs{vs.} Nichtlineare Klassifikation}
 	\quelle\url{https://www.informatik.uni-ulm.de/ni/Lehre/WS04/ProSemNN/pdf/MLP.pdf}
 \end{figure}
 

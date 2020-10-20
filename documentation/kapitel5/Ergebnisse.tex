@@ -10,9 +10,9 @@ Wie zu erwarten ist der Fehler des Netzes stark abhängig von der Verteilung der
 
 \subsection{2D-Pose}
 
-Beim Training auf eine 2D-Pose fällt auf, dass das Schätzen des Winkels $\theta$ eine größere Herausforderung darstellt, als das Schätzen der Distanz $d$. \ref{2d-poses-mse} zeigt, dass bei dem Training mit Daten mit hohem Anteil an Zufallsposen (Datensatz ``PD-Rand'' in den Farben Grün und Lila) das Netz etwa ab der zehnten Epoche überstimmt ist. Im Vergleich mit den absoluten Fehlern der einzelnen Dimensionen in \ref{2d-poses-mae-d} und \ref{2d-poses-mae-a}, ist festzustellen, dass die Überstimmung vor allem auf Schwierigkeiten mit dem Schätzen des Winkels $\theta$ zurückzuführen ist.
+Beim Training auf eine \acs{2d}-Pose fällt auf, dass das Schätzen des Winkels $\theta$ eine größere Herausforderung darstellt, als das Schätzen der Distanz $d$. \ref{2d-poses-mse} zeigt, dass bei dem Training mit Daten mit hohem Anteil an Zufallsposen (Datensatz ``\acs{pd}-Rand'' in den Farben Grün und Lila) das Netz etwa ab der zehnten Epoche überstimmt ist. Im Vergleich mit den absoluten Fehlern der einzelnen Dimensionen in \ref{2d-poses-mae-d} und \ref{2d-poses-mae-a}, ist festzustellen, dass die Überstimmung vor allem auf Schwierigkeiten mit dem Schätzen des Winkels $\theta$ zurückzuführen ist.
 
-Bei dem Schätzen der Distanz $d$ ist selbst mit dem ``PD-Rand'' Datensatz in Epoche 50 die Überstimmung des Netzes minimal, wie in \ref{2d-poses-mae-d} zu sehen ist.
+Bei dem Schätzen der Distanz $d$ ist selbst mit dem ``\acs{pd}-Rand'' Datensatz in Epoche 50 die Überstimmung des Netzes minimal, wie in \ref{2d-poses-mae-d} zu sehen ist.
 
 
 \begin{figure}[H]
@@ -28,28 +28,28 @@ Bei dem Schätzen der Distanz $d$ ist selbst mit dem ``PD-Rand'' Datensatz in Ep
 			PD + PD-Rand & 143.8 & 5.353 & 8.036 \\
 			\hline
 		\end{tabular}
-	\caption{Performance der 2D-Posenschätzung auf Testdaten}
+	\caption{Performance der \acs{2d}-Posenschätzung auf Testdaten}
 	\label{2d-pose-performance}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{kapitel5/images//single-loss/Loss-single-loss.png}
-	\caption{MSE mit 2D-Posenschätzung}
+	\caption{\acs{mse} mit \acs{2d}-Posenschätzung}
 	\label{2d-poses-mse}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{kapitel5/images/single-loss/Mean_Abs_Error_d-single-loss.png}
-	\caption{MAE der Distanz mit 2D-Posenschätzung}
+	\caption{\acs{mae} der Distanz mit \acs{2d}-Posenschätzung}
 	\label{2d-poses-mae-d}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{kapitel5/images/single-loss/Mean_Abs_Error_a-single-loss.png}
-	\caption{MAE des Winkels mit 2D-Posenschätzung}
+	\caption{\acs{mae} des Winkels mit \acs{2d}-Posenschätzung}
 	\label{2d-poses-mae-a}
 \end{figure}
 
@@ -70,18 +70,18 @@ Das Entfernen des Winkels aus dem Zustandsvektor bringt eine leichte Verbesserun
 		PD + PD-Rand & 60.0 & 4.364 \\
 		\hline
 	\end{tabular}
-	\caption{Performance der 1D-Posenschätzung auf Testdaten}
+	\caption{Performance der \acs{1d}-Posenschätzung auf Testdaten}
 	\label{1d-pose-performance}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{kapitel5/images/d-only/Loss-d-only.png}
-	\caption{MSE der Distanz mit 1D-Posenschätzung}
+	\caption{\acs{mse} der Distanz mit \acs{1d}-Posenschätzung}
 	\label{1d-poses-mse-d}
 \end{figure}
 
-Allerdings führt die Reduktion auf das Schätzen des Distanzwertes allein zu einer stärkeren Überstimmung des Netzes. In \ref{1d-poses-mse-d} ist erkennbar, dass sowohl bei dem Training mit dem ``PD-Rand'' (hier in Orange für die Trainingsdaten und Grau für die Testdaten), als auch mit dem ``PD + PD-Rand'' Datensatz (Rot für Training und Blau für Test), das Netz spätestens ab Epoche 15 überstimmt ist.
+Allerdings führt die Reduktion auf das Schätzen des Distanzwertes allein zu einer stärkeren Überstimmung des Netzes. In \ref{1d-poses-mse-d} ist erkennbar, dass sowohl bei dem Training mit dem ``PD-Rand'' (hier in Orange für die Trainingsdaten und Grau für die Testdaten), als auch mit dem ``\acs{pd} + \acs{pd}-Rand'' Datensatz (Rot für Training und Blau für Test), das Netz spätestens ab Epoche 15 überstimmt ist.
 
 \subsection{Steuerbefehl durch Expertensystem}
 
@@ -115,7 +115,7 @@ Wie zuvor zeigt sich auch hier, dass das Training mit hohem Anteil an Zufallspos
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{kapitel5/images/expert/Loss-expert.png}
-	\caption{MSE der Winkelgeschwindigkeit mit Expertenbefehl}
+	\caption{\acs{mse} der Winkelgeschwindigkeit mit Expertenbefehl}
 	\label{expert-mse-omega}
 \end{figure}
 

@@ -2,7 +2,7 @@
 
 \section{Was ist Deep Learning?}
 
-Unter Deep Learning (zu deutsch tiefes Lernen) versteht man ein Teilgebiet des maschinellen Lernens, welches sich mit künstlichen neuronalen Netzen und große Datenmengen befasst. Es eignet sich für eine Vielzahl von Anwendungsfällen wie beispielsweise für selbstfahrende Autos, in der Medizin als auch im Marketing. \cite{datasolut2}\\
+Unter Deep Learning (zu deutsch tiefes Lernen) versteht man ein Teilgebiet des maschinellen Lernens (\acs{s.} \acs{abb.} \ref{overview-ki}), welches sich mit künstlichen neuronalen Netzen und große Datenmengen befasst. Es eignet sich für eine Vielzahl von Anwendungsfällen wie beispielsweise für selbstfahrende Autos, in der Medizin als auch im Marketing. \cite{datasolut2}\\
 
 Mit Deep Learning können Probleme gelöst werden, die ohne diese Ansätze nicht lösbar wären. Tiefes Lernen ist allerdings sehr rechenaufwändig, wodurch das Training über Monate hinweg andauern kann, um gute Entscheidungen treffen zu können. Gründe hierfür sind komplexe Architekturen sowie eine Vielzahl an Modell-Parametern. \cite{datasolut2} \\
 
@@ -10,6 +10,7 @@ Mit Deep Learning können Probleme gelöst werden, die ohne diese Ansätze nicht
 	\centering
 	\includegraphics[width=\textwidth]{kapitel3/images/KI_Uebersicht.png}
 	\caption{Übersicht Künstliche Intelligenz}
+	\label{overview-ki}
 	\vspace{0.2cm}
 	\quelle\url{https://datasolut.com/wp-content/uploads/2019/11/KI-und-Deep-Learning.002-e1558385989498.jpeg}
 \end{figure}
@@ -18,13 +19,13 @@ Die Grundlage des Deep Learnings stellt die Verwendung von künstlichen neuronal
 
 \newpage
 
-Ein einfaches künstliches neuronales Netz besteht dabei aus einer Eingabeschicht (Input Layer), einer Zwischenschicht (Hidden Layer) und einer Ausgabeschicht (Output Layer). \cite{datasolut2}
+Ein einfaches künstliches neuronales Netz besteht dabei aus einer Eingabeschicht (Input Layer), einer Zwischenschicht (Hidden Layer) und einer Ausgabeschicht (Output Layer) \cite{datasolut2}. Abbildung \ref{simple-net} zeigt eine einfache Darstellung eines beispielhaften künstlichen neuronalen Netzes.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.65\textwidth]{kapitel3/images/Simples_Neuronales_Netz.jpg}
 	\caption{Darstellung eines beispielhaften künstlichen neuronalen Netzes \\ (vereinfacht)}
-	\label{fig:simples-neuronales-netz}
+	\label{simple-net}
 	\vspace{0.2cm}
 	\quelle\url{https://datasolut.com/wp-content/uploads/2019/10/ku%CC%88nstliche-neuronale-Netze.jpg}
 \end{figure}
@@ -33,13 +34,13 @@ Von tiefem Lernen spricht man dann, wenn die eingesetzten neuronalen Netze mehr 
 
 \section{Warum Deep Learning?}
 
-Es gibt Problemstellungen (wie beispielsweise die unstrukturierte Bilderkennung), die sich besonders gut mit künstlichen neuronalen Netzen lösen lassen. Das Erlernen dieser komplexen Muster ist jedoch mit klassischen Machine Learning Algorithmen nur sehr schwer lösbar. Hier kommen dann tiefe künstliche neuronale Netze zum Einsatz. Je größer die Datenmenge ist, die zum Lernen verwendet wird, desto besser funktioniert das tiefe Lernen. \cite{datasolut2}
+Es gibt Problemstellungen (wie beispielsweise die unstrukturierte Bilderkennung), die sich besonders gut mit künstlichen neuronalen Netzen lösen lassen. Das Erlernen dieser komplexen Muster ist jedoch mit klassischen Machine Learning Algorithmen nur sehr schwer lösbar. Hier kommen dann tiefe künstliche neuronale Netze zum Einsatz. Je größer die Datenmenge ist, die zum Lernen verwendet wird, desto besser funktioniert das tiefe Lernen \cite{datasolut2}. In \acs{abb.} \ref{deep-learning-performance} ist die Performance von Deep Learning Algorithmen im Vergleich zu älteren Lernalgorithmen dargestellt.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.4]{kapitel3/images/Deep_Learning_Performance.png}
-	\label{fig:deep-learning-performance}
 	\caption{Darstellung der Performance von Deep Learning Algorithmen im Vergleich zu älteren Lernalgorithmen}
+	\label{deep-learning-performance}
 	\vspace{0.2cm}
 	\quelle\url{https://datasolut.com/wp-content/uploads/2019/11/Warum-deep-learning-1024x742.png}
 \end{figure}
@@ -57,20 +58,21 @@ Beim maschinellen Lernen bzw. beim Deep Learning stehen drei unterschiedliche Le
 	Das unüberwachte Lernen nutzt für den Lernprozess keine Beispieldaten, sondern Rohdaten, aus denen eigenständig Muster erkannt werden sollen. \\
 	Der hauptsächliche Unterschied zum überwachten Lernen ist also, dass das unüberwachte Lernen nicht dafür ausgelegt ist, eine Vorhersage für eine bekannte Zielvariable zu treffen. \cite{datasolut3}
 	\item Bestärkendes Lernen (Reinforcment Learning)\\
-	Anders als das überwachte bzw. unüberwachte Lernen nutzt das bestärkende Lernen zunächst keine Daten, sondern diese entstehen in einer Simulationsumgebung nach einem Versuch-und-Irrtum-Verfahren. \cite{der-onliner_blogspot}
-	
+	Anders als das überwachte \acs{bzw} unüberwachte Lernen nutzt das bestärkende Lernen zunächst keine Daten, sondern diese entstehen in einer Simulationsumgebung nach einem Versuch-und-Irrtum-Verfahren. \cite{der-onliner_blogspot}
 \end{itemize}
+
+In Abbildung \ref{overview-machine-learning-algorithms} ist eine Übersicht über die  verschiedenen Lernverfahren dargestellt.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.6\textwidth]{kapitel3/images/lernverfahren.png}
-	\label{fig:machine-learning-algorithms}
 	\caption{Darstellung der verschiedenen Lernverfahren}
+	\label{overview-machine-learning-algorithms}
 	\vspace{0.2cm}
 	\quelle\url{https://1.bp.blogspot.com/-xstYqLb9OBw/XSYZUUD0WrI/AAAAAAAAML4/4sxvpGjIsDgmR7bDYyhcKdfM0TbvIIHdwCEwYBhgL/s400/machine-learning-lernverfahren.png}
 \end{figure}
 
-Welches Lernverfahren schlussendlich eingesetzt wird, hängt hierbei vom Anwendungsfall ab sowie mit den daraus resultierenden Datensätzen.
+Welches Lernverfahren schlussendlich eingesetzt wird, hängt hierbei vom Anwendungsfall ab sowie mit den daraus resultierenden Datensätzen. 
 
 \section{Datensatz}
 
@@ -139,7 +141,7 @@ Einige Beispiele für Hyperparameter sind:
 	Aktivierungsfunktionen spielen in künstlichen neuronalen Netzen eine bedeutende Rolle, da sie dabei helfen, die komplizierte und nichtlineare funktionale Beziehung zwischen den Eingangsdaten und den abhängigen Ergebnissen zu lernen und zu verstehen. Ein Eingangssignal eines Neurons wird dabei in ein Ausgangssignal konvertiert, welches anschließend als Eingabe der nächsten Schicht verwendet wird. \cite{ai-united} \\
 	
 	Einige Beispiele für Aktivierungsfunktionen sind:
-	
+	\vspace{-0.8cm}
 	\begin{center}
 	\begin{tabular}[t]{|M{2.5cm}|M{6cm}|M{5cm}|}
 		\hline
@@ -157,13 +159,13 @@ Einige Beispiele für Hyperparameter sind:
 			\addvbuffer[0.05cm]{\includegraphics[scale=0.5]{kapitel3/images/sigmoid.png}}
 		\end{tabular} \\
 		\hline
-		\begin{tabular}{l} ReLu \end{tabular} &  
+		\begin{tabular}{l} \acs{relu} \end{tabular} &  
 		\begin{tabular}{l} $ f(x) = \max (0,x) $ \end{tabular} &
 		\begin{tabular}{l}
 			\addvbuffer[0.05cm]{\includegraphics[scale=0.5]{kapitel3/images/relu.png}}
 		\end{tabular} \\
 		\hline
-		\begin{tabular}{l} ELU \end{tabular} &  
+		\begin{tabular}{l} \acs{elu} \end{tabular} &  
 		\begin{tabular}{l} $ f(\alpha, x) = \begin{cases} \alpha (e^x - 1) \quad \textrm{für} \ x \leq 0 \\ x \hspace{1.75cm} \textrm{für} \ x > 0 \end{cases} $ \end{tabular} &
 		\begin{tabular}{l}
 			\addvbuffer[0.05cm]{\includegraphics[scale=0.25]{kapitel3/images/elu.jpg}}
@@ -177,7 +179,6 @@ Einige Beispiele für Hyperparameter sind:
 	Die Verlustfunktion wird zur Berechnung des Fehlers zwischen den realen Ergebnissen und erhaltenen Antworten des künstlichen neuronalen Netzes verwendet. Das Ziel des Lernprozesses ist die Minimierung dieser Fehler.  \cite{ai-united} \\
 
 	Einige Beispiele für Verlustfunktionen sind:
-	
 	\begin{center}
 	\begin{tabular}[t]{|l|l|}
 		\hline
@@ -185,17 +186,17 @@ Einige Beispiele für Hyperparameter sind:
 		\hline
 		Mittlere quadratische Abweichung  &  
 		\addvbuffer[0.05cm]{
-			$ \textrm{MSE} = \frac{\sum_{i=1}^{n} (y_i - \hat{y_i})^2}{n} $
+			$ \textrm{\acs{mse}} = \frac{\sum_{i=1}^{n} (y_i - \hat{y_i})^2}{n} $
 		} \\
 		\hline
 		Mittlerer absoluter Fehler  &  
 		\addvbuffer[0.05cm]{
-			$ \textrm{MAE} = \frac{\sum_{i=1}^{n} |y_i - \hat{y_i}|}{n} $
+			$ \textrm{\acs{mae}} = \frac{\sum_{i=1}^{n} |y_i - \hat{y_i}|}{n} $
 		} \\
 		\hline
 		Mittlerer Bias Fehler  &  
 		\addvbuffer[0.05cm]{
-			$ \textrm{MBE} = \frac{\sum_{i=1}^{n} (y_i - \hat{y_i})}{n} $
+			$ \textrm{\acs{mbe}} = \frac{\sum_{i=1}^{n} (y_i - \hat{y_i})}{n} $
 		} \\
 		\hline
 		
@@ -224,7 +225,7 @@ Einige Beispiele für Hyperparameter sind:
 			\begin{enumerate}
 				\item \textbf{AdaGrad:}
 				
-					Der Kerngedanke hinter AdaGrad ist das Herunterskalieren des Gradientenvektors, d.h. die Lernrate wird pro Dimension nach und nach verringert, wobei die Verringerung bei steilen Dimensionen schneller erfolgt. \cite{lucas_plagwitz}
+					Der Kerngedanke hinter AdaGrad ist das Herunterskalieren des Gradientenvektors, \acs{d.h.} die Lernrate wird pro Dimension nach und nach verringert, wobei die Verringerung bei steilen Dimensionen schneller erfolgt. \cite{lucas_plagwitz}
 					
 				\item \textbf{RMSProp:}
 				
@@ -258,12 +259,11 @@ Dies lässt sich damit erklären, dass das Lernverfahren als eine Minimumssuche 
 \subsubsection{Regularisierung}
 
 Neuronale Netze bilden Input über ihre Gewichte auf einen gewissen Output ab. Ist die Größenordnung mancher Gewichte größer als die von anderen, ist die Wahrscheinlichkeit hoch, dass das Netz überstimmt ist. Eine kleine Abweichung im Input kann dann drastische Auswirkungen auf den Output haben.
-Um zu verhindern, dass der Lernprozess die Gewichte beliebig groß gestaltet, kann an die Fehlerfunktion ein zusätzlicher Term angefügt werden, welcher die Größe der Gewichte beinhaltet. L2 Regularisierung zum Beispiel, multipliziert das Quadrat der Größe der Gewichte mit einem Vorfaktor, einem Hyperparameter, und addiert das Ergebniss auf den Wert der Fehlerfunktion. Große Gewichte werden so bestraft.
-
+Um zu verhindern, dass der Lernprozess die Gewichte beliebig groß gestaltet, kann an die Fehlerfunktion ein zusätzlicher Term angefügt werden, welcher die Größe der Gewichte beinhaltet. Eine L2-Regularisierung zum Beispiel, multipliziert das Quadrat der Größe der Gewichte mit einem Vorfaktor, einem Hyperparameter, und addiert das Ergebniss auf den Wert der Fehlerfunktion. Große Gewichte werden so bestraft.
 
 \section{Multilayer-Perzeptron (MLP)}
 
-Ein einzelnes Perzeptron kann für sich genommen lediglich eine lineare Klassifikation erzielen (s. Abb. \ref{linear-classification}) Es ist jedoch des Öfteren notwendig, weitaus komplexere Klassifikationen zu bewerkstelligen. Dies lässt sich erreichen, indem mehrere Perzeptronen miteinander verschaltet werden. Dabei werden die einzelnen Perzeptrone zunächst in Schichten angeordnet. Die Perzeptronen einer Schicht, sind dann jeweils mit jedem Perzeptron der folgenden Schicht verschaltet. Innerhalb einer Schicht werden die Perzeptronen nicht miteinander verbunden und es darf auch keine zyklischen Verschaltungen zwischen den Schichten geben. Das resultierende Ergebnis wird dann als sogenanntes Multilayer-Perzeptron (MLP) bezeichnet. Die erste Schicht ist hierbei die Eingabeschicht. Sie ist dafür zuständig, die einzelnen Werte der Eingänge über die Eingabeperzeptronen an jedes Perzeptron der nächsten Schicht weiter zu leiten. Nach der Eingabeschicht folgen eine bzw. mehrere Zwischenschichten. In den Zwischenschichten findet dann der eigentliche Klassifikationsprozess statt. Die nichtlineare Klassifikation (s. Abb. \ref{non-linear-classification}) entsteht dabei durch den Einsatz von mehreren Perzeptronen. Nach den Zwischenschichten folgt letztendlich die Ausgabeschicht, welche aus den sogenannten Ausgabeperzeptronen besteht. Das Ergebnis des Klassifikationsprozesses wird dann schlussendlich über diese Schicht ausgegeben. Jede Schicht des MLP kann dabei aus mehreren Perzeptronen bestehen, aber es muss immer mindestens ein Perzeptron vorhanden sein. \cite{oliver-gableske}
+Ein einzelnes Perzeptron kann für sich genommen lediglich eine lineare Klassifikation erzielen (\acs{s.} \acs{abb.} \ref{linear-classification}) Es ist jedoch des Öfteren notwendig, weitaus komplexere Klassifikationen zu bewerkstelligen. Dies lässt sich erreichen, indem mehrere Perzeptronen miteinander verschaltet werden. Dabei werden die einzelnen Perzeptrone zunächst in Schichten angeordnet. Die Perzeptronen einer Schicht, sind dann jeweils mit jedem Perzeptron der folgenden Schicht verschaltet. Innerhalb einer Schicht werden die Perzeptronen nicht miteinander verbunden und es darf auch keine zyklischen Verschaltungen zwischen den Schichten geben. Das resultierende Ergebnis wird dann als sogenanntes \acf{mlp} bezeichnet. Die erste Schicht ist hierbei die Eingabeschicht. Sie ist dafür zuständig, die einzelnen Werte der Eingänge über die Eingabeperzeptronen an jedes Perzeptron der nächsten Schicht weiter zu leiten. Nach der Eingabeschicht folgen eine \acs{bzw} mehrere Zwischenschichten. In den Zwischenschichten findet dann der eigentliche Klassifikationsprozess statt. Die nichtlineare Klassifikation (s. Abb. \ref{non-linear-classification}) entsteht dabei durch den Einsatz von mehreren Perzeptronen. Nach den Zwischenschichten folgt letztendlich die Ausgabeschicht, welche aus den sogenannten Ausgabeperzeptronen besteht. Das Ergebnis des Klassifikationsprozesses wird dann schlussendlich über diese Schicht ausgegeben. Jede Schicht des \acs{mlp} kann dabei aus mehreren Perzeptronen bestehen, aber es muss immer mindestens ein Perzeptron vorhanden sein. \cite{oliver-gableske}
 
 \begin{figure}[h]
 	\captionsetup[subfigure]{position=b}
@@ -281,7 +281,7 @@ Ein einzelnes Perzeptron kann für sich genommen lediglich eine lineare Klassifi
 		\caption{Nichtlineare Klassifikation mittels MLP}
 		\label{non-linear-classification}
 	\end{subfigure}
-	\caption{Lineare Klassifikation vs. Nichtlineare Klassifikation}
+	\caption{Lineare Klassifikation \acs{vs.} Nichtlineare Klassifikation}
 	\quelle\url{https://www.informatik.uni-ulm.de/ni/Lehre/WS04/ProSemNN/pdf/MLP.pdf}
 \end{figure}
 

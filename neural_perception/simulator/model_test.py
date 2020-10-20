@@ -9,8 +9,6 @@ from neural_perception.util.pid_controller import PID, calculate_out_lim
 from neural_perception.util.util import preprocess, get_lane_pos
 import tensorflow as tf
 
-
-
 env = DuckietownEnv(domain_rand=False,
                     draw_bbox=False)
 
@@ -18,6 +16,7 @@ obs = env.reset()
 obs = preprocess(obs)
 env.render()
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+
 
 @env.unwrapped.window.event
 def on_key_press(symbol, modifiers):
@@ -47,7 +46,8 @@ env.unwrapped.window.push_handlers(key_handler)
 
 DEBUG = False
 MANUAL_CONTROL = False
-model = tf.keras.models.load_model('saved_model/17.09.2020-13:40:11')
+model = tf.keras.models.load_model(
+    '/home/gandalf/ws/team/gym-duckietown/neural_perception/model/saved_model/17.09.2020-13:40:11')
 speed = 0.3
 target = 25
 
@@ -63,6 +63,7 @@ pid = PID(k_p_modell, k_i_modell, k_d_modell, target)
 out_lim = calculate_out_lim(env, speed)
 pid.set_out_lim(out_lim)
 correction = 0
+
 
 def update(dt):
     global obs

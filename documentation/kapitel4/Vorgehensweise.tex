@@ -81,13 +81,13 @@ Wie erleutert, ergeben sich zwei Ansätze zur Zusammensetzung des Labels und zwe
 	\centering
 	\begin{subfigure}{0.5\textwidth}
 		\centering
-		\includegraphics[width=\linewidth]{kapitel4/images/plots/pd/pd-angles.png}
+		\includegraphics[width=\linewidth]{kapitel4/images/plots/pd-angles.png}
 		\caption{Winkel des PD Datensatzes}
 		\label{pd-drive-angles}
 	\end{subfigure}%
 	\begin{subfigure}{0.5\textwidth}
 		\centering
-		\includegraphics[width=\linewidth]{kapitel4/images/plots/pd-rand/pd-rand-angles.png}
+		\includegraphics[width=\linewidth]{kapitel4/images/plots/pd-rand-angles.png}
 		\caption{Winkel des PD-Rand Datensatzes}
 		\label{pd-rand-angles}
 	\end{subfigure}
@@ -100,13 +100,13 @@ Wie erleutert, ergeben sich zwei Ansätze zur Zusammensetzung des Labels und zwe
 	\centering
 	\begin{subfigure}[h]{0.5\textwidth}
 		\centering
-		\includegraphics[width=\linewidth]{kapitel4/images/plots/pd/pd-distances.png}
+		\includegraphics[width=\linewidth]{kapitel4/images/plots/pd-distances.png}
 		\caption{Entfernungswerte des PD Datensatzes}
 		\label{pd-drive-distances}
 	\end{subfigure}%
 	\begin{subfigure}[h]{0.5\textwidth}
 		\centering
-		\includegraphics[width=\linewidth]{kapitel4/images/plots/pd-rand/pd-rand-distances.png}
+		\includegraphics[width=\linewidth]{kapitel4/images/plots/pd-rand-distances.png}
 		\caption{Entfernungswerte des PD-Rand Datensatzes}
 		\label{pd-rand-distances}
 	\end{subfigure}
@@ -116,6 +116,68 @@ Wie erleutert, ergeben sich zwei Ansätze zur Zusammensetzung des Labels und zwe
 
 Wie in \ref{pd-angles} und \ref{pd-distances} erkennbar, ist die Verteilung von sowohl Entfernungswerten, als auch Winkeldifferenzen im  ``PD-Rand'' Datensatz wesentlich gleichmäßiger als im ``PD''-Datensatz.
 
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[h]{0.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{kapitel4/images/plots/tiles-pd.png}
+		\caption{Kachelarten in ``PD''}
+		\label{pd-drive-tiles}
+	\end{subfigure}%
+	\begin{subfigure}[h]{0.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{kapitel4/images/plots/tiles-pd-rand.png}
+		\caption{Kachelarten in ``PD-Rand''}
+		\label{pd-rand-tiles}
+	\end{subfigure}
+	\caption{Verteilungen der Kachelarten in ``PD'' und ``PD-Rand''}
+	\label{pd-tiles}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[h]{0.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{kapitel4/images/plots/tiles-expert.png}
+		\caption{Kachelarten in ``Expert''}
+		\label{expert-drive-tiles}
+	\end{subfigure}%
+	\begin{subfigure}[h]{0.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{kapitel4/images/plots/tiles-expert-rand.png}
+		\caption{Kachelarten in ``Expert-Rand''}
+		\label{expert-rand-tiles}
+	\end{subfigure}
+	\caption{Verteilungen der Kachelarten in ``Expert'' und ``Expert-Rand''}
+	\label{expert-tiles}
+\end{figure}
+
+
+Auf die Verteilung der Kachelarten in den PD-Datensätzen, auf welchen die Aufnahmen entstanden sind, hat der höhere Anteil der Zufallsposen keinen Einfluss (siehe \ref{pd-tiles}).\\
+Im Gegensatz dazu hat der höhere Anteil an Zufallsposen in den Expertendatensätzen Auswirkungen auf die Verteilung der Kachelarten. So ist der Anteil der Linkskurven im Datensatz deutlich gestiegen (siehe \ref{expert-tiles}).
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{kapitel4/images/plots/expert-angular_velocities.png}
+		\caption{Winkelgeschwindigkeiten des Expert Datensatzes}
+		\label{expert-angular}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{kapitel4/images/plots/expert-random-angular_velocities.png}
+		\caption{Winkelgeschwindigkeiten des Expert-Rand Datensatzes}
+		\label{expert-rand-angular}
+	\end{subfigure}
+	\caption{Verteilungen der Winkelgeschwindigkeiten der Expert Datensätze}
+	\label{expert-angles}
+\end{figure}
+
+
+In den Expertendatensätzen \ref{expert-angles} lässt sich ebenfalls ein deutlicher Unterschied in der Verteilung der berechneten Winkelgeschwindigkeiten des Steuerbefehls feststellen. In \ref{expert-rand-angular} ist eine Menge an Maximalwerten von -1 und 1 erkennbar (der Wertebereich durch das Skalarprodukt, kann zum Beispiel mit Faktor $\pi$ multipliziert werden).
+Auf die berechneten Geschwindigkeiten der Expertendatensätze muss nicht eingegangen werden, da zum einen aufgrund unseres einfachen Expertensystems die Verteilung nur aus zwei Werten besteht und zum Anderen sich diese Verteilung durch die Ansätze nicht wesentlich unterscheidet.\\
 
 \begin{figure}[H]
 	\centering
@@ -132,31 +194,8 @@ Wie in \ref{pd-angles} und \ref{pd-distances} erkennbar, ist die Verteilung von 
 		Expert-Rand & 99812 \\
 		\hline
 	\end{tabular}
-	\caption{Größe der erzeugten vier Datensätze}
+	\caption{Größe der erzeugten Datensätze}
 \end{figure}
-
-\begin{figure}[H]
-	\centering
-	\begin{subfigure}{0.5\textwidth}
-		\centering
-		\includegraphics[width=\linewidth]{kapitel4/images/plots/expert/expert-angular_velocities.png}
-		\caption{Winkelgeschwindigkeiten des Expert Datensatzes}
-		\label{expert-angular}
-	\end{subfigure}%
-	\begin{subfigure}{0.5\textwidth}
-		\centering
-		\includegraphics[width=\linewidth]{kapitel4/images/plots/expert-rand/expert-random-angular_velocities.png}
-		\caption{Winkelgeschwindigkeiten des Expert-Rand Datensatzes}
-		\label{expert-rand-angular}
-	\end{subfigure}
-	\caption{Verteilungen der Winkelgeschwindigkeiten der Expert Datensätze}
-	\label{expert-angles}
-\end{figure}
-
-
-In den Expertendatensätzen \ref{expert-angles} lässt sich ebenfalls ein deutlicher Unterschied in der Verteilung der berechneten Winkelgeschwindigkeiten des Steuerbefehls feststellen. In \ref{expert-rand-angular} ist eine Menge an Maximalwerten von -1 und 1 erkennbar (der Wertebereich durch das Skalarprodukt, kann zum Beispiel mit Faktor $\pi$ multipliziert werden).
-Auf die berechneten Geschwindigkeiten der Expertendatensätze muss nicht eingegangen werden, da zum einen aufgrund unseres einfachen Expertensystems die Verteilung nur aus zwei Werten besteht und zum Anderen sich diese Verteilung durch die Ansätze nicht wesentlich unterscheidet.\\
-
 
 \section{Lernprozess}
 

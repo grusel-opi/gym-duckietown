@@ -22,7 +22,7 @@ obs = preprocess(obs)
 
 env.render()
 
-model = tf.keras.models.load_model('../../../lean-test/saved_model/23.09.2020-19:04:26/')
+model = tf.keras.models.load_model('/home/gandalf/ws/team/gym-duckietown/neural_perception/model/saved_model/23.09.2020-19:04:26/')
 
 
 k_u = 0.05

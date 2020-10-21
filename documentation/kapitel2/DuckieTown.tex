@@ -137,7 +137,7 @@ Eine DuckieTown-Umgebung wird hierbei in einer \texttt{.yaml}-Datei definiert, d
 
 Ein \href{https://get.duckietown.com/products/duckiebot-db18}{DuckieBot} ist ein kleiner mobiler Roboter, ausgestattet mit einem einem \href{https://www.raspberrypi.org/}{Raspberry Pi 3}, einem Differenzialantrieb und einer Raspberry Pi Kamera.
 In der physikalischen Spezifikation besitzt der Roboter zur Kommunikation mit anderen Bots optional noch ein \acs{led}-Panel und \acs{wlan}-Adapter.
-Im Gym-Duckietown Simulator existiert standartmäßig pro Umgebung nur ein Roboter.
+Im Gym-DuckieTown Simulator existiert standardmäßig pro Umgebung nur ein Roboter.
 
 \begin{figure}[H]
 	\centering
@@ -151,7 +151,7 @@ Im Gym-Duckietown Simulator existiert standartmäßig pro Umgebung nur ein Robot
 
 \section{Bedienung}
 
-Die Bedienung des Simulators erfolgt in einer einfachen Kontrollschleife. Zunächst wird eine \texttt{DuckietownEnv}-Umgebung definiert und instanziiert. Anschließend wird in einer Schleife über die \texttt{step(action)} Methode der Agent gesteuert. Da die  \texttt{DuckietownEnv}-Umgebung einen Differenzialantrieb simuliert, ist \texttt{action} dabei ein Tupel aus Geschwindigkeit und Winkelgeschwindigkeit. Die Basisklasse \texttt{Simulator} dagegen nimmt zwei Werte als Dutycycle im Wertebereich -1 bis 1 für die beiden Antriebe entgegen.
+Die Bedienung des Simulators erfolgt in einer einfachen Kontrollschleife. Zunächst wird eine \texttt{DuckieTownEnv}-Umgebung definiert und instanziiert. Anschließend wird in einer Schleife über die \texttt{step(action)} Methode der Agent gesteuert. Da die  \texttt{DuckieTownEnv}-Umgebung einen Differenzialantrieb simuliert, ist \texttt{action} dabei ein Tupel aus Geschwindigkeit und Winkelgeschwindigkeit. Die Basisklasse \texttt{Simulator} dagegen nimmt zwei Werte als Dutycycle im Wertebereich -1 bis 1 für die beiden Antriebe entgegen.
 
 \begin{minipage}{\linewidth}
 	\begin{lstlisting}[caption={Bedienung einer DuckieTown-Umgebung},

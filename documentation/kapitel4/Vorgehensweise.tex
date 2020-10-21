@@ -1,4 +1,3 @@
-
 \chapter{Vorgehensweise}
 
 \section{Netzarchitektur}
@@ -7,7 +6,7 @@ Als Basismodell dient uns das von \href{https://www.nvidia.com/en-us/}{Nvidia} e
 
 Unsere Variante dieses Modells nutzt statt der \acs{relu} die \acs{elu} als Aktivierungsfunktion. Diese soll den Lernprozess zusätzlich beschleunigen und die Fähigkeit des Netzes zu Generalisieren verbessern \cite{elu}. Zusätzlich haben wir eine L2 Regularisierung für die Gewichte aller Schichten und Dropout jeweils nach den letzten beiden Faltungsschichten hinzugefügt.
 
-In der Vorverarbeitung der Daten wird die Größe der Bilder von $(640, 480, 3)$ (im Format ($H$, $W$, $C$)) auf $(120, 160, 3)$ reduziert und anschließend das obere Drittel des Bildes abgeschnitten, da dies meißt nur Horizont und sonstige Objekte beinhaltet. Die endgültige Größe des Inputs ist dann $(80, 160, 3)$.
+In der Vorverarbeitung der Daten wird die Größe der Bilder von $(640, 480, 3)$ (im Format ($H$, $W$, $C$)) auf $(120, 160, 3)$ reduziert und anschließend das obere Drittel des Bildes abgeschnitten, da dies meist nur Horizont und sonstige Objekte beinhaltet. Die endgültige Größe des Inputs ist dann $(80, 160, 3)$.
 
 Eine Darstellung unseres Netzes mitsamt Vorverarbeitung der Daten ist in \acs{abb.} \ref{nvidia-model} zu sehen.
 
@@ -68,14 +67,14 @@ Im zweiten Ansatz trainieren wir das Netz direkt auf entsprechende Steuerbefehle
 
 \subsection{Observationen}
 
-Bei der Gernerierung der Datensätze verfolgen wir ebenfalls zwei Ansätze. Im ersten, naiven Ansatz lassen wir den Agenten selbstständig durch die Umgebung fahren, wobei für jeden Aufruf der \texttt{step()} Methode eine Aufnahme mit entsprechendem Label gespeichert wird. Die Verteilung der Werte sollte demnach jener entsprechen, welche der Agent beim selbstständigen Fahren tatsächlich erlebt.
+Bei der Generierung der Datensätze verfolgen wir ebenfalls zwei Ansätze. Im ersten, naiven Ansatz lassen wir den Agenten selbstständig durch die Umgebung fahren, wobei für jeden Aufruf der \texttt{step()} Methode eine Aufnahme mit entsprechendem Label gespeichert wird. Die Verteilung der Werte sollte demnach jener entsprechen, welche der Agent beim selbstständigen Fahren tatsächlich erlebt.
 
 Im zweiten Ansatz lassen wir den Agenten nur eine gewisse Anzahl von Schritten, also \texttt{step()} Aufrufen, fahren und rufen dann die \texttt{reset()} Methode des Simulators auf, welche den Agenten an eine zufällige, aber valide Pose zurücksetzt. Valide bedeutet, dass die Position befahrbar und frei von Kollisionen mit anderen Objekten ist.
 Der Gedanke dahinter ist, dass so die Verteilung der Werte mehr ``Ausnahmefälle'' beinhaltet. Denn sollte das Netz nicht im Stande sein, die Spur ähnlich gut halten zu können wie der \acs{pd}-Regler oder das Expertensystem, wird es oft in Situationen geraten, auf welche es nicht trainiert wurde. Die Werteverteilung sollte so ähnlich sein zu dem, was der Agent erlebt, falls er öfters ``crashen'' sollte.
 
 \subsection{Datensätze}
 
-Wie erleutert, ergeben sich zwei Ansätze zur Zusammensetzung des Labels und zwei Ansätze um die Verteilung der Labels zu beeinflussen. Insgesamt ergeben sich vier Datensätze. Die zwei \acs{pd}-Datensätze ``\acs{pd}'' und ``\acs{pd}-Rand'' und zwei Experten-Datensätze, ``Expert'' und ``Expert-Rand''. Der Zusatz ``Rand'' steht dabei für den höheren Anteil an Zufallsposen.\\
+Wie erläutert, ergeben sich zwei Ansätze zur Zusammensetzung des Labels und zwei Ansätze um die Verteilung der Labels zu beeinflussen. Insgesamt ergeben sich vier Datensätze. Die zwei \acs{pd}-Datensätze ``\acs{pd}'' und ``\acs{pd}-Rand'' und zwei Experten-Datensätze, ``Expert'' und ``Expert-Rand''. Der Zusatz ``Rand'' steht dabei für den höheren Anteil an Zufallsposen.\\
 
 \begin{figure}[H]
 	\centering
@@ -201,7 +200,7 @@ Auf die berechneten Geschwindigkeiten der Expertendatensätze muss nicht eingega
 
 \section{Lernprozess}
 
-Für einen erfolgreichen Lernprozess ist zunächst die Wahl der Hyperparameter festzulegen, um eine stabile Konvergenz zu ermöglichen. Anschließend kann diese Konfiguration auf Kombinationen von Datensätzen angewand und verglichen werden.
+Für einen erfolgreichen Lernprozess ist zunächst die Wahl der Hyperparameter festzulegen, um eine stabile Konvergenz zu ermöglichen. Anschließend kann diese Konfiguration auf Kombinationen von Datensätzen angewandt und verglichen werden.
 
 \subsection{Hyperparameter}
 
@@ -223,7 +222,7 @@ Das Feintuning des Modells und die Wahl der Hyperparameter wurden in einem langw
 \end{center}
 
 
-Wir setzen den Adam Optimizer ein, da dieser durch adaptive Lernraten oft einen schnelleren Lernprozess ermöglicht und generell in der Literatur oft zum Einsatz kommt. Wir parametrisieren Adam mit einer initialen Lernrate von $0.0002$. Diese ergab in Kombination mit einer Batchgröße von 32 in den meißten Fällen eine gute Konvergenz.
+Wir setzen den Adam Optimizer ein, da dieser durch adaptive Lernraten oft einen schnelleren Lernprozess ermöglicht und generell in der Literatur oft zum Einsatz kommt. Wir parametrisieren Adam mit einer initialen Lernrate von $0.0002$. Diese ergab in Kombination mit einer Batchgröße von 32 in den meisten Fällen eine gute Konvergenz.
 
 Die Größe der Batch von 32 soll einen Kompromiss bilden zwischen Geschwindigkeit des Prozesses und der Fähigkeit des Netzes zu Generalisieren. Eine Batchgröße über 32 hat sich bereits als unvorteilhaft erwiesen \cite{keskar2017largebatch}.
 
@@ -237,4 +236,4 @@ Wir haben vier Datensätze und kombinieren die Datensätze der beiden Ansätzen 
 
 Außerdem variieren wir den Output unseres Netzes. Beim Inferieren der relativen Pose testen wir, ob sich Unterschiede in der Performance des Netzes ergeben, je nach dem ob ein zwei- oder eindimensionaler Zustandsvektor geschätzt werden soll. Wir trainieren dabei ein mal nur auf den Distanzwert zur Fahrbahnbegrenzung und ein mal auf sowohl Distanz, als auch Winkeldifferenz.
 
-Das Gleiche testen wir ebenfalls an unsererm Experten Ansatz. Hier entfernen wir die Geschwindigkeit als Ziel beim Training und verwenden nur die wesentlich wichtigere Winkelgeschwindigkeit.
+Das Gleiche testen wir ebenfalls an unserem Experten Ansatz. Hier entfernen wir die Geschwindigkeit als Ziel beim Training und verwenden nur die wesentlich wichtigere Winkelgeschwindigkeit.

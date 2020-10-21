@@ -16,13 +16,13 @@ env = DuckietownEnv(domain_rand=False,
                     draw_bbox=False)
 
 model = tf.keras.models.load_model(
-    '/home/gandalf/ws/team/gym-duckietown/neural_perception/model/saved_model/14.10.2020-18:53:08')
+    '/home/gandalf/ws/team/gym-duckietown/neural_perception/model/saved_model/16.10.2020-13:16:56')
 
 expert = PurePursuitPolicy(env)
 
 speed = 0.2
 
-steps = env.max_steps = 1_000
+steps = env.max_steps = 100_000
 visual = False
 nn_control = True
 
@@ -51,7 +51,7 @@ for i in range(steps):
     percent = round(i * 100 / steps, 2)
     print(f'\rrunning: {percent} %', end='\r')
 
-    omega = expert.predict()
+    omega = expert.predict()[1]
 
     omega_hat = model(obs)[0][0].numpy()
 

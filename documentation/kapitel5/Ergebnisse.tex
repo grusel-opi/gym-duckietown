@@ -128,170 +128,312 @@ Wie zuvor zeigt sich auch hier, dass das Training mit hohem Anteil an Zufallspos
 
 \section{Validierung}
 
-\begin{tabular}[t]{|c|l|r|r|r|}
-	\hline
-	 & \textbf{Kacheltyp} & \textbf{MAE} & \textbf{n} & Chrashes \\
-	\hline
-	\multirow{4}{*}{PD} 
-	& Alle
-	& 12.59, 20.41
-	& 100000
-	& \multirow{4}{*}{790}\\
-	\cline{2-4}
-	& Gerade
-	&  9.76, 13.79
-	& 53433
-	&\\
-	\cline{2-4}
-	& Linkskurve
-	& 16.70,  35.28
-	& 20311
-	&\\
-	\cline{2-4}
-	& Rechtskurve
-	& 23.78, 37.95 
-	& 4728
-	&\\
-	\cline{2-4}
-	& 3-Wege
-	&  13.27, 18.95
-	& 21528
-	&\\
-	\hline
-	\multirow{4}{*}{PD-Rand} 
-	& Alle
-	& 11.63, 17.19
-	& 100000
-	& \multirow{4}{*}{485}\\
-	\cline{2-4}
-	& Gerade
-	&  9.67, 13.08
-	& 55325 & \\
-	\cline{2-4}
-	& Linkskurve
-	& 14.38, 26.80
-	& 18513
-	&\\
-	\cline{2-4}
-	& Rechtskurve
-	& 16.44, 31.53
-	& 3796
-	&\\
-	\cline{2-4}
-	& 3-Wege
-	& 13.36, 16.97
-	& 22366
-	&\\
-	\hline
-	\multirow{4}{*}{PD-Concat} 
-	& Alle
-	& 10.62, 16.37
-	& 100000
-	& \multirow{4}{*}{592}\\
-	\cline{2-4}
-	& Gerade
-	& 7.67, 11.04
-	& 49792
-	&\\
-	\cline{2-4}
-	& Linkskurve
-	& 13.73, 23.53
-	& 24695
-	&\\
-	\cline{2-4}
-	& Rechtskurve
-	& 17.59, 29.68
-	& 5163
-	&\\
-	\cline{2-4}
-	& 3-Wege
-	& 12.28, 17.35
-	& 20350
-	&\\
-	\hline
-\end{tabular}
+Die Validierung besteht aus der Integration des Netzes in den Simulator, wobei dieses selbst die Kontrolle übernimmt. Die Steuerung erfolgt dabei in Abhängigkeit von dem Output des Netzes. Im Falle des 2D-Posen-Netzes über einen einfachen PD-Regler mit $d$ als Fehler und $\theta$ als Ableitung des Fehlers (siehe \ref{pd-drive-example}). Das 1D-Posen-Netz hält den Distanzwert über einen vollständigen und sorgfältig eingestellten PID-Regler. Das Experten-Netz steuert den Agenten direkt über den inferierten Steuerbefehl.
+
+Im Gegensatz zur Trainings- und Testphase ist bei der Integration in den Simulator die Verteilung der Werte mit denen das Netz konfrontiert wird abhängig davon, wie gut dieses die Spur halten kann. Dies ist wiederum abhängig davon, wie gut die letzten Werte geschätzt worden sind.
+
+Wir lassen die Netze jeweils 100000 \texttt{step()}-Aufrufe des Simulators fahren, was bei einer Bildrate von 30 Bildern pro Sekunde einer Fahrdauer von etwa einer Stunde entspricht.\\
+
+\subsection{2D-Pose}
+
+Im ersten Fall des 2D-Posen-Netzes schnitt das Netz, welches mit dem ``PD-Rand''-Datensatz und damit dem höchsten Anteil an Zufallsposen trainiert wurde, in Sachen Crashes pro Schritte am besten ab. Auffällig ist, dass das Training mit ``PD-Concat'' zwar zu einen besseren durchschnittlichen Fehler führte, was auch mit dem doppelt so großen Umfang des Datensatzes zu erklären ist, jedoch nicht zu der geringsten Anzahl an Crashes.  
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}[t]{|c|l|r|r|r|}
+		\hline
+		& \textbf{Kacheltyp} & \textbf{MAE $d$, $\theta$} & \textbf{n} & Chrashes \\
+		\hline
+		\multirow{4}{*}{PD} 
+		& Alle
+		& 12.59, 20.41
+		& 100000
+		& \multirow{4}{*}{790}\\
+		\cline{2-4}
+		& Gerade
+		&  9.76, 13.79
+		& 53433
+		&\\
+		\cline{2-4}
+		& Linkskurve
+		& 16.70,  35.28
+		& 20311
+		&\\
+		\cline{2-4}
+		& Rechtskurve
+		& 23.78, 37.95 
+		& 4728
+		&\\
+		\cline{2-4}
+		& 3-Wege
+		&  13.27, 18.95
+		& 21528
+		&\\
+		\hline
+		\multirow{4}{*}{PD-Rand} 
+		& Alle
+		& 11.63, 17.19
+		& 100000
+		& \multirow{4}{*}{485}\\
+		\cline{2-4}
+		& Gerade
+		&  9.67, 13.08
+		& 55325 & \\
+		\cline{2-4}
+		& Linkskurve
+		& 14.38, 26.80
+		& 18513
+		&\\
+		\cline{2-4}
+		& Rechtskurve
+		& 16.44, 31.53
+		& 3796
+		&\\
+		\cline{2-4}
+		& 3-Wege
+		& 13.36, 16.97
+		& 22366
+		&\\
+		\hline
+		\multirow{4}{*}{PD-Concat} 
+		& Alle
+		& 10.62, 16.37
+		& 100000
+		& \multirow{4}{*}{592}\\
+		\cline{2-4}
+		& Gerade
+		& 7.67, 11.04
+		& 49792
+		&\\
+		\cline{2-4}
+		& Linkskurve
+		& 13.73, 23.53
+		& 24695
+		&\\
+		\cline{2-4}
+		& Rechtskurve
+		& 17.59, 29.68
+		& 5163
+		&\\
+		\cline{2-4}
+		& 3-Wege
+		& 12.28, 17.35
+		& 20350
+		&\\
+		\hline
+	\end{tabular}
+	\caption{Validierung des 2D-Posen-Netzes}
+	\label{2d-validation}
+\end{table}
+
+In der Verteilung der Werte, mit welchen das Netz während der Integration konfrontiert wurde, ist das bessere Fahrverhalten des mit dem ``PD-Rand''-Datensatz trainierten Netzes ebenfalls erkennbar. So liegt der Schwerpunkt der Entferungswerte eher nahe 20, was der Mitte der rechten Fahrspur entspricht. Auch die Winkel streuen eher um 0, was eine gute Orientierung während des Fahrens anzeigt.
+
+Die anderen beiden Varianten befanden sich während der Fahrt eher auf der gegenüberliegenden Fahrspur (Schwerpunkt der Distanzwerte um 60) und neigten zu einer linkslastigen Orientierung (Schwerpunkt der Winkel unter 0).
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[h]{0.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{kapitel5/images/eval/single-loss/pd-distr.png}
+		\caption{``PD''}
+		\label{2d-pd-val-distr}
+	\end{subfigure}%
+	\begin{subfigure}[h]{0.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{kapitel5/images/eval/single-loss/pd-rand-distr.png}
+		\caption{``PD-Rand''}
+		\label{2d-pd-rand-val-distr}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{kapitel5/images/eval/single-loss/pd-concat-distr.png}
+		\caption{``PD-Concat''}
+		\label{2d-pd-concat-val-distr}
+	\end{subfigure}
+	\caption{Verteilungen der erlebten Werte während der Validierung des 2D-Netzes}
+	\label{2d-val-distr}
+\end{figure}
+
+\subsection{1D-Pose}
 
 
-\begin{tabular}[t]{|c|l|r|r|r|}
-	\hline
-	& \textbf{Kacheltyp} & \textbf{MAE} & \textbf{n} & Chrashes \\
-	\hline
-	\multirow{4}{*}{PD} 
-	& Alle
-	& 5.32
-	& 100000
-	& \multirow{4}{*}{1}\\
-	\cline{2-4}
-	& Gerade
-	&  3.09
-	& 45990
-	&\\
-	\cline{2-4}
-	& Linkskurve
-	& 9.77
-	& 34287
-	&\\
-	\cline{2-4}
-	& Rechtskurve
-	& 7.85
-	& 4403
-	&\\
-	\cline{2-4}
-	& 3-Wege
-	&  1.34
-	& 15320
-	&\\
-	\hline
-	\multirow{4}{*}{PD-Rand} 
-	& Alle
-	& 14.44
-	& 100000
-	& \multirow{4}{*}{27}\\
-	\cline{2-4}
-	& Gerade
-	&  9.73
-	& 7974
-	& \\
-	\cline{2-4}
-	& Linkskurve
-	& 13.01
-	& 1324
-	&\\
-	\cline{2-4}
-	& Rechtskurve
-	& 14.83
-	& 89228
-	&\\
-	\cline{2-4}
-	& 3-Wege
-	& 17.22
-	& 1474
-	&\\
-	\hline
-	\multirow{4}{*}{PD-Concat} 
-	& Alle
-	& 8.37
-	& 100000
-	& \multirow{4}{*}{49}\\
-	\cline{2-4}
-	& Gerade
-	& 6.36
-	& 80467
-	&\\
-	\cline{2-4}
-	& Linkskurve
-	& 16.04
-	& 9792
-	&\\
-	\cline{2-4}
-	& Rechtskurve
-	& 23.76
-	& 4276
-	&\\
-	\cline{2-4}
-	& 3-Wege
-	& 12.19
-	& 5465
-	&\\
-	\hline
-\end{tabular}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}[t]{|c|l|r|r|r|}
+		\hline
+		& \textbf{Kacheltyp} & \textbf{MAE $d$} & \textbf{n} & Chrashes \\
+		\hline
+		\multirow{4}{*}{PD} 
+		& Alle
+		& 5.32
+		& 100000
+		& \multirow{4}{*}{1}\\
+		\cline{2-4}
+		& Gerade
+		&  3.09
+		& 45990
+		&\\
+		\cline{2-4}
+		& Linkskurve
+		& 9.77
+		& 34287
+		&\\
+		\cline{2-4}
+		& Rechtskurve
+		& 7.85
+		& 4403
+		&\\
+		\cline{2-4}
+		& 3-Wege
+		&  1.34
+		& 15320
+		&\\
+		\hline
+		\multirow{4}{*}{PD-Rand} 
+		& Alle
+		& 14.44
+		& 100000
+		& \multirow{4}{*}{27}\\
+		\cline{2-4}
+		& Gerade
+		&  9.73
+		& 7974
+		& \\
+		\cline{2-4}
+		& Linkskurve
+		& 13.01
+		& 1324
+		&\\
+		\cline{2-4}
+		& Rechtskurve
+		& 14.83
+		& 89228
+		&\\
+		\cline{2-4}
+		& 3-Wege
+		& 17.22
+		& 1474
+		&\\
+		\hline
+		\multirow{4}{*}{PD-Concat} 
+		& Alle
+		& 8.37
+		& 100000
+		& \multirow{4}{*}{49}\\
+		\cline{2-4}
+		& Gerade
+		& 6.36
+		& 80467
+		&\\
+		\cline{2-4}
+		& Linkskurve
+		& 16.04
+		& 9792
+		&\\
+		\cline{2-4}
+		& Rechtskurve
+		& 23.76
+		& 4276
+		&\\
+		\cline{2-4}
+		& 3-Wege
+		& 12.19
+		& 5465
+		&\\
+		\hline
+	\end{tabular}
+	\caption{Validierung des 1D-Posen-Netzes}
+	\label{1d-validation}
+\end{table}
+
+\subsection{Expertenbefehl}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}[t]{|c|l|r|r|r|}
+		\hline
+		& \textbf{Kacheltyp} & \textbf{MAE $\omega$} & \textbf{n} & Chrashes \\
+		\hline
+		\multirow{4}{*}{Expert} 
+		& Alle
+		& 0.096
+		& 100000
+		& \multirow{4}{*}{2}\\
+		\cline{2-4}
+		& Gerade
+		&  0.064
+		& 49249
+		&\\
+		\cline{2-4}
+		& Linkskurve
+		& 0.162
+		& 31399
+		&\\
+		\cline{2-4}
+		& Rechtskurve
+		& 0.126
+		& 3002
+		&\\
+		\cline{2-4}
+		& 3-Wege
+		&  0.061
+		& 16350
+		&\\
+		\hline
+		\multirow{4}{*}{Expert-Rand} 
+		& Alle
+		& 0.506
+		& 100000
+		& \multirow{4}{*}{311}\\
+		\cline{2-4}
+		& Gerade
+		&  0.486
+		& 48791
+		& \\
+		\cline{2-4}
+		& Linkskurve
+		& 0.573
+		& 28062
+		&\\
+		\cline{2-4}
+		& Rechtskurve
+		& 0.715
+		& 1657
+		&\\
+		\cline{2-4}
+		& 3-Wege
+		& 0.446
+		& 21490
+		&\\
+		\hline
+		\multirow{4}{*}{Expert-Concat} 
+		& Alle
+		& 0.150
+		& 100000
+		& \multirow{4}{*}{34}\\
+		\cline{2-4}
+		& Gerade
+		& 0.117
+		& 47454
+		&\\
+		\cline{2-4}
+		& Linkskurve
+		& 0.212
+		& 31424
+		&\\
+		\cline{2-4}
+		& Rechtskurve
+		& 0.199
+		& 3888
+		&\\
+		\cline{2-4}
+		& 3-Wege
+		& 0.117
+		& 17234
+		&\\
+		\hline
+	\end{tabular}
+	\caption{Validierung des Steuerbefehl-Netzes}
+	\label{expert-validation}
+\end{table}

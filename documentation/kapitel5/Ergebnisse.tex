@@ -136,7 +136,7 @@ Wir lassen die Netze jeweils 100000 \texttt{step()}-Aufrufe des Simulators fahre
 
 \subsection{2D-Pose}
 
-Im ersten Fall des 2D-Posen-Netzes schnitt das Netz, welches mit dem ``PD-Rand''-Datensatz und damit dem höchsten Anteil an Zufallsposen trainiert wurde, in Sachen Crashes pro Schritte am besten ab. Auffällig ist, dass das Training mit ``PD-Concat'' zwar zu einen besseren durchschnittlichen Fehler führte, was auch mit dem doppelt so großen Umfang des Datensatzes zu erklären ist, jedoch nicht zu der geringsten Anzahl an Crashes.  
+Im ersten Fall des 2D-Posen-Netzes schnitt das Netz, welches mit dem ``PD-Rand''-Datensatz und damit dem höchsten Anteil an Zufallsposen trainiert wurde, in Sachen Crashes pro Schritte am besten ab (siehe \ref{2d-validation}). Auffällig ist, dass das Training mit ``PD-Concat'' zwar zu einen besseren durchschnittlichen Fehler führte, was auch mit dem doppelt so großen Umfang des Datensatzes zu erklären ist, jedoch nicht zu der geringsten Anzahl an Crashes.  
 
 \begin{table}[H]
 	\centering
@@ -226,7 +226,7 @@ Im ersten Fall des 2D-Posen-Netzes schnitt das Netz, welches mit dem ``PD-Rand''
 	\label{2d-validation}
 \end{table}
 
-In der Verteilung der Werte, mit welchen das Netz während der Integration konfrontiert wurde, ist das bessere Fahrverhalten des mit dem ``PD-Rand''-Datensatz trainierten Netzes ebenfalls erkennbar. So liegt der Schwerpunkt der Entfernungswerte eher nahe 20, was der Mitte der rechten Fahrspur entspricht. Auch die Winkel streuen eher um 0, was eine gute Orientierung während des Fahrens anzeigt.
+In der Verteilung der Werte, mit welchen das Netz während der Integration konfrontiert wurde, ist das bessere Fahrverhalten des mit dem ``PD-Rand''-Datensatz trainierten Netzes ebenfalls erkennbar (siehe \ref{2d-val-distr}). So liegt der Schwerpunkt der Entfernungswerte eher nahe 20, was der Mitte der rechten Fahrspur entspricht. Auch die Winkel streuen eher um 0, was eine gute Orientierung während des Fahrens anzeigt.
 
 Die anderen beiden Varianten befanden sich während der Fahrt eher auf der gegenüberliegenden Fahrspur (Schwerpunkt der Distanzwerte um 60) und neigten zu einer linkslastigen Orientierung (Schwerpunkt der Winkel unter 0).
 
@@ -256,7 +256,9 @@ Die anderen beiden Varianten befanden sich während der Fahrt eher auf der gegen
 
 \subsection{1D-Pose}
 
+Bei den 1D-Posen-Netzen wurden die besten Ergebnisse mit dem ``PD''-Datensatz erzielt \ref{1d-validation}. Sowohl der durchschnittliche Fehler während der Validierung, als auch die Anzahl der Crashes waren in dieser Variante besonders niedrig.
 
+Das Training mit kombiniertem Datensatz ergab hier die schlechteste Performance, obwohl sich wieder ein geringerer durchschnittlicher Fehler ergab, als bei dem Training mit vielen Zufallsposen im Datensatz.
 
 \begin{table}[H]
 	\centering
@@ -347,7 +349,36 @@ Die anderen beiden Varianten befanden sich während der Fahrt eher auf der gegen
 	\label{1d-validation}
 \end{table}
 
+Bestätigt wird das Ergebnis wieder durch die Verteilung der Posenwerte während der Validierung \ref{1d-val-distr}. Das mit dem ``PD''-Datensatz trainierte Netz war am besten im Stande den Abstand zur Fahrbahnbegrenzung von etwa 20-25 halten zu können. Die anderen beiden Varianten waren mit Peaks um 40 und 60 wieder eher in der Mitte der Straße bis auf der linken Fahrspur unterwegs.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[h]{0.3\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{kapitel5/images/eval/d-only/pd-distr.png}
+		\caption{``PD''}
+		\label{1d-pd-val-distr}
+	\end{subfigure}%
+	\begin{subfigure}[h]{0.3\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{kapitel5/images/eval/d-only/pd-rand-distr.png}
+		\caption{``PD-Rand''}
+		\label{1d-pd-rand-val-distr}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.3\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{kapitel5/images/eval/d-only/pd-concat-distr.png}
+		\caption{``PD-Concat''}
+		\label{1d-pd-concat-val-distr}
+	\end{subfigure}
+	\caption{Verteilungen der erlebten Werte während der Validierung des 1D-Netzes}
+	\label{1d-val-distr}
+\end{figure}
+
 \subsection{Expertenbefehl}
+
+Die auf Steuerbefehle trainierten Netze lieferten bessere Ergebnisse je geringer der Anteil an Zufallsposen im Datensatz \ref{expert-validation}. Dies gilt sowohl für die Anzahl an Crashes, als auch den durchschnittlichen Fehler.
+Auch hier ist das beste Fahrverhalten wieder an der Verteilung der erlebten Werte erkennbar \ref{expert-val-distr}. So liegt das Mittel der Werte näher an 0, je geringer der Anteil an Zufallsposen im Datensatz.
 
 \begin{table}[H]
 	\centering
@@ -437,3 +468,29 @@ Die anderen beiden Varianten befanden sich während der Fahrt eher auf der gegen
 	\caption{Validierung des Steuerbefehl-Netzes}
 	\label{expert-validation}
 \end{table}
+
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[h]{0.4\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{kapitel5/images/eval/expert/expert-distr.png}
+		\caption{``Expert''}
+		\label{expert-drive-val-distr}
+	\end{subfigure}%
+	\begin{subfigure}[h]{0.4\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{kapitel5/images/eval/expert/expert-rand-distr.png}
+		\caption{``Expert-Rand''}
+		\label{expert-rand-val-distr}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.4\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{kapitel5/images/eval/expert/expert-concat-distr.png}
+		\caption{``Expert-Concat''}
+		\label{expert-concat-val-distr}
+	\end{subfigure}
+	\caption{Verteilungen der erlebten Werte während der Validierung des Experten-Netzes}
+	\label{expert-val-distr}
+\end{figure}
+

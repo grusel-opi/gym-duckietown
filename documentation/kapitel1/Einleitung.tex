@@ -27,7 +27,7 @@ für Navigation und Lokalisierung mit dem DuckieTown-Simulator\\
 
 \noindent Nach einer Einarbeitung in die Fähigkeiten des Simulators sollen Algorithmen für die
 Linienverfolgung, Lokalisierung mit einem Partikelfilter bei bekannter Umgebungskarte,
-Navigation (Planung, Wegeverfolgung und Hindernisvermeidung) realisiert werden. Optional können auch KI-Komponenten für
+Navigation (Planung, Wegeverfolgung und Hindernisvermeidung) realisiert werden. Optional können auch \acs{ki}-Komponenten für
 Fahrverhalten und Erkennung von Verkehrszeichen entwickelt werden. Hierzu sollen neue
 Techniken wie Deep Neural Networks und Deep Reinforcement Learning zum Einsatz
 kommen.\\
@@ -39,9 +39,9 @@ Eventuell kommt das \acf{ros} zum Einsatz.
 
 \section{Aufgabenstellung}
 
-Das Ziel unseres Teams ist die Auswertung der Kamerabilder eines Agenten in einer DuckieTown-Umgebung Mit den daraus gewonnenen Informationen soll der Agent in der Lage sein, vollständig autonom die Fahrspur halten zu können. Benötigt wird daher ein System, welches anhand einer Kameraaufnahme Steuerbefehle für den Agenten berechnet.
+Das Ziel unseres Teams ist die Auswertung der Kamerabilder eines Agenten in einer DuckieTown-Umgebung. Mit den daraus gewonnenen Informationen soll der Agent in der Lage sein, vollständig autonom die Fahrspur halten zu können. Benötigt wird daher ein System, welches anhand einer Kameraaufnahme Steuerbefehle für den Agenten berechnet.
 
-Ein weiteres mögliches Ziel ist die Nutzung der Informationen zur Lokalisierung des Agenten. Über Odometrie kann die Orientierung relativ zur Startpose geschätzt werden. Weißt die Trajektorie über einen gewissen Zeitraum eine Änderung der Orientierung von etwa 90 bzw. 270 Grad auf, kann davon ausgegangen werden, dass der Agent eine Kurve durchfahren hat. Ist außerdem die Umgebungskarte bekannt, kann mit Hilfe eines Monte-Carlo-Verfahrens der Agent global lokalisiert werden.\\
+Ein weiteres mögliches Ziel ist die Nutzung der Informationen zur Lokalisierung des Agenten. Über Odometrie kann die Orientierung relativ zur Startpose geschätzt werden. Weißt die Trajektorie über einen gewissen Zeitraum eine Änderung der Orientierung von etwa 90 \acs{bzw} 270 Grad auf, kann davon ausgegangen werden, dass der Agent eine Kurve durchfahren hat. Ist außerdem die Umgebungskarte bekannt, kann mit Hilfe eines Monte-Carlo-Verfahrens der Agent global lokalisiert werden.\\
 
 Wir werden zur Berechnung des Steuerbefehls auf zwei Ansätze eingehen:
 

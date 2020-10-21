@@ -81,7 +81,7 @@ Das Entfernen des Winkels aus dem Zustandsvektor bringt eine leichte Verbesserun
 	\label{1d-poses-mse-d}
 \end{figure}
 
-Allerdings führt die Reduktion auf das Schätzen des Distanzwertes allein zu einer stärkeren Überstimmung des Netzes. In \ref{1d-poses-mse-d} ist erkennbar, dass sowohl bei dem Training mit dem ``PD-Rand'' (hier in Orange für die Trainingsdaten und Grau für die Testdaten), als auch mit dem ``\acs{pd} + \acs{pd}-Rand'' Datensatz (Rot für Training und Blau für Test), das Netz spätestens ab Epoche 15 überstimmt ist.
+Allerdings führt die Reduktion auf das Schätzen des Distanzwertes allein zu einer stärkeren Überstimmung des Netzes. In \ref{1d-poses-mse-d} ist erkennbar, dass sowohl bei dem Training mit dem ``\acs{pd}-Rand'' (hier in Orange für die Trainingsdaten und Grau für die Testdaten), als auch mit dem ``\acs{pd} + \acs{pd}-Rand'' Datensatz (Rot für Training und Blau für Test), das Netz spätestens ab Epoche 15 überstimmt ist.
 
 \subsection{Steuerbefehl durch Expertensystem}
 
@@ -128,7 +128,7 @@ Wie zuvor zeigt sich auch hier, dass das Training mit hohem Anteil an Zufallspos
 
 \section{Validierung}
 
-Die Validierung besteht aus der Integration des Netzes in den Simulator, wobei dieses selbst die Kontrolle übernimmt. Die Steuerung erfolgt dabei in Abhängigkeit von dem Output des Netzes. Im Falle des 2D-Posen-Netzes über einen einfachen PD-Regler mit $d$ als Fehler und $\theta$ als Ableitung des Fehlers (siehe \ref{pd-drive-example}). Das 1D-Posen-Netz hält den Distanzwert über einen vollständigen und sorgfältig eingestellten PID-Regler. Das Experten-Netz steuert den Agenten direkt über den inferierten Steuerbefehl.
+Die Validierung besteht aus der Integration des Netzes in den Simulator, wobei dieses selbst die Kontrolle übernimmt. Die Steuerung erfolgt dabei in Abhängigkeit von dem Output des Netzes. Im Falle des \acs{2d}-Posen-Netzes über einen einfachen \acs{pd}-Regler mit $d$ als Fehler und $\theta$ als Ableitung des Fehlers (siehe \ref{pd-drive-example}). Das \acs{1d}-Posen-Netz hält den Distanzwert über einen vollständigen und sorgfältig eingestellten \acs{pid}-Regler. Das Experten-Netz steuert den Agenten direkt über den inferierten Steuerbefehl.
 
 Im Gegensatz zur Trainings- und Testphase ist bei der Integration in den Simulator die Verteilung der Werte mit denen das Netz konfrontiert wird abhängig davon, wie gut dieses die Spur halten kann. Dies ist wiederum abhängig davon, wie gut die letzten Werte geschätzt worden sind.
 
@@ -377,8 +377,8 @@ Bestätigt wird das Ergebnis wieder durch die Verteilung der Posenwerte während
 
 \subsection{Expertenbefehl}
 
-Die auf Steuerbefehle trainierten Netze lieferten bessere Ergebnisse je geringer der Anteil an Zufallsposen im Datensatz \ref{expert-validation}. Dies gilt sowohl für die Anzahl an Crashes, als auch den durchschnittlichen Fehler.
-Auch hier ist das beste Fahrverhalten wieder an der Verteilung der erlebten Werte erkennbar \ref{expert-val-distr}. So liegt das Mittel der Werte näher an 0, je geringer der Anteil an Zufallsposen im Datensatz.
+Die auf Steuerbefehle trainierten Netze lieferten bessere Ergebnisse je geringer der Anteil an Zufallsposen im Datensatz (siehe \ref{expert-validation}). Dies gilt sowohl für die Anzahl an Crashes, als auch den durchschnittlichen Fehler.
+Auch hier ist das beste Fahrverhalten wieder an der Verteilung der erlebten Werte erkennbar (siehe \ref{expert-val-distr}). So liegt das Mittel der Werte näher an 0, je geringer der Anteil an Zufallsposen im Datensatz.
 
 \begin{table}[H]
 	\centering

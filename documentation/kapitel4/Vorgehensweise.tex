@@ -43,7 +43,7 @@ Im ersten Ansatz ist die Aufgabe des Netzes die Schätzung der Pose des Agenten.
 \end{minipage}
 
 \vspace{.5cm}
-Die magische Zahl von 20,5 ist einfach die Verschiebung des Wertes vom rechten Fahrbahnrand zur Mitte der Fahrspur, so dass das Ergebnis als Fehler zum Soll (also null) interpretiert werden kann. Das Teilen durch hundert ergibt dann einen Wert in Kachelgrößen, statt hundertstel Kachelgröße.
+Die magische Zahl von 20.5 ist einfach die Verschiebung des Wertes vom rechten Fahrbahnrand zur Mitte der Fahrspur, so dass das Ergebnis als Fehler zum Soll (also null) interpretiert werden kann. Das Teilen durch hundert ergibt dann einen Wert in Kachelgrößen, statt hundertstel Kachelgröße.
 Zur Vollständigkeit ist im Code noch stark vereinfacht verdeutlicht, wie Aufnahme und zugehöriges Label zustande kommen und gespeichert werden.
 
 Das Schätzen der Pose hat den Vorteil, dass die Informationen anderweitig verwendet werden könnten, beispielsweise zur Lokalisierung des Agenten in einem Monte-Carlo Verfahren.\\
@@ -52,14 +52,17 @@ Im zweiten Ansatz trainieren wir das Netz direkt auf entsprechende Steuerbefehle
 
 \begin{minipage}{\linewidth}
 	\begin{lstlisting}[caption={Berechnung eines Steuerbefehls mit einfachem Expertensystem}, language=python]
-	
-	projected_angle, closest_point, curve_point = environment._get_projected_angle_difference(lookup_distance)
+	projected_angle, closest_point, curve_point = \
+		environment._get_projected_angle_difference(lookup_distance)
 	tile = environment.get_tile(curve_point)
+	
 	if 'curve' in tile['kind'] or abs(projected_angle) < 0.92:
 		v *= 0.5
+	
 	point_vec = curve_point - environment.cur_pos
 	point_vec /= np.linalg.norm(point_vec)
-	right_vec = np.array([math.sin(self.env.cur_angle), 0, math.cos(self.env.cur_angle)])
+	right_vec = np.array([math.sin(self.env.cur_angle), 
+									     0, math.cos(self.env.cur_angle)])
 	omega = np.dot(right_vec, point_vec)
 	
 	\end{lstlisting}
@@ -153,7 +156,7 @@ Wie in \ref{pd-angles} und \ref{pd-distances} erkennbar, ist die Verteilung von 
 \end{figure}
 
 
-Auf die Verteilung der Kachelarten in den PD-Datensätzen, auf welchen die Aufnahmen entstanden sind, hat der höhere Anteil der Zufallsposen keinen Einfluss (siehe \ref{pd-tiles}).\\
+Auf die Verteilung der Kachelarten in den \acs{pd}-Datensätzen, auf welchen die Aufnahmen entstanden sind, hat der höhere Anteil der Zufallsposen keinen Einfluss (siehe \ref{pd-tiles}).\\
 Im Gegensatz dazu hat der höhere Anteil an Zufallsposen in den Expertendatensätzen Auswirkungen auf die Verteilung der Kachelarten. So ist der Anteil der Linkskurven im Datensatz deutlich gestiegen (siehe \ref{expert-tiles}).
 
 Vier-Wege-Kreuzungen waren auf der von uns verwendeten Umgebungskarte nicht vorhanden.

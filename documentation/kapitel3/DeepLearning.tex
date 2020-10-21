@@ -123,9 +123,9 @@ Einige Beispiele für Hyperparameter sind:
 
 \begin{enumerate}
 	\item Lerngeschwindigkeit (learning rate):\\
-	Schrittgrößte in Richtung Minimum der Fehlerfunktion pro Iteration 
+	Schrittgröße in Richtung Minimum der Fehlerfunktion pro Iteration 
 	\item Batch Size:\\
-	Anzahl an Beispielen welche pro Iteration in das Netz eingespeißt werden
+	Anzahl an Beispielen welche pro Iteration in das Netz eingespeist werden
 	\item Anzahl Epochen:\\
 	Anzahl der Trainingsdurchläufe über den Datensatz
 \end{enumerate}
@@ -243,13 +243,13 @@ Einige Beispiele für Hyperparameter sind:
 
 \subsubsection{Faltungsschicht}
 
-Arbeitet man mit Daten mit großter Dimensionalität, wie zum Beispiel Bildern, wird das Training mit vollständig verbundenen Netzen schnell unpraktikabel. Allein die Kombination eines ein-megapixel großen Bildes mit einer Schicht aus tausend Neuronen würde eine Milliarde Modellparameter ergeben.
+Arbeitet man mit Daten mit großer Dimensionalität, wie zum Beispiel Bildern, wird das Training mit vollständig verbundenen Netzen schnell unpraktikabel. Allein die Kombination eines ein-megapixel großen Bildes mit einer Schicht aus tausend Neuronen würde eine Milliarde Modellparameter ergeben.
 Es bietet sich daher das Arbeiten mit der Faltung an, wobei nur ein Faltungskern erlernt werden muss.
 
 \subsubsection{Dropout}
 
 Eine weit verbreitete Methode um das Überstimmen von neuronalen Netzen zu minimieren sind Dropout-Schichten. Die Idee ist, dass ein für das Netz wichtiges Merkmal nicht aus der Aktivierung eines einzelnen Neurons besteht, sondern aus der Kombination mehrerer.
-Um die Abhänigkeit des Outputs des Netzes von einzelnen Aktivierungen zu verhindern, werden diese mit einer festgelegten Wahrscheinlichkeit auf null gesetzt. Dies geschieht nur während des Trainings und wird zur Inferenz abgeschaltet.
+Um die Abhängigkeit des Outputs des Netzes von einzelnen Aktivierungen zu verhindern, werden diese mit einer festgelegten Wahrscheinlichkeit auf null gesetzt. Dies geschieht nur während des Trainings und wird zur Inferenz abgeschaltet.
 
 \subsubsection{Normalisierung}
 
@@ -259,7 +259,7 @@ Dies lässt sich damit erklären, dass das Lernverfahren als eine Minimumssuche 
 \subsubsection{Regularisierung}
 
 Neuronale Netze bilden Input über ihre Gewichte auf einen gewissen Output ab. Ist die Größenordnung mancher Gewichte größer als die von anderen, ist die Wahrscheinlichkeit hoch, dass das Netz überstimmt ist. Eine kleine Abweichung im Input kann dann drastische Auswirkungen auf den Output haben.
-Um zu verhindern, dass der Lernprozess die Gewichte beliebig groß gestaltet, kann an die Fehlerfunktion ein zusätzlicher Term angefügt werden, welcher die Größe der Gewichte beinhaltet. Eine L2-Regularisierung zum Beispiel, multipliziert das Quadrat der Größe der Gewichte mit einem Vorfaktor, einem Hyperparameter, und addiert das Ergebniss auf den Wert der Fehlerfunktion. Große Gewichte werden so bestraft.
+Um zu verhindern, dass der Lernprozess die Gewichte beliebig groß gestaltet, kann an die Fehlerfunktion ein zusätzlicher Term angefügt werden, welcher die Größe der Gewichte beinhaltet. Eine L2-Regularisierung zum Beispiel, multipliziert das Quadrat der Größe der Gewichte mit einem Vorfaktor, einem Hyperparameter, und addiert das Ergebnis auf den Wert der Fehlerfunktion. Große Gewichte werden so bestraft.
 
 \section{Multilayer-Perzeptron (MLP)}
 

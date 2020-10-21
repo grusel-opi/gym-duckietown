@@ -47,7 +47,7 @@ Es gibt Problemstellungen (wie beispielsweise die unstrukturierte Bilderkennung)
 
 \section{Lernverfahren}
 
-Beim maschinellen Lernen bzw. beim Deep Learning stehen drei unterschiedliche Lernverfahren zur Verfügung:
+Beim maschinellen Lernen \acs{bzw} beim Deep Learning stehen drei unterschiedliche Lernverfahren zur Verfügung:
 
 \begin{itemize}
 	
@@ -96,7 +96,7 @@ Die Neuronen (Knotenpunkte) eines künstlichen neuronalen Netzes sind schichtwei
 
 Die Informationen fließen beginnend mit der Eingabeschicht über eine oder mehrere Zwischenschichten bis hin zur Ausgabeschicht. Dabei ist der Ausgabewert eines Neurons der Eingabewert des nächsten Neurons. \cite{jaai} \\
 
-Künstliche neuronale Netze werden meist schematisch horizontal dargestellt (wie z.B. in Abbildung \ref{fig:simples-neuronales-netz}). Die Eingabeschicht befindet sich dabei auf der linken Seite  gefolgt von den Zwischenschichten in der Mitte und der Ausgabeschicht auf der rechten Seite.
+Künstliche neuronale Netze werden meist schematisch horizontal dargestellt (wie z.B. in Abbildung \ref{simple-net}). Die Eingabeschicht befindet sich dabei auf der linken Seite  gefolgt von den Zwischenschichten in der Mitte und der Ausgabeschicht auf der rechten Seite.
 Die Anzahl der Schichten die in einem künstlichen neuronalen Netz verwendet werden, ist eine wichtige beschreibende Information. Enthält ein Netz zum Beispiel drei Schichten, so spricht man von einem drei-schichtigen neuronalen Netz. \cite{jaai}
 
 \subsection{Eingabeschicht (input layer)}
@@ -287,7 +287,7 @@ Ein einzelnes Perzeptron kann für sich genommen lediglich eine lineare Klassifi
 
 \section{Convolutional Neural Networks (CNNs)}
 
-	Convolutional Neural Networks (CNNs) können besonders effizient mit 2D- bzw. 3D-Eingabedaten arbeiten. Insbesondere werden CNNs für die Objektdetektion in Bildern angewendet. \cite{datasolut4} \\
+	\acf{cnns} können besonders effizient mit \acs{2d}- \acs{bzw} \acs{3d}-Eingabedaten arbeiten. Insbesondere werden \acs{cnns} für die Objektdetektion in Bildern angewendet. \cite{datasolut4} \\
 	
 	\begin{figure}[H]
 		\centering
@@ -297,7 +297,7 @@ Ein einzelnes Perzeptron kann für sich genommen lediglich eine lineare Klassifi
 		\quelle\url{https://de.wikipedia.org/wiki/Convolutional_Neural_Network#/media/Datei:Typical_cnn.png}
 	\end{figure}
 
-	Der Unterschied zu den klassischen künstlichen neuronalen Netzen liegt in der Architektur der CNNs: Die Zwischenschicht basiert hierbei auf einer Abfolge von Faltungs- und Poolingoperationen. Bei der Faltung wird ein sogenannter Faltungskernel über die Daten geschoben und das Ergebnis der Faltungsoperation wird berechnet. Anschließend werden die Neuronen aktualisiert. Die nachfolgende Poolingoperation sorgt dann dafür, dass die Ergebnisse vereinfacht werden. Dadurch bleiben nur die wichtigsten Informationen erhalten.	Des Weiteren wird dadurch erreicht, dass die 2D- oder 3D-Eingangsdaten kleiner werden. \cite{datasolut4}
+	Der Unterschied zu den klassischen künstlichen neuronalen Netzen liegt in der Architektur der \acs{cnns}: Die Zwischenschicht basiert hierbei auf einer Abfolge von Faltungs- und Poolingoperationen. Bei der Faltung wird ein sogenannter Faltungskernel über die Daten geschoben und das Ergebnis der Faltungsoperation wird berechnet. Anschließend werden die Neuronen aktualisiert. Die nachfolgende Poolingoperation sorgt dann dafür, dass die Ergebnisse vereinfacht werden. Dadurch bleiben nur die wichtigsten Informationen erhalten.	Des Weiteren wird dadurch erreicht, dass die \acs{2d}- oder \acs{3d}-Eingangsdaten kleiner werden. \cite{datasolut4}
 
 
 

@@ -8,7 +8,7 @@ Unsere Variante dieses Modells nutzt statt der \acs{relu} die \acs{elu} als Akti
 
 In der Vorverarbeitung der Daten wird die Größe der Bilder von $(640, 480, 3)$ (im Format ($H$, $W$, $C$)) auf $(120, 160, 3)$ reduziert und anschließend das obere Drittel des Bildes abgeschnitten, da dies meist nur Horizont und sonstige Objekte beinhaltet. Die endgültige Größe des Inputs ist dann $(80, 160, 3)$.
 
-Eine Darstellung unseres Netzes mitsamt Vorverarbeitung der Daten ist in \acs{abb.} \ref{nvidia-model} zu sehen.
+Eine Darstellung unseres Netzes mitsamt Vorverarbeitung der Daten ist in Abb. \ref{nvidia-model} zu sehen.
 
 \begin{figure}[H]
 	\centering
@@ -31,7 +31,7 @@ Wir verfolgen zwei Ansätze in welchen wir das Netz auf unterschiedliche Ausgabe
 Im ersten Ansatz ist die Aufgabe des Netzes die Schätzung der Pose des Agenten. Dazu wird vom Simulator eine Aufnahme erzeugt, die Pose des Agenten relativ zur Fahrbahn berechnet und als Label zur Aufnahme abgespeichert. Die Poseninformationen bestehen aus der Distanz zur rechten Fahrbahnmarkierung und der Differenz der Orientierungen von Agent und Tangente der Ideallinie. Mit einem einfachen \acs{pd}-Regler kann dann ein Steuerbefehl für den Agenten berechnet werden, wobei die Geschwindigkeit fix gewählt wird und die Winkelgeschwindigkeit das Ergebnis des Reglers ist. Da der Distanzwert $d$ von uns als hundertstel Kachelgröße und die Winkeldifferenz in Grad festgelegt wurde, hat eine typische Berechnung folgende Form:\\
 
 \begin{minipage}{\linewidth}
-	\begin{lstlisting}[caption={Berechnung eines Steuerbefehls mit PD-Regler}, language=python]
+	\begin{lstlisting}[caption={Berechnung eines Steuerbefehls mit \acs{pd}-Regler}, language=python]
 	d, a = environment.cheatmodul.get_lane_pose()
 	d_hat_to_center = (d - 20.5) / 100.
 	a_hat_in_rad = (a * 2 * np.pi) / 360.
@@ -84,13 +84,13 @@ Wie erläutert, ergeben sich zwei Ansätze zur Zusammensetzung des Labels und zw
 	\begin{subfigure}{0.5\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{kapitel4/images/plots/pd-angles.png}
-		\caption{Winkel des PD Datensatzes}
+		\caption{Winkel des \acs{pd} Datensatzes}
 		\label{pd-drive-angles}
 	\end{subfigure}%
 	\begin{subfigure}{0.5\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{kapitel4/images/plots/pd-rand-angles.png}
-		\caption{Winkel des PD-Rand Datensatzes}
+		\caption{Winkel des \acs{pd}-Rand Datensatzes}
 		\label{pd-rand-angles}
 	\end{subfigure}
 	\caption{Verteilungen der Winkel der \acs{pd} Datensätze}
@@ -103,13 +103,13 @@ Wie erläutert, ergeben sich zwei Ansätze zur Zusammensetzung des Labels und zw
 	\begin{subfigure}[h]{0.5\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{kapitel4/images/plots/pd-distances.png}
-		\caption{Entfernungswerte des PD Datensatzes}
+		\caption{Entfernungswerte des \acs{pd} Datensatzes}
 		\label{pd-drive-distances}
 	\end{subfigure}%
 	\begin{subfigure}[h]{0.5\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{kapitel4/images/plots/pd-rand-distances.png}
-		\caption{Entfernungswerte des PD-Rand Datensatzes}
+		\caption{Entfernungswerte des \acs{pd}-Rand Datensatzes}
 		\label{pd-rand-distances}
 	\end{subfigure}
 	\caption{Verteilungen der Entfernungswerte der \acs{pd} Datensätze}
@@ -124,16 +124,16 @@ Wie in \ref{pd-angles} und \ref{pd-distances} erkennbar, ist die Verteilung von 
 	\begin{subfigure}[h]{0.5\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{kapitel4/images/plots/tiles-pd.png}
-		\caption{Kachelarten in ``PD''}
+		\caption{Kachelarten in ``\acs{pd}''}
 		\label{pd-drive-tiles}
 	\end{subfigure}%
 	\begin{subfigure}[h]{0.5\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{kapitel4/images/plots/tiles-pd-rand.png}
-		\caption{Kachelarten in ``PD-Rand''}
+		\caption{Kachelarten in ``\acs{pd}-Rand''}
 		\label{pd-rand-tiles}
 	\end{subfigure}
-	\caption{Verteilungen der Kachelarten in ``PD'' und ``PD-Rand''}
+	\caption{Verteilungen der Kachelarten in ``\acs{pd}'' und ``\acs{pd}-Rand''}
 	\label{pd-tiles}
 \end{figure}
 

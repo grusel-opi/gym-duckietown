@@ -2,7 +2,7 @@
 
 \section{Was ist Deep Learning?}
 
-Unter Deep Learning (zu deutsch tiefes Lernen) versteht man ein Teilgebiet des maschinellen Lernens (\acs{s.} \acs{abb.} \ref{overview-ki}), welches sich mit künstlichen neuronalen Netzen und große Datenmengen befasst. Es eignet sich für eine Vielzahl von Anwendungsfällen wie beispielsweise für selbstfahrende Autos, in der Medizin als auch im Marketing. \cite{datasolut2}\\
+Unter Deep Learning (zu deutsch tiefes Lernen) versteht man ein Teilgebiet des maschinellen Lernens (siehe \acs{abb.} \ref{overview-ki}), welches sich mit künstlichen neuronalen Netzen und große Datenmengen befasst. Es eignet sich für eine Vielzahl von Anwendungsfällen wie beispielsweise für selbstfahrende Autos, in der Medizin als auch im Marketing. \cite{datasolut2}\\
 
 Mit Deep Learning können Probleme gelöst werden, die ohne diese Ansätze nicht lösbar wären. Tiefes Lernen ist allerdings sehr rechenaufwändig, wodurch das Training über Monate hinweg andauern kann, um gute Entscheidungen treffen zu können. Gründe hierfür sind komplexe Architekturen sowie eine Vielzahl an Modell-Parametern. \cite{datasolut2} \\
 
@@ -47,7 +47,7 @@ Es gibt Problemstellungen (wie beispielsweise die unstrukturierte Bilderkennung)
 
 \section{Lernverfahren}
 
-Beim maschinellen Lernen \acs{bzw} beim Deep Learning stehen drei unterschiedliche Lernverfahren zur Verfügung:
+Beim maschinellen Lernen beziehungsweise beim Deep Learning stehen drei unterschiedliche Lernverfahren zur Verfügung:
 
 \begin{itemize}
 	
@@ -58,7 +58,7 @@ Beim maschinellen Lernen \acs{bzw} beim Deep Learning stehen drei unterschiedlic
 	Das unüberwachte Lernen nutzt für den Lernprozess keine Beispieldaten, sondern Rohdaten, aus denen eigenständig Muster erkannt werden sollen. \\
 	Der hauptsächliche Unterschied zum überwachten Lernen ist also, dass das unüberwachte Lernen nicht dafür ausgelegt ist, eine Vorhersage für eine bekannte Zielvariable zu treffen. \cite{datasolut3}
 	\item Bestärkendes Lernen (Reinforcment Learning)\\
-	Anders als das überwachte \acs{bzw} unüberwachte Lernen nutzt das bestärkende Lernen zunächst keine Daten, sondern diese entstehen in einer Simulationsumgebung nach einem Versuch-und-Irrtum-Verfahren. \cite{der-onliner_blogspot}
+	Anders als das überwachte beziehungsweise unüberwachte Lernen nutzt das bestärkende Lernen zunächst keine Daten, sondern diese entstehen in einer Simulationsumgebung nach einem Versuch-und-Irrtum-Verfahren. \cite{der-onliner_blogspot}
 \end{itemize}
 
 In Abbildung \ref{overview-machine-learning-algorithms} ist eine Übersicht über die  verschiedenen Lernverfahren dargestellt.
@@ -225,7 +225,7 @@ Einige Beispiele für Hyperparameter sind:
 			\begin{enumerate}
 				\item \textbf{AdaGrad:}
 				
-					Der Kerngedanke hinter AdaGrad ist das Herunterskalieren des Gradientenvektors, \acs{d.h.} die Lernrate wird pro Dimension nach und nach verringert, wobei die Verringerung bei steilen Dimensionen schneller erfolgt. \cite{lucas_plagwitz}
+					Der Kerngedanke hinter AdaGrad ist das Herunterskalieren des Gradientenvektors, das heißt die Lernrate wird pro Dimension nach und nach verringert, wobei die Verringerung bei steilen Dimensionen schneller erfolgt. \cite{lucas_plagwitz}
 					
 				\item \textbf{RMSProp:}
 				
@@ -263,7 +263,7 @@ Um zu verhindern, dass der Lernprozess die Gewichte beliebig groß gestaltet, ka
 
 \section{Multilayer-Perzeptron (MLP)}
 
-Ein einzelnes Perzeptron kann für sich genommen lediglich eine lineare Klassifikation erzielen (\acs{s.} \acs{abb.} \ref{linear-classification}) Es ist jedoch des Öfteren notwendig, weitaus komplexere Klassifikationen zu bewerkstelligen. Dies lässt sich erreichen, indem mehrere Perzeptronen miteinander verschaltet werden. Dabei werden die einzelnen Perzeptrone zunächst in Schichten angeordnet. Die Perzeptronen einer Schicht, sind dann jeweils mit jedem Perzeptron der folgenden Schicht verschaltet. Innerhalb einer Schicht werden die Perzeptronen nicht miteinander verbunden und es darf auch keine zyklischen Verschaltungen zwischen den Schichten geben. Das resultierende Ergebnis wird dann als sogenanntes \acf{mlp} bezeichnet. Die erste Schicht ist hierbei die Eingabeschicht. Sie ist dafür zuständig, die einzelnen Werte der Eingänge über die Eingabeperzeptronen an jedes Perzeptron der nächsten Schicht weiter zu leiten. Nach der Eingabeschicht folgt eine \acs{bzw} mehrere Zwischenschichten. In den Zwischenschichten findet dann der eigentliche Klassifikationsprozess statt. Die nichtlineare Klassifikation (\acs{s.} \acs{abb.} \ref{non-linear-classification}) entsteht dabei durch den Einsatz von mehreren Perzeptronen. Nach den Zwischenschichten folgt letztendlich die Ausgabeschicht, welche aus den sogenannten Ausgabeperzeptronen besteht. Das Ergebnis des Klassifikationsprozesses wird dann schlussendlich über diese Schicht ausgegeben. Jede Schicht des \acs{mlp} kann dabei aus mehreren Perzeptronen bestehen, aber es muss immer mindestens ein Perzeptron vorhanden sein. \cite{oliver-gableske}
+Ein einzelnes Perzeptron kann für sich genommen lediglich eine lineare Klassifikation erzielen (siehe \acs{abb.} \ref{linear-classification}) Es ist jedoch des Öfteren notwendig, weitaus komplexere Klassifikationen zu bewerkstelligen. Dies lässt sich erreichen, indem mehrere Perzeptronen miteinander verschaltet werden. Dabei werden die einzelnen Perzeptrone zunächst in Schichten angeordnet. Die Perzeptronen einer Schicht, sind dann jeweils mit jedem Perzeptron der folgenden Schicht verschaltet. Innerhalb einer Schicht werden die Perzeptronen nicht miteinander verbunden und es darf auch keine zyklischen Verschaltungen zwischen den Schichten geben. Das resultierende Ergebnis wird dann als sogenanntes \acf{mlp} bezeichnet. Die erste Schicht ist hierbei die Eingabeschicht. Sie ist dafür zuständig, die einzelnen Werte der Eingänge über die Eingabeperzeptronen an jedes Perzeptron der nächsten Schicht weiter zu leiten. Nach der Eingabeschicht folgt eine beziehungsweise mehrere Zwischenschichten. In den Zwischenschichten findet dann der eigentliche Klassifikationsprozess statt. Die nichtlineare Klassifikation (siehe \acs{abb.} \ref{non-linear-classification}) entsteht dabei durch den Einsatz von mehreren Perzeptronen. Nach den Zwischenschichten folgt letztendlich die Ausgabeschicht, welche aus den sogenannten Ausgabeperzeptronen besteht. Das Ergebnis des Klassifikationsprozesses wird dann schlussendlich über diese Schicht ausgegeben. Jede Schicht des \acs{mlp} kann dabei aus mehreren Perzeptronen bestehen, aber es muss immer mindestens ein Perzeptron vorhanden sein. \cite{oliver-gableske}
 
 \begin{figure}[H]
 	\captionsetup[subfigure]{position=b}
@@ -281,13 +281,13 @@ Ein einzelnes Perzeptron kann für sich genommen lediglich eine lineare Klassifi
 		\caption{Nichtlineare Klassifikation mittels MLP}
 		\label{non-linear-classification}
 	\end{subfigure}
-	\caption{Lineare Klassifikation \acs{vs.} Nichtlineare Klassifikation}
+	\caption{Lineare Klassifikation versus Nichtlineare Klassifikation}
 	\quelle\url{https://www.informatik.uni-ulm.de/ni/Lehre/WS04/ProSemNN/pdf/MLP.pdf}
 \end{figure}
 
 \section{Convolutional Neural Networks (CNNs)}
 
-	\acf{cnns} können besonders effizient mit \acs{2d}- \acs{bzw} \acs{3d}-Eingabedaten arbeiten. Insbesondere werden \acs{cnns} für die Objektdetektion in Bildern angewendet. \cite{datasolut4} \\
+	\acf{cnns} können besonders effizient mit \acs{2d}- beziehungsweise \acs{3d}-Eingabedaten arbeiten. Insbesondere werden \acs{cnns} für die Objektdetektion in Bildern angewendet. \cite{datasolut4} \\
 	
 	\begin{figure}[H]
 		\centering

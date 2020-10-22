@@ -10,7 +10,7 @@ Im Folgenden reflektieren wir über die Ergebnisse der verfolgten Ansätze.
 
 Das Schätzen einer zweidimensionalen Pose erwies sich als am Schwierigsten.
 
-Während des Trainings mit dem ``\acs{pd}''-Rand Datensatz konvergierte der Fehler in $d$ etwas besser als $\theta$. Bildmerkmale für das Schätzen der einzelnen Werte scheinen damit verschieden und durch den erhöhten Anteil an Zufallsposen auch unterschiedlich stark vertreten zu sein.
+Während des Trainings mit dem \glqq\acs{pd}\grqq-Rand Datensatz konvergierte der Fehler in $d$ etwas besser als $\theta$. Bildmerkmale für das Schätzen der einzelnen Werte scheinen damit verschieden und durch den erhöhten Anteil an Zufallsposen auch unterschiedlich stark vertreten zu sein.
 
 Obwohl die Metriken während dem Training mit den Daten mit dem geringsten Anteil an Zufallsposen am besten wirkten, zeigte die Integration des Netzes ein sehr schlechtes Fahrverhalten mit 790 Unglücken in 100000 Schritten. Am besten schnitt das Netz mit dem größten Anteil an Zufallsposen im Datensatz ab, obwohl dies den größten Fehler zeigte. Das Netz, welches mit dem kombinierten Datensatz trainiert wurde, lag in der Mitte.
 
@@ -20,9 +20,9 @@ Nach dieser Erklärung müsste das Training mit kombiniertem Datensatz eigentlic
 
 \subsection{1D-Pose}
 
-Das Entfernen der Winkeldifferenz $\theta$ aus dem zu inferierenden Zustandsvektor verbesserte den Fehler in $d$ mit den Datensätzen ``\acs{pd}-Rand'' und ``\acs{pd}-Concat'' um etwa die Hälfte (siehe \ref{2d-pose-performance} und \ref{1d-pose-performance}). Dies könnte bedeuten, dass das Minimieren der Fehler in den einzelnen Dimensionen des \acs{2d} Zustandes in Konkurrenz zueinander steht.
+Das Entfernen der Winkeldifferenz $\theta$ aus dem zu inferierenden Zustandsvektor verbesserte den Fehler in $d$ mit den Datensätzen \glqq\acs{pd}-Rand\grqq{} und \glqq\acs{pd}-Concat\grqq{} um etwa die Hälfte (siehe \ref{2d-pose-performance} und \ref{1d-pose-performance}). Dies könnte bedeuten, dass das Minimieren der Fehler in den einzelnen Dimensionen des \acs{2d} Zustandes in Konkurrenz zueinander steht.
 
-Während der Integration in den Simulator lieferte der \acs{1d} Ansatz sehr gute Ergebnisse. Hier führte das Training mit ``\acs{pd}'' zum besten Ergebnis an Crashes und \acs{mae}. Das Training mit kombiniertem Datensatz verunglückte dagegen am häufigsten, obwohl es einen besseren mittleren Fehler hervorbrachte als das Training mit ``\acs{pd}-Rand''.
+Während der Integration in den Simulator lieferte der \acs{1d} Ansatz sehr gute Ergebnisse. Hier führte das Training mit \glqq\acs{pd}\grqq{} zum besten Ergebnis an Crashes und \acs{mae}. Das Training mit kombiniertem Datensatz verunglückte dagegen am häufigsten, obwohl es einen besseren mittleren Fehler hervorbrachte als das Training mit \glqq\acs{pd}-Rand\grqq.
 
 Eine gute Reaktionsgeschwindigkeit des \acs{pid}-Reglers und das Wegfallen der Fehlerfortpflanzung sorgten hier dafür, dass die Verteilung der während der Validierung erlebten Werte der Verteilung der Trainings- und Testdaten ähnelte. Das schlechte Abschneiden des mit kombiniertem Datensatz trainierten Netzes kann mit einem hohen Fehler in Kurvenabschnitten erklärt werden, wo das Halten der Spur am schwierigsten ist.
 

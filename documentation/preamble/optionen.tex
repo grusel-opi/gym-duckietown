@@ -1,20 +1,8 @@
-\setcounter{tocdepth}{2}  %% Uebreschriften bis subsectionw ins Inhaltsverzeichnis
-\setcounter{secnumdepth}{3}  %% Nummerierung bis subsection
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{3}
 
-
-%%% Codebeispiele - Style
 \DeclareCaptionFont{white}{\color{white}}
 \DeclareCaptionFormat{listing}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}}
-
-% Entfernt Kapitel Ueberschrift
-% Bsp.
-% 	ALT:
-%       Kapitel 1
-%       Einführung
-%
-% 	NEU:
-% 		1 Einführung
-%
 \renewcommand*\chapterheadstartvskip{\vspace{-\topskip}}
 
 \setlength\parindent{0pt}

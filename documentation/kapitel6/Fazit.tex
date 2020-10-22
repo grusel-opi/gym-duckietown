@@ -13,7 +13,7 @@ Das Schätzen einer zweidimensionalen Pose erwies sich als am Schwierigsten.
 Während des Trainings mit dem ``PD''-Rand Datensatz konvergierte der Fehler in $d$ etwas besser als $\theta$. Bildmerkmale für das Schätzen der einzelnen Werte scheinen damit verschieden und durch den erhöhten Anteil an Zufallsposen auch unterschiedlich stark vertreten zu sein.
 
 Obwohl die Metriken während dem Training mit den Daten mit dem geringsten Anteil an Zufallsposen am besten wirkten, zeigte die Integration des Netzes ein sehr schlechtes Fahrverhalten mit 790 Unglücken in 100000 Schritten. Am besten schnitt das Netz mit dem größten Anteil an Zufallsposen im Datensatz ab, obwohl dies den größten Fehler zeigte. Das Netz, welches mit dem kombinierten Datensatz trainiert wurde, lag in der Mitte.
-
+	
 Eine mögliche Erklärung dafür ist die eher geringe Reaktionsgeschwindigkeit und die Tendenz zum Überschwingen des einfachen PD-Reglers. Durch diese kommt der Agent häufig in Situationen, in welchen er sich eher am Fahrbahnrand und abgeneigt von der Orientierung der Straße befindet. Während das Fahren mit Grundwahrheit mit diesen Überschwingern zurecht kam, können Fehler in der Schätzung hier schnell zu einem Überfahren der Fahrbahnmarkierung führen. Schon geringe Fehler in den Schätzungen führten hier möglicherweise zu einer Abweichung der während der Integration erlebten Verteilung der Input-Daten von der Verteilung der Trainingsdaten. Das Netz konnte also von dem erhöhten Anteil an Zufallsposen im Datensatz profitieren, da dieser eher der tatsächlich in der Integration erlebten Situation ähnelte. Zusätzlich entsteht durch die lineare Kombination der beiden geschätzten Dimensionen durch $\omega = k_p d + k_d \theta$ ein höherer Fehler von $\delta\omega = \sqrt{(k_p\delta d)^2 + (k_d\delta \theta)^2}$.
 
 Nach dieser Erklärung müsste das Training mit kombiniertem Datensatz eigentlich das zweitbeste Ergebnis liefern, zumal dieses sogar den geringsten durchschnittlichen Fehler aufweist. Wir halten die Erklärung dennoch für plausibel, da die Werte der Ansätze mit kombiniertem Datensatz und Datensatz mit hohem Anteil an Zufallsposen nahe beieinander liegen und wir hier lediglich eine Stichprobe besitzen.
@@ -32,4 +32,25 @@ Bei dem Training auf Steuerbefehle führte der erhöhte Anteil an Zufallsposen i
 
 Ohne den zusätzlichen Aufwand eines PID-Reglers kann hier die Spur so gut gehalten werden, dass ein Training mit besonderem Fokus auf Ausnahmefälle (also Zufallsposen) keine Verbesserung, sondern eine Verschlechterung mit sich bringt. Dass das Training mit kombiniertem Datensatz ebenfalls schlechter Abschneidet, zeigt, dass die Menge an Zufallsposen den Lernprozess behindern und das Netz von den eigentlich zu erlernenden Merkmalen ablenken.
 
+\newpage
 \section{Verbesserungen}
+
+Abschließend diskutieren wir mögliche Verbesserungen der verfolgten Ansätze.
+
+\subsection{2D-Pose}
+
+Die anscheinend konkurrierende Minimierung der Fehler in den einzelnen Dimensionen des Zustandsvektors lässt Zweifel an der Eignung der Netzarchitektur für diese Art von Problem aufkommen. Andere Ansätze zur Schätzung einer Pose verwenden meißt komplexere Architekturen.
+
+Eine mögliche Verbesserung wäre mehrere parallele Regressoren in Form von vollständig verbundenen Schichten für jede Dimension des zu schätzenden Vektors zu verwenden, anstatt nur einem, wie in anderen Arbeiten zu sehen ist (siehe \cite{camposeestimation}). Eine gute Fähigkeit in beiden Dimensionen zu generalisieren könnte so ein stabiles Fahrverhalten ermöglichen.
+
+\subsection{1D-Pose}
+
+Das stabile Fahrverhalten des 1D-Posen-Netzes mit PID-Regler würde es erlauben weiter darauf aufzubauen. Wie bereits in 1.1 Aufgabenstellung erläutert, könnte in Kombination mit einer Umgebungskarte, Odometrie und einem Monte-Carlo-Verfahren das Problem der globalen Lokalisierung angegangen werden.
+
+Eine weitere Reduktion des Fehlers in der Schätzung wäre mit entsprechendem Datensatz und Anpassung der Hyperparameter ebenfalls denkbar.
+
+\subsection{Steuerbefehl durch Expertensystem}
+
+Auch hier wäre eine Weiterentwicklung zum Zweck der globalen Lokalisierung denkbar. Das Erkennen der durchfahrenden Kachelart wäre langsamer als im Falle des 1D-Posen Ansatzes, da keine Distanzwerte vorhanden sind, mit Hilfe derer die Änderung der globalen Orientierung verrechnet werden kann (zur Unterscheidung von Kurvenabschnitten und dem Fahren von Schlangenlinien).
+
+Weiterhin kann das verwendete Expertensystem zur Generierung der Steuerbefehle weiter ausgebaut werden. Die Logik zur Berechnung der Geschwindigkeit $v$ war in unserem Fall einfach eine Halbierung der Referenz im Falle einer Kurve. Zu Gunsten der Winkelgeschwindigkeit wurde daher der Wert aus dem Training entfernt. Ein intelligenterer Ansatz zur Berechnung, womöglich in Zusammenhang mit der vorher bestimmten Winkelgeschwindigkeit, könnte dazu führen, dass eine schnellere Durchschnittsgeschwindigkeit erreicht werden kann. In unserem Ansatz wählten wir dagegen eine feste und eher langsamere Geschwindigkeit.

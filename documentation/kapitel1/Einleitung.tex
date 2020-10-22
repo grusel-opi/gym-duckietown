@@ -52,3 +52,11 @@ Wir werden zur Berechnung des Steuerbefehls auf zwei Ansätze eingehen:
 	\item Direkte Inferenz des Steuerbefehls:\\
 	Der weiter verbreitete Ansatz der direkten Inferenz übergeht die Schätzung der Pose. Anhand der Daten wird direkt ein Steuerbefehl geschätzt, bestehend aus der Geschwindigkeit $v$ und Winkelgeschwindigkeit $\omega$. Da für einen optimalen Steuerbefehl mehr Informationen nützlich sind als $d$ und $\theta$, ist dieser Ansatz ebenfalls vielversprechend. So kann ein Expertensystem für Steuerbefehle beispielsweise den weiteren Verlauf der Spur berücksichtigen, konkret die Winkeldifferenz zwischen der aktuellen Orientierung des Agenten und der Orientierung der Fahrspur an einem kommenden Zielpunkt.
 \end{itemize}
+
+\newpage
+
+Der Abstand zur Seitenmarkierung $d$ wird von uns als ein hundertstel einer Kachellänge des Simulators festgelegt. Diese Kachelgröße wiederum wird in der \texttt{yaml}-Datei der entsprechenden Karte festgelegt. Die Maße einer Kachel in der physikalischen Duckietown-Umgebung betragen $61 cm^2$. Bei einer simulierten Kachelgröße von 1 und einem Fehler in $d$ von 1 würde dies einem Fehler von 0.61 cm in der physikalischen Umgebung entsprechen.
+
+Die Winkeldifferenz $\theta$ wird von uns in Grad im Wertebereich $[-180, 180]$ erfasst. 
+
+Der Wertebereich des Steuerbefehls ist $[-1, 1]$ sowohl für $v$ als auch $\omega$. Diese Werte können später mit einem Faktor als Referenzgeschwindigkeit multipliziert werden.

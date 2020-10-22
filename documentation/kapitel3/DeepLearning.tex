@@ -17,8 +17,6 @@ Mit Deep Learning können Probleme gelöst werden, die ohne diese Ansätze nicht
 
 Die Grundlage des Deep Learnings stellt die Verwendung von künstlichen neuronalen Netzen dar. Unter künstlichen neuronalen Netzen versteht man Algorithmen, die nach dem biologischen Vorbild des menschlichen Gehirns modelliert sind. Diese werden eingesetzt, um beispielsweise Muster in Bildern zu erkennen oder Bilder zu klassifizieren. \cite{datasolut2}\\
 
-\newpage
-
 Ein einfaches künstliches neuronales Netz besteht dabei aus einer Eingabeschicht (Input Layer), einer Zwischenschicht (Hidden Layer) und einer Ausgabeschicht (Output Layer) \cite{datasolut2}. Abbildung \ref{simple-net} zeigt eine einfache Darstellung eines beispielhaften künstlichen neuronalen Netzes.
 
 \begin{figure}[H]
@@ -221,7 +219,7 @@ Einige Beispiele für Hyperparameter sind:
 		\item \textbf{Adaptive Optimierungsstrategie:}
 		
 			Ein Abstiegt wie ihn die Gradientenverfahren erledigen, kann unter Umständen nicht dir richtige Wahl zur Lösung des Problems darstellen. Daher wurden adaptive Algorithmen entwickelt, die eine Alternative zu den Gradientenverfahren darstellen. Dabei wird folgende Idee verfolgt: Man passt die Lernrate dynamisch an die Parameter an und führt größere Aktualisierungen für seltene Parameter durch und kleinere Aktualisierungen für häufige Parameter. \cite{lucas_plagwitz}
-			
+			\newpage
 			\begin{enumerate}
 				\item \textbf{AdaGrad:}
 				
@@ -241,7 +239,7 @@ Einige Beispiele für Hyperparameter sind:
 			
 	\end{enumerate}
 
-\subsubsection{Faltungsschicht}
+\subsubsection{Faltungsschicht (convolution layer)}
 
 Arbeitet man mit Daten mit großer Dimensionalität, wie zum Beispiel Bildern, wird das Training mit vollständig verbundenen Netzen schnell unpraktikabel. Allein die Kombination eines ein-megapixel großen Bildes mit einer Schicht aus tausend Neuronen würde eine Milliarde Modellparameter ergeben.
 Es bietet sich daher das Arbeiten mit der Faltung an, wobei nur ein Faltungskern erlernt werden muss.
@@ -278,21 +276,23 @@ Ein einzelnes Perzeptron kann für sich genommen lediglich eine lineare Klassifi
 	\begin{subfigure}[b]{0.3\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{kapitel3/images/non_linear_classification.jpg}
-		\caption{Nichtlineare Klassifikation mittels MLP}
+		\caption{Nichtlineare Klassifikation mittels \acs{mlp}}
 		\label{non-linear-classification}
 	\end{subfigure}
-	\caption{Lineare Klassifikation versus Nichtlineare Klassifikation}
+	\caption{Lineare Klassifikation versus nichtlineare Klassifikation}
 	\quelle\url{https://www.informatik.uni-ulm.de/ni/Lehre/WS04/ProSemNN/pdf/MLP.pdf}
 \end{figure}
 
 \section{Convolutional Neural Networks (CNNs)}
 
 	\acf{cnns} können besonders effizient mit \acs{2d}- beziehungsweise \acs{3d}-Eingabedaten arbeiten. Insbesondere werden \acs{cnns} für die Objektdetektion in Bildern angewendet. \cite{datasolut4} \\
+	In Abbildung \ref{cnn} kan man die Darstellung eines beispielhaften Convolutional Neural Networks sehen.
 	
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.9\textwidth]{kapitel3/images/cnn.png}
 		\caption{Darstellung eines beispielhaften \acs{cnn}}
+		\label{cnn}
 		\vspace{0.2cm}
 		\quelle\url{https://de.wikipedia.org/wiki/Convolutional_Neural_Network#/media/Datei:Typical_cnn.png}
 	\end{figure}

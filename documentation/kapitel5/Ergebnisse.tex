@@ -10,9 +10,9 @@ Wie zu erwarten ist der Fehler des Netzes stark abhängig von der Verteilung der
 
 \subsection{2D-Pose}
 
-Beim Training auf eine \acs{2d}-Pose fällt auf, dass das Schätzen des Winkels $\theta$ eine größere Herausforderung darstellt, als das Schätzen der Distanz $d$. \ref{2d-poses-mse} zeigt, dass bei dem Training mit Daten mit hohem Anteil an Zufallsposen (Datensatz ``\acs{pd}-Rand'' in den Farben Grün und Lila) das Netz etwa ab der zehnten Epoche überstimmt ist. Im Vergleich mit den absoluten Fehlern der einzelnen Dimensionen in \ref{2d-poses-mae-d} und \ref{2d-poses-mae-a}, ist festzustellen, dass die Überstimmung vor allem auf Schwierigkeiten mit dem Schätzen des Winkels $\theta$ zurückzuführen ist.
+Beim Training auf eine \acs{2d}-Pose fällt auf, dass das Schätzen des Winkels $\theta$ eine größere Herausforderung darstellt, als das Schätzen der Distanz $d$. \ref{2d-poses-mse} zeigt, dass bei dem Training mit Daten mit hohem Anteil an Zufallsposen (Datensatz \glqq\acs{pd}-Rand\grqq{} in den Farben Grün und Lila) das Netz etwa ab der zehnten Epoche überstimmt ist. Im Vergleich mit den absoluten Fehlern der einzelnen Dimensionen in \ref{2d-poses-mae-d} und \ref{2d-poses-mae-a}, ist festzustellen, dass die Überstimmung vor allem auf Schwierigkeiten mit dem Schätzen des Winkels $\theta$ zurückzuführen ist.
 
-Bei dem Schätzen der Distanz $d$ ist selbst mit dem ``\acs{pd}-Rand'' Datensatz in Epoche 50 die Überstimmung des Netzes minimal, wie in \ref{2d-poses-mae-d} zu sehen ist.
+Bei dem Schätzen der Distanz $d$ ist selbst mit dem \glqq\acs{pd}-Rand\grqq{} Datensatz in Epoche 50 die Überstimmung des Netzes minimal, wie in \ref{2d-poses-mae-d} zu sehen ist.
 
 
 \begin{figure}[H]
@@ -81,7 +81,7 @@ Das Entfernen des Winkels aus dem Zustandsvektor bringt eine leichte Verbesserun
 	\label{1d-poses-mse-d}
 \end{figure}
 
-Allerdings führt die Reduktion auf das Schätzen des Distanzwertes allein zu einer stärkeren Überstimmung des Netzes. In \ref{1d-poses-mse-d} ist erkennbar, dass sowohl bei dem Training mit dem ``\acs{pd}-Rand'' (hier in Orange für die Trainingsdaten und Grau für die Testdaten), als auch mit dem ``\acs{pd} + \acs{pd}-Rand'' Datensatz (Rot für Training und Blau für Test), das Netz spätestens ab Epoche 15 überstimmt ist.
+Allerdings führt die Reduktion auf das Schätzen des Distanzwertes allein zu einer stärkeren Überstimmung des Netzes. In \ref{1d-poses-mse-d} ist erkennbar, dass sowohl bei dem Training mit dem \glqq\acs{pd}-Rand\grqq{} (hier in Orange für die Trainingsdaten und Grau für die Testdaten), als auch mit dem \glqq\acs{pd} + \acs{pd}-Rand\grqq{} Datensatz (Rot für Training und Blau für Test), das Netz spätestens ab Epoche 15 überstimmt ist.
 
 \subsection{Steuerbefehl durch Expertensystem}
 
@@ -92,7 +92,7 @@ Allerdings führt die Reduktion auf das Schätzen des Distanzwertes allein zu ei
 % 	\label{1d-poses-mae-d}
 % \end{figure}
 
-Wie zuvor zeigt sich auch hier, dass das Training mit hohem Anteil an Zufallsposen in den Daten zu einer Überstimmung des Netzes führt. So bilden sich deutliche Lücken zwischen der Performance auf Trainings- und Testdaten auf den Datensätzen ``Expert-Rand'' (Test Grau und Training Orange) und ``Expert + Expert-Rand'' (Test Blau und Training Rot) in \ref{expert-mse-omega}.
+Wie zuvor zeigt sich auch hier, dass das Training mit hohem Anteil an Zufallsposen in den Daten zu einer Überstimmung des Netzes führt. So bilden sich deutliche Lücken zwischen der Performance auf Trainings- und Testdaten auf den Datensätzen \glqq Expert-Rand\grqq{} (Test Grau und Training Orange) und \glqq Expert + Expert-Rand\grqq{} (Test Blau und Training Rot) in \ref{expert-mse-omega}.
 
 
 \begin{figure}[H]
@@ -136,7 +136,7 @@ Wir lassen die Netze jeweils 100000 \texttt{step()}-Aufrufe des Simulators fahre
 
 \subsection{2D-Pose}
 
-Im ersten Fall des \acs{2d}-Posen-Netzes schnitt das Netz, welches mit dem ``\acs{pd}-Rand''-Datensatz und damit dem höchsten Anteil an Zufallsposen trainiert wurde, in Sachen Crashes pro Schritte am besten ab (siehe \ref{2d-validation}). Auffällig ist, dass das Training mit ``\acs{pd}-Concat'' zwar zu einen besseren durchschnittlichen Fehler führte, was auch mit dem doppelt so großen Umfang des Datensatzes zu erklären ist, jedoch nicht zu der geringsten Anzahl an Crashes.  
+Im ersten Fall des \acs{2d}-Posen-Netzes schnitt das Netz, welches mit dem \glqq\acs{pd}-Rand\grqq-Datensatz und damit dem höchsten Anteil an Zufallsposen trainiert wurde, in Sachen Crashes pro Schritte am besten ab (siehe \ref{2d-validation}). Auffällig ist, dass das Training mit \glqq\acs{pd}-Concat\grqq{} zwar zu einen besseren durchschnittlichen Fehler führte, was auch mit dem doppelt so großen Umfang des Datensatzes zu erklären ist, jedoch nicht zu der geringsten Anzahl an Crashes.  
 
 \begin{table}[H]
 	\centering
@@ -226,7 +226,7 @@ Im ersten Fall des \acs{2d}-Posen-Netzes schnitt das Netz, welches mit dem ``\ac
 	\label{2d-validation}
 \end{table}
 
-In der Verteilung der Werte, mit welchen das Netz während der Integration konfrontiert wurde, ist das bessere Fahrverhalten des mit dem ``\acs{pd}-Rand''-Datensatz trainierten Netzes ebenfalls erkennbar (siehe \ref{2d-val-distr}). So liegt der Schwerpunkt der Entfernungswerte eher nahe 20, was der Mitte der rechten Fahrspur entspricht. Auch die Winkel streuen eher um 0, was eine gute Orientierung während des Fahrens anzeigt.
+In der Verteilung der Werte, mit welchen das Netz während der Integration konfrontiert wurde, ist das bessere Fahrverhalten des mit dem \glqq\acs{pd}-Rand\grqq-Datensatz trainierten Netzes ebenfalls erkennbar (siehe \ref{2d-val-distr}). So liegt der Schwerpunkt der Entfernungswerte eher nahe 20, was der Mitte der rechten Fahrspur entspricht. Auch die Winkel streuen eher um 0, was eine gute Orientierung während des Fahrens anzeigt.
 
 Die anderen beiden Varianten befanden sich während der Fahrt eher auf der gegenüberliegenden Fahrspur (Schwerpunkt der Distanzwerte um 60) und neigten zu einer linkslastigen Orientierung (Schwerpunkt der Winkel unter 0).
 
@@ -235,19 +235,19 @@ Die anderen beiden Varianten befanden sich während der Fahrt eher auf der gegen
 	\begin{subfigure}[h]{0.5\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{kapitel5/images/eval/single-loss/pd-distr.png}
-		\caption{``\acs{pd}''}
+		\caption{\glqq\acs{pd}\grqq}
 		\label{2d-pd-val-distr}
 	\end{subfigure}%
 	\begin{subfigure}[h]{0.5\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{kapitel5/images/eval/single-loss/pd-rand-distr.png}
-		\caption{``\acs{pd}-Rand''}
+		\caption{\glqq\acs{pd}-Rand\grqq}
 		\label{2d-pd-rand-val-distr}
 	\end{subfigure}
 	\begin{subfigure}[h]{0.5\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{kapitel5/images/eval/single-loss/pd-concat-distr.png}
-		\caption{``\acs{pd}-Concat''}
+		\caption{\glqq\acs{pd}-Concat\grqq}
 		\label{2d-pd-concat-val-distr}
 	\end{subfigure}
 	\caption{Verteilungen der erlebten Werte während der Validierung des \acs{2d}-Netzes}
@@ -256,7 +256,7 @@ Die anderen beiden Varianten befanden sich während der Fahrt eher auf der gegen
 
 \subsection{1D-Pose}
 
-Bei den \acs{1d}-Posen-Netzen wurden die besten Ergebnisse mit dem ``\acs{pd}''-Datensatz erzielt \ref{1d-validation}. Sowohl der durchschnittliche Fehler während der Validierung, als auch die Anzahl der Crashes waren in dieser Variante besonders niedrig.
+Bei den \acs{1d}-Posen-Netzen wurden die besten Ergebnisse mit dem \glqq\acs{pd}\grqq-Datensatz erzielt \ref{1d-validation}. Sowohl der durchschnittliche Fehler während der Validierung, als auch die Anzahl der Crashes waren in dieser Variante besonders niedrig.
 
 Das Training mit kombiniertem Datensatz ergab hier die schlechteste Performance, obwohl sich wieder ein geringerer durchschnittlicher Fehler ergab, als bei dem Training mit vielen Zufallsposen im Datensatz.
 
@@ -349,26 +349,26 @@ Das Training mit kombiniertem Datensatz ergab hier die schlechteste Performance,
 	\label{1d-validation}
 \end{table}
 
-Bestätigt wird das Ergebnis wieder durch die Verteilung der Posenwerte während der Validierung \ref{1d-val-distr}. Das mit dem ``\acs{pd}''-Datensatz trainierte Netz war am besten im Stande den Abstand zur Fahrbahnbegrenzung von etwa 20-25 halten zu können. Die anderen beiden Varianten waren mit Peaks um 40 und 60 wieder eher in der Mitte der Straße bis auf der linken Fahrspur unterwegs.
+Bestätigt wird das Ergebnis wieder durch die Verteilung der Posenwerte während der Validierung \ref{1d-val-distr}. Das mit dem \glqq\acs{pd}\grqq-Datensatz trainierte Netz war am besten im Stande den Abstand zur Fahrbahnbegrenzung von etwa 20-25 halten zu können. Die anderen beiden Varianten waren mit Peaks um 40 und 60 wieder eher in der Mitte der Straße bis auf der linken Fahrspur unterwegs.
 
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[h]{0.3\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{kapitel5/images/eval/d-only/pd-distr.png}
-		\caption{``\acs{pd}''}
+		\caption{\glqq\acs{pd}\grqq}
 		\label{1d-pd-val-distr}
 	\end{subfigure}%
 	\begin{subfigure}[h]{0.3\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{kapitel5/images/eval/d-only/pd-rand-distr.png}
-		\caption{``\acs{pd}-Rand''}
+		\caption{\glqq\acs{pd}-Rand\grqq}
 		\label{1d-pd-rand-val-distr}
 	\end{subfigure}
 	\begin{subfigure}[h]{0.3\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{kapitel5/images/eval/d-only/pd-concat-distr.png}
-		\caption{``\acs{pd}-Concat''}
+		\caption{\glqq\acs{pd}-Concat\grqq}
 		\label{1d-pd-concat-val-distr}
 	\end{subfigure}
 	\caption{Verteilungen der erlebten Werte während der Validierung des \acs{1d}-Netzes}
@@ -475,19 +475,19 @@ Auch hier ist das beste Fahrverhalten wieder an der Verteilung der erlebten Wert
 	\begin{subfigure}[h]{0.4\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{kapitel5/images/eval/expert/expert-distr.png}
-		\caption{``Expert''}
+		\caption{\glqq Expert\grqq}
 		\label{expert-drive-val-distr}
 	\end{subfigure}%
 	\begin{subfigure}[h]{0.4\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{kapitel5/images/eval/expert/expert-rand-distr.png}
-		\caption{``Expert-Rand''}
+		\caption{\glqq Expert-Rand\grqq}
 		\label{expert-rand-val-distr}
 	\end{subfigure}
 	\begin{subfigure}[h]{0.4\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{kapitel5/images/eval/expert/expert-concat-distr.png}
-		\caption{``Expert-Concat''}
+		\caption{\glqq Expert-Concat\grqq}
 		\label{expert-concat-val-distr}
 	\end{subfigure}
 	\caption{Verteilungen der erlebten Werte während der Validierung des Experten-Netzes}

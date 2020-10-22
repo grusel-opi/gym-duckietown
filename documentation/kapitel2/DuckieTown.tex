@@ -7,13 +7,13 @@ Der \href{https://github.com/duckietown/gym-duckietown}{DuckieTown-Simulator} is
 
 Der Simulator ist schnell, quelloffen und ausgesprochen anpassungsfähig. Er wurde zunächst für die einfache Linienverfolgung konzipiert und wurde dann im Laufe der Zeit zu einem voll funktionsfähigen Simulator für autonom fahrende Fahrzeuge, insbesondere im Bezug zur künstlichen Intelligenz. \cite{gym_duckietown}
 
-In einer DuckieTown-Umgebung wird die Umwelt für einen DuckieBot definiert. Ein DuckieBot kann diese Umgebung dann observieren und sich in dieser bewegen. Eine DuckieTown-Umgebung wird dabei aus verschiedenen Kacheln und Objekten aufgebaut. 
+In einer DuckieTown-Umgebung wird die Umwelt für einen DuckieBot definiert. Ein DuckieBot kann diese Umgebung dann observieren und sich in dieser bewegen. Eine DuckieTown-Umgebung wird dabei aus verschiedenen Kacheln und Objekten aufgebaut. Eine beispielhafte DuckieTown-Umgebung ist in Abbildung \ref{duckietown-env} dargestellt.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.6\textwidth]{kapitel2/images/duckietown-umgebung.png}
-	\label{fig:duckietown-umgebung}
 	\caption{Darstellung einer beispielhaften DuckieTown-Umgebung}
+	\label{duckietown-env}
 	\vspace{0.2cm}
 	\quelle\url{https://user-images.githubusercontent.com/10503729/45590954-c88c7c00-b912-11e8-9209-f72924684e21.gif}
 \end{figure}
@@ -103,13 +103,13 @@ Bei den Kacheln wird zwischen befahrbaren und nicht befahrbaren Kacheln untersch
 		\end{tabular}
 \end{itemize}
 
-Objekte sind ebenfalls nicht befahrbar und befinden sich in der Regel außerhalb des Streckenverlaufes. Es werden standardmäßig eine Vielzahl von Objekten zur Verfügung gestellt, wie zum Beispiel Häuser, Bäume, Busse und Verkehrsschilder.
+Objekte sind ebenfalls nicht befahrbar und befinden sich in der Regel außerhalb des Streckenverlaufes. Standardmäßig werden eine Vielzahl von Objekten zur Verfügung gestellt, wie zum Beispiel: Häuser, Bäume, Busse und Verkehrsschilder.
 
-Eine DuckieTown-Umgebung wird hierbei in einer \texttt{.yaml}-Datei definiert, die dann vom Simulator geladen und dargestellt wird.
+Eine DuckieTown-Umgebung wird hierbei in einer \texttt{.yaml}-Datei definiert (siehe Codebeispiel \ref{duckietown-env-definition}), die dann vom Simulator geladen und dargestellt wird .
 
 \hspace{1cm}
 \begin{minipage}{.73\linewidth}
-	\begin{lstlisting}[caption={Beispieldefinition einer DuckieTown-Umgebung}, language=python]
+	\begin{lstlisting}[caption={Beispieldefinition einer DuckieTown-Umgebung}\label{duckietown-env-definition}, language=python]
 		# 3x3 tiles with left turns at the corners
 		# going in a counter-clockwise loop
 	
@@ -122,28 +122,17 @@ Eine DuckieTown-Umgebung wird hierbei in einer \texttt{.yaml}-Datei definiert, d
 	\end{lstlisting}
 \end{minipage}
 
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.6\textwidth]{kapitel2/images/duckietown-gym.png}
-	\label{fig:duckietown-gym}
-	\caption{Beispielhafte Darstellung des DuckieTown-Simulators}
-	\vspace{0.2cm}
-	\quelle\url{https://raw.githubusercontent.com/grusel-opi/gym-duckietown/master/media/simplesim_free.png}
-\end{figure}
-
 \section{DuckieBot}
 \label{duckiebot}
 
 Ein \href{https://get.duckietown.com/products/duckiebot-db18}{DuckieBot} ist ein kleiner mobiler Roboter, ausgestattet mit einem einem \href{https://www.raspberrypi.org/}{Raspberry Pi 3}, einem Differenzialantrieb und einer Raspberry Pi Kamera.
-In der physikalischen Spezifikation besitzt der Roboter zur Kommunikation mit anderen Bots optional noch ein \acs{led}-Panel und \acs{wlan}-Adapter.
-Im Gym-DuckieTown Simulator existiert standardmäßig pro Umgebung nur ein Roboter.
+In der physikalischen Spezifikation besitzt der Roboter zur Kommunikation mit anderen Bots optional noch ein \acs{led}-Panel und \acs{wlan}-Adapter. Die Abbildung \ref{fig:duckiebot} zeigt die Darstellung eines physikalischen DuckieBots. Im Gym-DuckieTown Simulator existiert standardmäßig pro Umgebung nur ein Roboter.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.385\textwidth]{kapitel2/images/duckiebot.jpg}
-	\label{fig:duckiebot}
+	\includegraphics[width=0.5\textwidth]{kapitel2/images/duckiebot.jpg}
 	\caption{Darstellung eines DuckieBots}
+	\label{fig:duckiebot}
 	\vspace{0.2cm}
 	\quelle\url{https://cdn-blog.adafruit.com/uploads/2016/05/mercedes.jpg}
 \end{figure}

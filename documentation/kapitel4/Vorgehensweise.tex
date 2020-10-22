@@ -72,11 +72,11 @@ Im zweiten Ansatz trainieren wir das Netz direkt auf entsprechende Steuerbefehle
 Bei der Generierung der Datensätze verfolgen wir ebenfalls zwei Ansätze. Im ersten, naiven Ansatz lassen wir den Agenten selbstständig durch die Umgebung fahren, wobei für jeden Aufruf der \texttt{step()} Methode eine Aufnahme mit entsprechendem Label gespeichert wird. Die Verteilung der Werte sollte demnach jener entsprechen, welche der Agent beim selbstständigen Fahren tatsächlich erlebt. \\
 
 Im zweiten Ansatz lassen wir den Agenten nur eine gewisse Anzahl von Schritten, also \texttt{step()} Aufrufen, fahren und rufen dann die \texttt{reset()} Methode des Simulators auf, welche den Agenten an eine zufällige, aber valide Pose zurücksetzt. Valide bedeutet, dass die Position befahrbar und frei von Kollisionen mit anderen Objekten ist.
-Der Gedanke dahinter ist, dass so die Verteilung der Werte mehr ``Ausnahmefälle'' beinhaltet. Denn sollte das Netz nicht im Stande sein, die Spur ähnlich gut halten zu können wie der \acs{pd}-Regler oder das Expertensystem, wird es oft in Situationen geraten, auf welche es nicht trainiert wurde. Die Werteverteilung sollte so ähnlich sein zu dem, was der Agent erlebt, falls er öfters ``crashen'' sollte.
+Der Gedanke dahinter ist, dass so die Verteilung der Werte mehr \glqq Ausnahmefälle\grqq{} beinhaltet. Denn sollte das Netz nicht im Stande sein, die Spur ähnlich gut halten zu können wie der \acs{pd}-Regler oder das Expertensystem, wird es oft in Situationen geraten, auf welche es nicht trainiert wurde. Die Werteverteilung sollte so ähnlich sein zu dem, was der Agent erlebt, falls er öfters \glqq crashen\grqq{} sollte.
 
 \subsection{Datensätze}
 
-Wie erläutert, ergeben sich zwei Ansätze zur Zusammensetzung des Labels und zwei Ansätze um die Verteilung der Labels zu beeinflussen. Insgesamt ergeben sich vier Datensätze. Die zwei \acs{pd}-Datensätze ``\acs{pd}'' und ``\acs{pd}-Rand'' und zwei Experten-Datensätze, ``Expert'' und ``Expert-Rand''. Der Zusatz ``Rand'' steht dabei für den höheren Anteil an Zufallsposen.\\
+Wie erläutert, ergeben sich zwei Ansätze zur Zusammensetzung des Labels und zwei Ansätze um die Verteilung der Labels zu beeinflussen. Insgesamt ergeben sich vier Datensätze. Die zwei \acs{pd}-Datensätze \glqq \acs{pd}\grqq{} und \glqq \acs{pd}-Rand\grqq{} und zwei Experten-Datensätze, \glqq Expert\grqq{} und \glqq Expert-Rand\grqq . Der Zusatz \glqq Rand\grqq{} steht dabei für den höheren Anteil an Zufallsposen.\\
 
 \begin{figure}[H]
 	\centering
@@ -115,7 +115,7 @@ Wie erläutert, ergeben sich zwei Ansätze zur Zusammensetzung des Labels und zw
 	\label{pd-distances}
 \end{figure}
 
-Wie in \ref{pd-angles} und \ref{pd-distances} erkennbar, ist die Verteilung von sowohl Entfernungswerten, als auch Winkeldifferenzen im  ``\acs{pd}-Rand'' Datensatz wesentlich gleichmäßiger als im ``\acs{pd}''-Datensatz.
+Wie in \ref{pd-angles} und \ref{pd-distances} erkennbar, ist die Verteilung von sowohl Entfernungswerten, als auch Winkeldifferenzen im  \glqq \acs{pd}-Rand\grqq{} Datensatz wesentlich gleichmäßiger als im \glqq \acs{pd}\grqq-Datensatz.
 
 
 \begin{figure}[H]
@@ -123,16 +123,16 @@ Wie in \ref{pd-angles} und \ref{pd-distances} erkennbar, ist die Verteilung von 
 	\begin{subfigure}[h]{0.5\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{kapitel4/images/plots/tiles-pd.png}
-		\caption{Kachelarten in ``\acs{pd}''}
+		\caption{Kachelarten in \glqq \acs{pd}\grqq}
 		\label{pd-drive-tiles}
 	\end{subfigure}%
 	\begin{subfigure}[h]{0.5\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{kapitel4/images/plots/tiles-pd-rand.png}
-		\caption{Kachelarten in ``\acs{pd}-Rand''}
+		\caption{Kachelarten in \glqq \acs{pd}-Rand\grqq}
 		\label{pd-rand-tiles}
 	\end{subfigure}
-	\caption{Verteilungen der Kachelarten in ``\acs{pd}'' und ``\acs{pd}-Rand''}
+	\caption{Verteilungen der Kachelarten in \glqq \acs{pd}\grqq{} und \glqq \acs{pd}-Rand\grqq}
 	\label{pd-tiles}
 \end{figure}
 
@@ -141,16 +141,16 @@ Wie in \ref{pd-angles} und \ref{pd-distances} erkennbar, ist die Verteilung von 
 	\begin{subfigure}[h]{0.5\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{kapitel4/images/plots/tiles-expert.png}
-		\caption{Kachelarten in ``Expert''}
+		\caption{Kachelarten in \glqq Expert\grqq}
 		\label{expert-drive-tiles}
 	\end{subfigure}%
 	\begin{subfigure}[h]{0.5\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{kapitel4/images/plots/tiles-expert-rand.png}
-		\caption{Kachelarten in ``Expert-Rand''}
+		\caption{Kachelarten in \glqq Expert-Rand\grqq}
 		\label{expert-rand-tiles}
 	\end{subfigure}
-	\caption{Verteilungen der Kachelarten in ``Expert'' und ``Expert-Rand''}
+	\caption{Verteilungen der Kachelarten in \glqq Expert\grqq{} und \glqq Expert-Rand\grqq}
 	\label{expert-tiles}
 \end{figure}
 
@@ -235,7 +235,7 @@ Den Prozess ließen wir mit einer Dauer von 50 Epochen laufen.  Häufig ist scho
 
 \subsection{Anwendung}
 
-Wir haben vier Datensätze und kombinieren die Datensätze der beiden Ansätzen zur Erzeugung (ein mal durch einfaches Zusehen und ein mal durch häufiges Zurücksetzen), so dass sich insgesamt sechs ergeben (``\acs{pd}'', ``\acs{pd}-Rand'', ``\acs{pd} + \acs{pd}-Rand'',``Expert'',``Expert-Rand'',``Expert + Expert-Rand''). Natürlich muss beachtet werden, dass die beiden kombinierten Datensätze etwa doppelt so groß sind, wie die übrigen. Wir wählen eine Aufteilung der Datensätze von 70 \% und 30\% für Trainings- und Testdaten. Eine Validierung wird anschließend durch eine Integration des Netzes in den Simulator durchgeführt.\\
+Wir haben vier Datensätze und kombinieren die Datensätze der beiden Ansätzen zur Erzeugung (ein mal durch einfaches Zusehen und ein mal durch häufiges Zurücksetzen), so dass sich insgesamt sechs ergeben (\glqq \acs{pd}\grqq, \glqq\acs{pd}-Rand\grqq, \glqq\acs{pd} + \acs{pd}-Rand\grqq, \glqq Expert\grqq, \glqq Expert-Rand\grqq, \glqq Expert + Expert-Rand\grqq). Natürlich muss beachtet werden, dass die beiden kombinierten Datensätze etwa doppelt so groß sind, wie die übrigen. Wir wählen eine Aufteilung der Datensätze von 70 \% und 30\% für Trainings- und Testdaten. Eine Validierung wird anschließend durch eine Integration des Netzes in den Simulator durchgeführt.\\
 
 Außerdem variieren wir den Output unseres Netzes. Beim Inferieren der relativen Pose testen wir, ob sich Unterschiede in der Performance des Netzes ergeben, je nach dem ob ein zwei- oder eindimensionaler Zustandsvektor geschätzt werden soll. Wir trainieren dabei ein mal nur auf den Distanzwert zur Fahrbahnbegrenzung und ein mal auf sowohl Distanz, als auch Winkeldifferenz.
 

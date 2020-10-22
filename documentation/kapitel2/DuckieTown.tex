@@ -5,13 +5,13 @@
 
 Der \href{https://github.com/duckietown/gym-duckietown}{DuckieTown-Simulator} ist ein in \href{https://www.python.org/}{\texttt{Python}} und \href{https://www.opengl.org/}{\texttt{OpenGL}} beziehungsweise \href{http://pyglet.org/}{\texttt{Pyglet}} geschriebener Simulator für das \glqq DuckieTown-Universum\grqq. Er basiert auf dem OpenAi Toolkit ``Gym'' \cite{gym} und bietet die Möglichkeit DuckieBots (Agenten) in einer beliebigen DuckieTown-Umgebung zu platzieren und die Agenten darin zu navigieren. \cite{gym_duckietown} \\
 
-Der Simulator ist schnell, quelloffen und ausgesprochen anpassungsfähig. Er wurde zunächst für die einfache Linienverfolgung konzipiert und wurde dann im Laufe der Zeit zu einem voll funktionsfähigen Simulator für autonom fahrende Fahrzeuge, insbesondere im Bezug zur künstlichen Intelligenz. \cite{gym_duckietown}
+Der Simulator ist schnell, quelloffen und ausgesprochen anpassungsfähig. Er wurde zunächst für die einfache Linienverfolgung konzipiert und wurde dann im Laufe der Zeit zu einem voll funktionsfähigen Simulator für autonom fahrende Fahrzeuge, insbesondere im Bezug zur künstlichen Intelligenz. \cite{gym_duckietown} \\
 
 In einer DuckieTown-Umgebung wird die Umwelt für einen DuckieBot definiert. Ein DuckieBot kann diese Umgebung dann observieren und sich in dieser bewegen. Eine DuckieTown-Umgebung wird dabei aus verschiedenen Kacheln und Objekten aufgebaut. Eine beispielhafte DuckieTown-Umgebung ist in Abbildung \ref{duckietown-env} dargestellt.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.6\textwidth]{kapitel2/images/duckietown-umgebung.png}
+	\includegraphics[width=0.8\textwidth]{kapitel2/images/duckietown-umgebung.png}
 	\caption{Darstellung einer beispielhaften DuckieTown-Umgebung}
 	\label{duckietown-env}
 	\vspace{0.2cm}
@@ -21,15 +21,6 @@ In einer DuckieTown-Umgebung wird die Umwelt für einen DuckieBot definiert. Ein
 Bei den Kacheln wird zwischen befahrbaren und nicht befahrbaren Kacheln unterschieden, wobei folgende Kacheln standardmäßig zur Verfügung stehen:
 
 \begin{itemize}
-	\item 
-		\begin{tabular}[t]{lll}
-			Leere Kachel & (nicht befahrbar) & \hspace{2.45cm} 
-			$ \begin{array}{l}
-				\setlength{\fboxsep}{0pt}
-				\fbox{\includegraphics[scale=0.135]{kapitel2/images/empty.png}}
-			\end{array} $
-		\end{tabular} 
-	
 	\item 
 		\begin{tabular}[t]{lll}
 			Gerader Streckenabschnitt & (befahrbar) & \hspace{1.15cm}
@@ -126,7 +117,7 @@ Eine DuckieTown-Umgebung wird hierbei in einer \texttt{.yaml}-Datei definiert (s
 \label{duckiebot}
 
 Ein \href{https://get.duckietown.com/products/duckiebot-db18}{DuckieBot} ist ein kleiner mobiler Roboter, ausgestattet mit einem einem \href{https://www.raspberrypi.org/}{Raspberry Pi 3}, einem Differenzialantrieb und einer Raspberry Pi Kamera.
-In der physikalischen Spezifikation besitzt der Roboter zur Kommunikation mit anderen Bots optional noch ein \acs{led}-Panel und \acs{wlan}-Adapter. Die Abbildung \ref{fig:duckiebot} zeigt die Darstellung eines physikalischen DuckieBots. Im Gym-DuckieTown Simulator existiert standardmäßig pro Umgebung nur ein Roboter.
+In der physikalischen Spezifikation besitzt der Roboter zur Kommunikation mit anderen Bots optional noch ein \acs{led}-Panel und \acs{wlan}-Adapter. Abbildung \ref{fig:duckiebot} zeigt die Darstellung eines physikalischen DuckieBots. Im Gym-DuckieTown Simulator existiert standardmäßig pro Umgebung nur ein Roboter.
 
 \begin{figure}[H]
 	\centering

@@ -5,33 +5,35 @@
 \input{preamble/variablen}
 
 \begin{document}
-%% Nummerierung aus
 \pagenumbering{gobble}
 
-% HTWG Templates fuer Titelseite etc.
 \include{htwg/cover}
 \pagenumbering{Roman}
+
 \tableofcontents
 \addcontentsline{toc}{chapter}{Inhaltsverzeichnis}
+
 \input{preamble/acronym}
-
 \clearpage
-%% Starte Paginierung
+
 \pagenumbering{arabic}
+\input{kapitel1/Einleitung}
 
-\include{kapitel1/Einleitung}
+\input{kapitel2/DuckieTown}
 
-\include{kapitel2/DuckieTown}
+{\let\clearpage\relax\vspace{1cm}
+\input{kapitel3/DeepLearning}}
 
-\include{kapitel3/DeepLearning}
+\input{kapitel4/Vorgehensweise}
 
-\include{kapitel4/Vorgehensweise}
+{\let\clearpage\relax\vspace{1cm}
+\input{kapitel5/Ergebnisse}}
 
-\include{kapitel5/Ergebnisse}
+\input{kapitel6/Fazit}
 
-\include{kapitel6/Fazit}
 \listoffigures
 \lstlistoflistings
+
 \bibliographystyle{unsrt}
 \bibliography{citeulike} 
 \end{document}

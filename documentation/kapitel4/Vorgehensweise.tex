@@ -2,13 +2,18 @@
 
 \section{Netzarchitektur}
 
-Als Basismodell dient uns das von \href{https://www.nvidia.com/en-us/}{Nvidia} entworfene \acs{cnn} zur Schätzung eines Steuerbefehls für ein Fahrzeug \cite{nvidia}. Dieses Netz nutzt fünf Faltungsschichten zur Extraktion von Merkmalen mit einer Kerngröße von $(5, 5)$ in den ersten drei Schichten und $(3, 3)$ in den letzten beiden. Die ersten drei Schichten verwenden außerdem ein Zero-Padding. Darauf folgen drei Dense-Schichten als Regressor.
+Als Basismodell dient uns das von \href{https://www.nvidia.com/en-us/}{Nvidia} entworfene \acs{cnn} zur Schätzung eines Steuerbefehls für ein Fahrzeug \cite{nvidia}. Dieses Netz nutzt fünf Faltungsschichten zur Extraktion von Merkmalen mit einer Kerngröße von $(5, 5)$ in den ersten drei Schichten und $(3, 3)$ in den letzten beiden. Die ersten drei Schichten verwenden außerdem ein Zero-Padding. Darauf folgen drei Dense-Schichten als Regressor. \\
 
-Unsere Variante dieses Modells nutzt statt der \acs{relu} die \acs{elu} als Aktivierungsfunktion. Diese soll den Lernprozess zusätzlich beschleunigen und die Fähigkeit des Netzes zu Generalisieren verbessern \cite{elu}. Zusätzlich haben wir eine L2 Regularisierung für die Gewichte aller Schichten und Dropout jeweils nach den letzten beiden Faltungsschichten hinzugefügt.
+Unsere Variante dieses Modells nutzt statt der \acs{relu} die \acs{elu} als Aktivierungsfunktion. Diese soll den Lernprozess zusätzlich beschleunigen und die Fähigkeit des Netzes zu Generalisieren verbessern \cite{elu}. Zusätzlich haben wir eine L2 Regularisierung für die Gewichte aller Schichten und Dropout jeweils nach den letzten beiden Faltungsschichten hinzugefügt. \\
 
-In der Vorverarbeitung der Daten wird die Größe der Bilder von $(640, 480, 3)$ (im Format ($H$, $W$, $C$)) auf $(120, 160, 3)$ reduziert und anschließend das obere Drittel des Bildes abgeschnitten, da dies meist nur Horizont und sonstige Objekte beinhaltet. Die endgültige Größe des Inputs ist dann $(80, 160, 3)$.
+In der Vorverarbeitung der Daten wird die Größe der Bilder von $(640, 480, 3)$ (im Format ($H$, $W$, $C$)) auf $(120, 160, 3)$ reduziert und anschließend das obere Drittel des Bildes abgeschnitten, da dies meist nur Horizont und sonstige Objekte beinhaltet. Die endgültige Größe des Inputs ist dann $(80, 160, 3)$. \\
 
 Eine Darstellung unseres Netzes mitsamt Vorverarbeitung der Daten ist in Abb. \ref{nvidia-model} zu sehen.
+
+\section{Datengewinnung}
+
+Da wir uns in einer simulierten Umgebung befinden, gestaltet sich die Gewinnung von Daten mit entsprechenden Labeln als unproblematisch.
+Im Folgenden gehen wir auf zwei Arten möglicher Label und zwei Methoden zur Generierung der Datensätze ein.
 
 \begin{figure}[H]
 	\centering
@@ -17,12 +22,6 @@ Eine Darstellung unseres Netzes mitsamt Vorverarbeitung der Daten ist in Abb. \r
 	\label{nvidia-model}
 	\vspace{0.2cm}
 \end{figure}
-
-
-\section{Datengewinnung}
-
-Da wir uns in einer simulierten Umgebung befinden, gestaltet sich die Gewinnung von Daten mit entsprechenden Labeln als unproblematisch.
-Im Folgenden gehen wir auf zwei Arten möglicher Label und zwei Methoden zur Generierung der Datensätze ein.
 
 \subsection{Label}
 

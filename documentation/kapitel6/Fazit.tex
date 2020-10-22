@@ -4,16 +4,32 @@ In dieser Arbeit wird beschrieben, wie mit Hilfe eines tiefen neuronalen Netzes 
 
 \section{Rückblick}
 
-Im Folgenden reflektieren wir über die Ergebnisse während der Trainings- und Testphase. Anschließend gehen wir auf die Erkenntnisse aus der Validierungsphase ein und wie Unterschiede zwischen Test und Validierung zustande kommen können.
+Im Folgenden reflektieren wir über die Ergebnisse der verfolgten Ansätze.
 
-\subsection{Training und Test}
+\subsection{2D-Pose}
 
-Das Schätzen einer zweidimensionalen Pose erwies sich als am Schwierigsten. Obwohl die Metriken während dem Training mit den Daten mit dem geringstem Anteil an Zufallsposen am besten wirkten, zeigte die Integration des Netzes ein sehr schlechtes Fahrverhalten mit 790 Unglücken in 100000 Schritten. Am besten schnitt das Netz mit dem größten Anteil an Zufallsposen im Datensatz ab. Das Netz, welches mit dem kombinierten Datensatz trainiert wurde, lag in der Mitte.
+Das Schätzen einer zweidimensionalen Pose erwies sich als am Schwierigsten.
 
-Eine mögliche Erklärung dafür ist die eher geringe Reaktionsgeschwindigkeit und die Tendenz zum Überschwingen des einfachen PD-Reglers. Durch diese kommt der Agent häufig in Situationen, in welchen er sich eher am Fahrbahnrand und abgeneigt von der Orientierung der Straße befindet. Während das Fahren mit Grundwahrheit mit diesen Überschwingern zurecht kam, können Fehler in der Schätzung hier schnell zu einem Überfahren der Fahrbahnmarkierung führen. Schon geringe Fehler in den Schätzungen führten hier möglicherweise zu einer Abweichung der während der Integration erlebten Verteilung der Input-Daten von der Verteilung der Trainingsdaten. Das Netz konnte also von dem erhöhten Anteil an Zufallsposen im Datensatz profitieren, da dieser eher der tatsächlich in der Integration erlebten Situation ähnelte.
+Während des Trainings mit dem ``PD''-Rand Datensatz konvergierte der Fehler in $d$ etwas besser als $\theta$. Bildmerkmale für das Schätzen der einzelnen Werte scheinen damit verschieden und durch den erhöhten Anteil an Zufallsposen auch unterschiedlich stark vertreten zu sein.
 
-Nach dieser Erklärung müsste das Training mit kombiniertem Datensatz eigentlich das zweitbeste Ergebnis liefern, zumal dieses sogar den geringsten durchschnittlichen Fehler aufweist. Wir halten die Erklärung dennoch für plausibel, da die Werte der Ansätze mit kombiniertem Datensatz und Datensatz mit hohem Anteil an Zufallsposen nahe beieinander liegen. 
+Obwohl die Metriken während dem Training mit den Daten mit dem geringsten Anteil an Zufallsposen am besten wirkten, zeigte die Integration des Netzes ein sehr schlechtes Fahrverhalten mit 790 Unglücken in 100000 Schritten. Am besten schnitt das Netz mit dem größten Anteil an Zufallsposen im Datensatz ab, obwohl dies den größten Fehler zeigte. Das Netz, welches mit dem kombinierten Datensatz trainiert wurde, lag in der Mitte.
 
-\subsection{Validierung}
+Eine mögliche Erklärung dafür ist die eher geringe Reaktionsgeschwindigkeit und die Tendenz zum Überschwingen des einfachen PD-Reglers. Durch diese kommt der Agent häufig in Situationen, in welchen er sich eher am Fahrbahnrand und abgeneigt von der Orientierung der Straße befindet. Während das Fahren mit Grundwahrheit mit diesen Überschwingern zurecht kam, können Fehler in der Schätzung hier schnell zu einem Überfahren der Fahrbahnmarkierung führen. Schon geringe Fehler in den Schätzungen führten hier möglicherweise zu einer Abweichung der während der Integration erlebten Verteilung der Input-Daten von der Verteilung der Trainingsdaten. Das Netz konnte also von dem erhöhten Anteil an Zufallsposen im Datensatz profitieren, da dieser eher der tatsächlich in der Integration erlebten Situation ähnelte. Zusätzlich entsteht durch die lineare Kombination der beiden geschätzten Dimensionen durch $\omega = k_p d + k_d \theta$ ein höherer Fehler von $\delta\omega = \sqrt{(\delta d)^2 + (\delta \theta)^2}$.
+
+Nach dieser Erklärung müsste das Training mit kombiniertem Datensatz eigentlich das zweitbeste Ergebnis liefern, zumal dieses sogar den geringsten durchschnittlichen Fehler aufweist. Wir halten die Erklärung dennoch für plausibel, da die Werte der Ansätze mit kombiniertem Datensatz und Datensatz mit hohem Anteil an Zufallsposen nahe beieinander liegen und wir hier lediglich eine Stichprobe besitzen.
+
+\subsection{1D-Pose}
+
+Das Entfernen der Winkeldifferenz $\theta$ aus dem zu inferierenden Zustandsvektor verbesserte den Fehler in $d$ mit den Datensätzen ``PD-Rand'' und ``PD-Concat'' um etwa die Hälfte (siehe \ref{2d-pose-performance} und \ref{1d-pose-performance}). Dies könnte bedeuten, dass das Minimieren der Fehler in den einzelnen Dimensionen des 2D Zustandes in Konkurrenz zueinander steht.
+
+Während der Integration in den Simulator lieferte der 1D Ansatz sehr gute Ergebnisse. Hier führte das Training mit ``PD'' zum besten Ergebnis an Crashes und MAE. Das Training mit kombiniertem Datensatz verunglückte dagegen am häufigsten, obwohl es einen besseren mittleren Fehler hervorbrachte als das Training mit ``PD-Rand''.
+
+Eine gute Reaktionsgeschwindigkeit des PID-Reglers und das Wegfallen der Fehlerfortpflanzung sorgten hier dafür, dass die Verteilung der während der Validierung erlebten Werte der Verteilung der Trainings- und Testdaten ähnelte. Das schlechte Abschneiden des mit kombiniertem Datensatz trainierten Netzes kann mit einem hohen Fehler in Kurvenabschnitten erklärt werden, wo das Halten der Spur am schwierigsten ist.
+
+\subsection{Steuerbefehl durch Expertensystem}
+
+Bei dem Training auf Steuerbefehle führte der erhöhte Anteil an Zufallsposen im Datensatz zu einer starken Überstimmung des Netzes (siehe \ref{expert-mse-omega}). Auch die Performance während der Validierung war hier mit Abstand am schlechtesten (siehe \ref{expert-validation}).  Die Kombination der Datensätze verschlechterte das Ergebnis ebenfalls. Dagegen konnte durch das Training ohne zusätzliche Zufallsposen in den Daten ein sehr gutes Ergebnis von nur zwei Crashes erzielt werden.
+
+Ohne den zusätzlichen Aufwand eines PID-Reglers kann hier die Spur so gut gehalten werden, dass ein Training mit besonderem Fokus auf Ausnahmefälle (also Zufallsposen) keine Verbesserung, sondern eine Verschlechterung mit sich bringt. Dass das Training mit kombiniertem Datensatz ebenfalls schlechter Abschneidet, zeigt, dass die Menge an Zufallsposen den Lernprozess behindern und das Netz von den eigentlich zu erlernenden Merkmalen ablenken.
 
 \section{Verbesserungen}

@@ -1,0 +1,128 @@
+\begin{thebibliography}{10}
+
+\bibitem{duckietown}
+Duckietown Foundation.
+\newblock The duckietown foundation.
+\newblock \url{https://www.duckietown.org/about/duckietown-foundation}.
+\newblock Abgerufen: 26.08.2020.
+
+\bibitem{gym}
+OpenAI.
+\newblock Gym.
+\newblock \url{https://gym.openai.com/}.
+\newblock Abgerufen: 17.10.2020.
+
+\bibitem{gym_duckietown}
+Maxime Chevalier-Boisvert, Florian Golemo, Yanjun Cao, Bhairav Mehta, and Liam
+  Paull.
+\newblock Duckietown environments for openai gym.
+\newblock \url{https://github.com/duckietown/gym-duckietown}, 2018.
+
+\bibitem{datasolut2}
+Laurenz Wuttke.
+\newblock Deep learning: Einführung, {Beispiele} {\&} {Frameworks}.
+\newblock \url{https://datasolut.com/was-ist-deep-learning/}.
+\newblock Abgerufen: 02.10.2020.
+
+\bibitem{datasolut3}
+Laurenz Wuttke.
+\newblock Machine learning: Definition, {Algorithmen}, {Methoden und
+  Beispiele}.
+\newblock \url{https://datasolut.com/was-ist-machine-learning/}.
+\newblock Abgerufen: 08.10.2020.
+
+\bibitem{der-onliner_blogspot}
+Mathias Sauermann.
+\newblock {Machine Learning: 3 KI-Lernverfahren auf einen Blick}.
+\newblock
+  \url{https://der-onliner.blogspot.com/2019/07/machinelles-lernen-lernverfahren.html},
+  2019.
+\newblock Abgerufen: 08.10.2020.
+
+\bibitem{datasolut}
+Laurenz Wuttke.
+\newblock Training-, {Validierung-} und {Testdatensatz}.
+\newblock
+  \url{https://datasolut.com/wiki/trainingsdaten-und-testdaten-machine-learning/},
+  2020.
+\newblock Abgerufen: 30.09.2020.
+
+\bibitem{jaai}
+jaai.de.
+\newblock {Künstliche neuronale Netze – Aufbau {\&} Funktionsweise}.
+\newblock
+  \url{https://jaai.de/kuenstliche-neuronale-netze-aufbau-funktion-291/}.
+\newblock Abgerufen: 08.10.2020.
+
+\bibitem{divis}
+divis.io.
+\newblock {KI leicht erklärt – Teil 4: Die Grundlagen des Machine Learning}.
+\newblock
+  \url{https://divis.io/2019/04/ki-leicht-erklaert-teil-4-die-grundlagen-des-machine-learning/},
+  2019.
+\newblock Abgerufen: 09.10.2020.
+
+\bibitem{wiki}
+wikipedia.org.
+\newblock {Hyperparameteroptimierung}.
+\newblock \url{https://de.wikipedia.org/wiki/Hyperparameteroptimierung}.
+\newblock Abgerufen: 09.10.2020.
+
+\bibitem{ai-united}
+ai~united.de.
+\newblock {Aktivierungsfunktionen, ihre Arten und Verwendungsmöglichkeiten}.
+\newblock
+  \url{http://www.ai-united.de/aktivierungsfunktionen-ihre-arten-und-verwendungsmoeglichkeiten/}.
+\newblock Abgerufen: 08.10.2020.
+
+\bibitem{rocketloop}
+rocketloop.de.
+\newblock {Was sind künstliche neuronale Netze?}
+\newblock \url{https://rocketloop.de/kuenstliche-neuronale-netze/}.
+\newblock Abgerufen: 09.10.2020.
+
+\bibitem{lucas_plagwitz}
+Lucas Plagwitz.
+\newblock {Numerische Optimierung für Deep Learning Algorithmen}.
+\newblock
+  \url{https://www.uni-muenster.de/AMM/num/Vorlesungen/Seminar_Wirth_Master_WS18_b/handouts/Plagwitz.pdf}.
+\newblock Abgerufen: 09.10.2020.
+
+\bibitem{oliver-gableske}
+Oliver Gableske.
+\newblock {MULTILAYER-PERZEPTRON}.
+\newblock
+  \url{https://www.informatik.uni-ulm.de/ni/Lehre/WS04/ProSemNN/pdf/MLP.pdf}.
+\newblock Abgerufen: 20.10.2020.
+
+\bibitem{datasolut4}
+Laurenz Wuttke.
+\newblock {Künstliche Neuronale Netzwerke: Definition, Einführung, Arten und
+  Funktion}.
+\newblock \url{https://datasolut.com/neuronale-netzwerke-einfuehrung/}.
+\newblock Abgerufen: 09.10.2020.
+
+\bibitem{nvidia}
+Mariusz {Bojarski}, Davide {Del Testa}, Daniel {Dworakowski}, Bernhard
+  {Firner}, Beat {Flepp}, Prasoon {Goyal}, Lawrence~D. {Jackel}, Mathew
+  {Monfort}, Urs {Muller}, Jiakai {Zhang}, Xin {Zhang}, Jake {Zhao}, and Karol
+  {Zieba}.
+\newblock {End to End Learning for Self-Driving Cars}.
+\newblock {\em arXiv e-prints}, page arXiv:1604.07316, April 2016.
+
+\bibitem{elu}
+Djork-Arné Clevert, Thomas Unterthiner, and Sepp Hochreiter.
+\newblock Fast and accurate deep network learning by exponential linear units
+  (elus), 2016.
+
+\bibitem{keskar2017largebatch}
+Nitish~Shirish Keskar, Dheevatsa Mudigere, Jorge Nocedal, Mikhail Smelyanskiy,
+  and Ping Tak~Peter Tang.
+\newblock On large-batch training for deep learning: Generalization gap and
+  sharp minima, 2017.
+
+\bibitem{camposeestimation}
+Yoli Shavit and Ron Ferens.
+\newblock Introduction to camera pose estimation with deep learning, 2019.
+
+\end{thebibliography}

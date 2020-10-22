@@ -1,0 +1,35 @@
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces DuckieTown\relax }}{1}{figure.caption.4}% 
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Darstellung einer beispielhaften DuckieTown-Umgebung\relax }}{4}{figure.caption.7}% 
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Darstellung eines DuckieBots\relax }}{6}{figure.caption.8}% 
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces \IeC {\"U}bersicht K\IeC {\"u}nstliche Intelligenz\relax }}{9}{figure.caption.9}% 
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Darstellung eines beispielhaften k\IeC {\"u}nstlichen neuronalen Netzes (vereinfacht)\relax }}{10}{figure.caption.10}% 
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Darstellung der Performance von Deep Learning Algorithmen im Vergleich zu \IeC {\"a}lteren Lernalgorithmen\relax }}{11}{figure.caption.11}% 
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Darstellung der verschiedenen Lernverfahren\relax }}{12}{figure.caption.12}% 
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Lineare Klassifikation versus nichtlineare Klassifikation\relax }}{19}{figure.caption.14}% 
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Darstellung eines beispielhaften \acs {cnn}\relax }}{19}{figure.caption.16}% 
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Unsere Variante des Nvidia Modells\relax }}{21}{figure.caption.17}% 
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Verteilungen der Winkel der \acs {pd} Datens\IeC {\"a}tze\relax }}{24}{figure.caption.18}% 
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Verteilungen der Entfernungswerte der \acs {pd} Datens\IeC {\"a}tze\relax }}{24}{figure.caption.19}% 
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Verteilungen der Kachelarten in \glqq \acs {pd}\grqq {} und \glqq \acs {pd}-Rand\grqq \relax }}{25}{figure.caption.20}% 
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Verteilungen der Kachelarten in \glqq Expert\grqq {} und \glqq Expert-Rand\grqq \relax }}{25}{figure.caption.21}% 
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Verteilungen der Winkelgeschwindigkeiten der Expert Datens\IeC {\"a}tze\relax }}{26}{figure.caption.22}% 
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Gr\IeC {\"o}\IeC {\ss }e der erzeugten Datens\IeC {\"a}tze\relax }}{26}{figure.caption.23}% 
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Performance der \acs {2d}-Posensch\IeC {\"a}tzung auf Testdaten\relax }}{28}{figure.caption.24}% 
+\contentsline {figure}{\numberline {5.2}{\ignorespaces \acs {mse} mit \acs {2d}-Posensch\IeC {\"a}tzung\relax }}{29}{figure.caption.25}% 
+\contentsline {figure}{\numberline {5.3}{\ignorespaces \acs {mae} der Distanz mit \acs {2d}-Posensch\IeC {\"a}tzung\relax }}{29}{figure.caption.26}% 
+\contentsline {figure}{\numberline {5.4}{\ignorespaces \acs {mae} des Winkels mit \acs {2d}-Posensch\IeC {\"a}tzung\relax }}{29}{figure.caption.27}% 
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Performance der \acs {1d}-Posensch\IeC {\"a}tzung auf Testdaten\relax }}{29}{figure.caption.28}% 
+\contentsline {figure}{\numberline {5.6}{\ignorespaces \acs {mse} der Distanz mit \acs {1d}-Posensch\IeC {\"a}tzung\relax }}{30}{figure.caption.29}% 
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Performance der Sch\IeC {\"a}tzung eines Steuerbefehls auf Testdaten\relax }}{30}{figure.caption.30}% 
+\contentsline {figure}{\numberline {5.8}{\ignorespaces \acs {mse} der Winkelgeschwindigkeit mit Expertenbefehl\relax }}{30}{figure.caption.31}% 
+\contentsline {figure}{\numberline {5.9}{\ignorespaces Verteilungen der erlebten Werte w\IeC {\"a}hrend der Validierung des \acs {2d}-Netzes\relax }}{32}{figure.caption.33}% 
+\contentsline {figure}{\numberline {5.10}{\ignorespaces Verteilungen der erlebten Werte w\IeC {\"a}hrend der Validierung des \acs {1d}-Netzes\relax }}{33}{figure.caption.35}% 
+\contentsline {figure}{\numberline {5.11}{\ignorespaces Verteilungen der erlebten Werte w\IeC {\"a}hrend der Validierung des Experten-Netzes\relax }}{34}{figure.caption.37}% 
+\addvspace {10\p@ }
+\addvspace {10\p@ }

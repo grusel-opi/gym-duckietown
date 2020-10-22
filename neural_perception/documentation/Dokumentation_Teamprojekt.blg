@@ -1,0 +1,53 @@
+This is BibTeX, Version 0.99d (TeX Live 2019/dev/Debian)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: Dokumentation_Teamprojekt.aux
+A level-1 auxiliary file: htwg/cover.aux
+A level-1 auxiliary file: kapitel1/Einleitung.aux
+A level-1 auxiliary file: kapitel2/DuckieTown.aux
+A level-1 auxiliary file: kapitel3/DeepLearning.aux
+A level-1 auxiliary file: kapitel4/Vorgehensweise.aux
+A level-1 auxiliary file: kapitel5/Ergebnisse.aux
+A level-1 auxiliary file: kapitel6/Fazit.aux
+The style file: unsrt.bst
+Database file #1: citeulike.bib
+You've used 19 entries,
+            1791 wiz_defined-function locations,
+            541 strings with 6877 characters,
+and the built_in function-call counts, 3193 in all, are:
+= -- 271
+> -- 150
+< -- 1
++ -- 61
+- -- 42
+* -- 67
+:= -- 491
+add.period$ -- 68
+call.type$ -- 19
+change.case$ -- 19
+chr.to.int$ -- 0
+cite$ -- 19
+duplicate$ -- 132
+empty$ -- 358
+format.name$ -- 42
+if$ -- 755
+int.to.chr$ -- 0
+int.to.str$ -- 19
+missing$ -- 1
+newline$ -- 109
+num.names$ -- 19
+pop$ -- 126
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 93
+stack$ -- 0
+substring$ -- 32
+swap$ -- 52
+text.length$ -- 1
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 0
+while$ -- 20
+width$ -- 21
+write$ -- 204

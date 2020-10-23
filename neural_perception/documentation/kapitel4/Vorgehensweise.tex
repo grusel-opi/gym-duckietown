@@ -4,7 +4,7 @@
 
 Als Basismodell dient uns das von \href{https://www.nvidia.com/en-us/}{Nvidia} entworfene \acs{cnn} zur Schätzung eines Steuerbefehls für ein Fahrzeug \cite{nvidia}. Dieses Netz nutzt fünf Faltungsschichten zur Extraktion von Merkmalen mit einer Kerngröße von $(5, 5)$ in den ersten drei Schichten und $(3, 3)$ in den letzten beiden. Die ersten drei Schichten verwenden außerdem ein Zero-Padding. Darauf folgen drei Dense-Schichten als Regressor. \\
 
-Unsere Variante dieses Modells nutzt statt der \acs{relu} die \acs{elu} als Aktivierungsfunktion. Diese soll den Lernprozess zusätzlich beschleunigen und die Fähigkeit des Netzes zu Generalisieren verbessern \cite{elu}. Zusätzlich haben wir eine L2 Regularisierung für die Gewichte aller Schichten und Dropout jeweils nach den letzten beiden Faltungsschichten hinzugefügt. \\
+Unsere Variante dieses Modells nutzt statt der \acs{relu} die \acs{elu} als Aktivierungsfunktion. Diese soll den Lernprozess zusätzlich beschleunigen und die Fähigkeit des Netzes zu Generalisieren verbessern \cite{elu}. Zusätzlich haben wir eine L2 Regularisierung für die Gewichte aller Schichten und einen Dropout jeweils nach den letzten beiden Faltungsschichten hinzugefügt. \\
 
 In der Vorverarbeitung der Daten wird die Größe der Bilder von $(640, 480, 3)$ (im Format ($H$, $W$, $C$)) auf $(120, 160, 3)$ reduziert und anschließend das obere Drittel des Bildes abgeschnitten, da dies meist nur Horizont und sonstige Objekte beinhaltet. Die endgültige Größe des Inputs ist dann $(80, 160, 3)$. \\
 
@@ -18,7 +18,7 @@ Im Folgenden gehen wir auf zwei Arten möglicher Label und zwei Methoden zur Gen
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.65\textwidth]{kapitel4/images/drawio.png}
-	\caption{Unsere Variante des Nvidia Modells}
+	\caption{Unsere Variante des Nvidia-Modells}
 	\label{nvidia-model}
 	\vspace{0.2cm}
 \end{figure}
@@ -42,12 +42,12 @@ Im ersten Ansatz ist die Aufgabe des Netzes die Schätzung der Pose des Agenten.
 \end{minipage}
 
 \vspace{.5cm}
-Die magische Zahl von 20.5 ist einfach die Verschiebung des Wertes vom rechten Fahrbahnrand zur Mitte der Fahrspur, so dass das Ergebnis als Fehler zum Soll (also null) interpretiert werden kann. Das Teilen durch hundert ergibt dann einen Wert in Kachelgrößen, statt hundertstel Kachelgröße.
+Die magische Zahl von 20.5 ist einfach die Verschiebung des Wertes vom rechten Fahrbahnrand zur Mitte der Fahrspur, so dass das Ergebnis als Fehler zum Soll (also null) interpretiert werden kann. Das Teilen durch hundert ergibt dann einen Wert in Kachelgröße, statt hundertstel Kachelgröße.
 Zur Vollständigkeit ist im Code noch stark vereinfacht verdeutlicht, wie Aufnahme und zugehöriges Label zustande kommen und gespeichert werden.
 
 Das Schätzen der Pose hat den Vorteil, dass die Informationen anderweitig verwendet werden könnten, beispielsweise zur Lokalisierung des Agenten in einem Monte-Carlo Verfahren.\\
 
-Im zweiten Ansatz trainieren wir das Netz direkt auf entsprechende Steuerbefehle in der Form Geschwindigkeit und Winkelgeschwindigkeit $(v, \omega)$. Dazu benutzen wir ein einfaches Expertensystem, welches mehr Informationen in die Berechnung des Befehls miteinbezieht, als nur die relative Pose des Agenten zum aktuellen Zeitpunkt. Dabei wird ein in einer definierten Distanz voraus liegender Punkt auf der Ideallinie gesucht. Befindet sich dieser Punkt in einer Kurve, oder sind die Orientierungen von Agent und Tangente der Fahrspur zu verschieden, wird $v$ als die Hälfte einer Referenz-Geschwindigkeit festgelegt. Bei Geraden ist $v$ die volle Referenz-Geschwindigkeit. Die Winkelgeschwindigkeit $\omega$ ist das Skalarprodukt aus dem Vektor, welcher von Roboter in Richtung voraus liegenden Punkt zeigt und dem Einheitsvektor, welcher vom Agenten aus nach rechts zeigt.
+Im zweiten Ansatz trainieren wir das Netz direkt auf entsprechende Steuerbefehle in der Form Geschwindigkeit und Winkelgeschwindigkeit $(v, \omega)$. Dazu benutzen wir ein einfaches Expertensystem, welches mehr Informationen in die Berechnung des Befehls miteinbezieht, als nur die relative Pose des Agenten zum aktuellen Zeitpunkt. Dabei wird ein in einer definierten Distanz voraus liegender Punkt auf der Ideallinie gesucht. Befindet sich dieser Punkt in einer Kurve, oder sind die Orientierungen von Agent und Tangente der Fahrspur zu verschieden, wird $v$ als die Hälfte einer Referenzgeschwindigkeit festgelegt. Bei Geraden ist $v$ die volle Referenzgeschwindigkeit. Die Winkelgeschwindigkeit $\omega$ ist das Skalarprodukt aus dem Vektor, welcher von Roboter in Richtung voraus liegenden Punkt zeigt und dem Einheitsvektor, welcher vom Agenten aus nach rechts zeigt.
 
 \begin{minipage}{\linewidth}
 	\begin{lstlisting}[caption={Berechnung eines Steuerbefehls mit einfachem Expertensystem}, language=python]
@@ -63,21 +63,19 @@ Im zweiten Ansatz trainieren wir das Netz direkt auf entsprechende Steuerbefehle
 	right_vec = np.array([math.sin(self.env.cur_angle), 
 									     0, math.cos(self.env.cur_angle)])
 	omega = np.dot(right_vec, point_vec)
-	
 	\end{lstlisting}
 \end{minipage}
 
 \subsection{Observationen}
 
-Bei der Generierung der Datensätze verfolgen wir ebenfalls zwei Ansätze. Im ersten, naiven Ansatz lassen wir den Agenten selbstständig durch die Umgebung fahren, wobei für jeden Aufruf der \texttt{step()} Methode eine Aufnahme mit entsprechendem Label gespeichert wird. Die Verteilung der Werte sollte demnach jener entsprechen, welche der Agent beim selbstständigen Fahren tatsächlich erlebt. \\
+Bei der Generierung der Datensätze verfolgen wir ebenfalls zwei Ansätze. Im ersten, naiven Ansatz lassen wir den Agenten selbstständig durch die Umgebung fahren, wobei für jeden Aufruf der \texttt{step()}-Methode eine Aufnahme mit entsprechendem Label gespeichert wird. Die Verteilung der Werte sollte demnach jener entsprechen, welche der Agent beim selbstständigen Fahren tatsächlich erlebt. \\
 
-Im zweiten Ansatz lassen wir den Agenten nur eine gewisse Anzahl von Schritten, also \texttt{step()} Aufrufen, fahren und rufen dann die \texttt{reset()} Methode des Simulators auf, welche den Agenten an eine zufällige, aber valide Pose zurücksetzt. Valide bedeutet, dass die Position befahrbar und frei von Kollisionen mit anderen Objekten ist.
+Im zweiten Ansatz lassen wir den Agenten nur eine gewisse Anzahl von Schritten, also \texttt{step()}-Aufrufen, fahren und rufen dann die \texttt{reset()}-Methode des Simulators auf, welche den Agenten an eine zufällige, aber valide Pose zurücksetzt. Valide bedeutet, dass die Position befahrbar und frei von Kollisionen mit anderen Objekten ist.
 Der Gedanke dahinter ist, dass so die Verteilung der Werte mehr \glqq Ausnahmefälle\grqq{} beinhaltet. Denn sollte das Netz nicht im Stande sein, die Spur ähnlich gut halten zu können wie der \acs{pd}-Regler oder das Expertensystem, wird es oft in Situationen geraten, auf welche es nicht trainiert wurde. Die Werteverteilung sollte so ähnlich sein zu dem, was der Agent erlebt, falls er öfters \glqq crashen\grqq{} sollte.
 
 \subsection{Datensätze}
 
-Wie erläutert, ergeben sich zwei Ansätze zur Zusammensetzung des Labels und zwei Ansätze um die Verteilung der Labels zu beeinflussen. Insgesamt ergeben sich vier Datensätze. Die zwei \acs{pd}-Datensätze \glqq \acs{pd}\grqq{} und \glqq \acs{pd}-Rand\grqq{} und zwei Experten-Datensätze, \glqq Expert\grqq{} und \glqq Expert-Rand\grqq . Der Zusatz \glqq Rand\grqq{} steht dabei für den höheren Anteil an Zufallsposen.\\
-
+Wie erläutert, ergeben sich zwei Ansätze zur Zusammensetzung des Labels und zwei Ansätze um die Verteilung der Labels zu beeinflussen. Insgesamt ergeben sich vier Datensätze. Die zwei \acs{pd}-Datensätze \glqq \acs{pd}\grqq{} und \glqq \acs{pd}-Rand\grqq{} und zwei Experten-Datensätze, \glqq Expert\grqq{} und \glqq Expert-Rand\grqq . Der Zusatz \glqq Rand\grqq{} steht dabei für den höheren Anteil an Zufallsposen.
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}{0.5\textwidth}
@@ -115,7 +113,7 @@ Wie erläutert, ergeben sich zwei Ansätze zur Zusammensetzung des Labels und zw
 	\label{pd-distances}
 \end{figure}
 
-Wie in \ref{pd-angles} und \ref{pd-distances} erkennbar, ist die Verteilung von sowohl Entfernungswerten, als auch Winkeldifferenzen im  \glqq \acs{pd}-Rand\grqq{} Datensatz wesentlich gleichmäßiger als im \glqq \acs{pd}\grqq-Datensatz.
+Wie in Abbildung \ref{pd-angles} und \ref{pd-distances} erkennbar, ist die Verteilung von sowohl Entfernungswerten, als auch Winkeldifferenzen im  \glqq \acs{pd}-Rand\grqq{} Datensatz wesentlich gleichmäßiger als im \glqq \acs{pd}\grqq-Datensatz.
 
 
 \begin{figure}[H]
@@ -155,8 +153,8 @@ Wie in \ref{pd-angles} und \ref{pd-distances} erkennbar, ist die Verteilung von 
 \end{figure}
 
 
-Auf die Verteilung der Kachelarten in den \acs{pd}-Datensätzen, auf welchen die Aufnahmen entstanden sind, hat der höhere Anteil der Zufallsposen keinen Einfluss (siehe \ref{pd-tiles}).\\
-Im Gegensatz dazu hat der höhere Anteil an Zufallsposen in den Expertendatensätzen Auswirkungen auf die Verteilung der Kachelarten. So ist der Anteil der Linkskurven im Datensatz deutlich gestiegen (siehe \ref{expert-tiles}).
+Auf die Verteilung der Kachelarten in den \acs{pd}-Datensätzen, auf welchen die Aufnahmen entstanden sind, hat der höhere Anteil der Zufallsposen keinen Einfluss (siehe Abb. \ref{pd-tiles}).\\
+Im Gegensatz dazu hat der höhere Anteil an Zufallsposen in den Expertendatensätzen Auswirkungen auf die Verteilung der Kachelarten. So ist der Anteil der Linkskurven im Datensatz deutlich gestiegen (siehe Abb. \ref{expert-tiles}).
 
 Vier-Wege-Kreuzungen waren auf der von uns verwendeten Umgebungskarte nicht vorhanden.
 
@@ -179,18 +177,17 @@ Vier-Wege-Kreuzungen waren auf der von uns verwendeten Umgebungskarte nicht vorh
 \end{figure}
 
 
-In den Expertendatensätzen \ref{expert-angles} lässt sich ebenfalls ein deutlicher Unterschied in der Verteilung der berechneten Winkelgeschwindigkeiten des Steuerbefehls feststellen. In \ref{expert-rand-angular} ist eine Menge an Maximalwerten von -1 und 1 erkennbar (der Wertebereich durch das Skalarprodukt, kann zum Beispiel mit Faktor $\pi$ multipliziert werden).
-Auf die berechneten Geschwindigkeiten der Expertendatensätze muss nicht eingegangen werden, da zum einen aufgrund unseres einfachen Expertensystems die Verteilung nur aus zwei Werten besteht und zum Anderen sich diese Verteilung durch die Ansätze nicht wesentlich unterscheidet.\\
-
+In den Expertendatensätzen \ref{expert-angles} lässt sich ebenfalls ein deutlicher Unterschied in der Verteilung der berechneten Winkelgeschwindigkeiten des Steuerbefehls feststellen. In Abbildung \ref{expert-rand-angular} ist eine Menge an Maximalwerten von -1 und 1 erkennbar (der Wertebereich durch das Skalarprodukt, kann zum Beispiel mit Faktor $\pi$ multipliziert werden).
+Auf die berechneten Geschwindigkeiten der Expertendatensätze muss nicht eingegangen werden, da zum einen aufgrund unseres einfachen Expertensystems die Verteilung nur aus zwei Werten besteht und zum Anderen sich diese Verteilung durch die Ansätze nicht wesentlich unterscheidet.
 \begin{figure}[H]
 	\centering
 	\begin{tabular}[t]{|l|l|}
 		\hline
 		\textbf{Datensatz} & \textbf{Größe} \\
 		\hline
-		PD & 100000 \\
+		\acs{pd} & 100000 \\
 		\hline
-		PD-Rand & 100000 \\
+		\acs{pd}-Rand & 100000 \\
 		\hline
 		Expert & 99943 \\
 		\hline
@@ -219,15 +216,15 @@ Das Feintuning des Modells und die Wahl der Hyperparameter wurden in einem langw
 		\hline
 		Anzahl Epochen & 50 \\
 		\hline
-		Verlustfunktion & MSE \\
+		Verlustfunktion & \acs{mse} \\
 		\hline
 	\end{tabular}
 \end{center}
 
 
-Wir setzen den Adam Optimizer ein, da dieser durch adaptive Lernraten oft einen schnelleren Lernprozess ermöglicht und generell in der Literatur oft zum Einsatz kommt. Wir parametrisieren Adam mit einer initialen Lernrate von $0.0002$. Diese ergab in Kombination mit einer Batchgröße von 32 in den meisten Fällen eine gute Konvergenz.
+Wir setzen den Adam Optimizer ein, da dieser durch adaptive Lernraten oft einen schnelleren Lernprozess ermöglicht und generell in der Literatur oft zum Einsatz kommt. Wir parametrisieren Adam mit einer initialen Lernrate von $0.0002$. Diese ergab in Kombination mit einer Batchgröße von 32 in den meisten Fällen eine gute Konvergenz. \\
 
-Die Größe der Batch von 32 soll einen Kompromiss bilden zwischen Geschwindigkeit des Prozesses und der Fähigkeit des Netzes zu Generalisieren. Eine Batchgröße über 32 hat sich bereits als unvorteilhaft erwiesen \cite{keskar2017largebatch}.
+Die Größe der Batch von 32 soll einen Kompromiss bilden zwischen Geschwindigkeit des Prozesses und der Fähigkeit des Netzes zu Generalisieren. Eine Batchgröße über 32 hat sich bereits als unvorteilhaft erwiesen \cite{keskar2017largebatch}. \\
 
 Als Fehlerfunktion wären prinzipiell sowohl \acs{mse} als auch \acs{mae} vorstellbar. Eine L2-Fehlerfunktion hat den Vorteil, dass Ausreißer in den Daten durch das Quadrat in der Funktion härter bestraft werden. Unsere Daten weisen allerdings nur wenige Ausreißer auf, so dass sich in Experimenten die \acs{mae} nicht deutlich von der \acs{mse} unterschieden hat. Da \acs{mse} in der Literatur häufiger zum Einsatz kommt, blieben wir mit unserer Wahl bei ihr. \\
 
@@ -239,4 +236,4 @@ Wir haben vier Datensätze und kombinieren die Datensätze der beiden Ansätzen 
 
 Außerdem variieren wir den Output unseres Netzes. Beim Inferieren der relativen Pose testen wir, ob sich Unterschiede in der Performance des Netzes ergeben, je nach dem ob ein zwei- oder eindimensionaler Zustandsvektor geschätzt werden soll. Wir trainieren dabei ein mal nur auf den Distanzwert zur Fahrbahnbegrenzung und ein mal auf sowohl Distanz, als auch Winkeldifferenz.
 
-Das Gleiche testen wir ebenfalls an unserem Experten Ansatz. Hier entfernen wir die Geschwindigkeit als Ziel beim Training und verwenden nur die wesentlich wichtigere Winkelgeschwindigkeit.
+Das Gleiche testen wir ebenfalls an unserem Experten-Ansatz. Hier entfernen wir die Geschwindigkeit als Ziel beim Training und verwenden nur die wesentlich wichtigere Winkelgeschwindigkeit.

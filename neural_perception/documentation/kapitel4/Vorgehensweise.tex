@@ -71,7 +71,7 @@ Im zweiten Ansatz trainieren wir das Netz direkt auf entsprechende Steuerbefehle
 Bei der Generierung der Datensätze verfolgen wir ebenfalls zwei Ansätze. Im ersten, naiven Ansatz lassen wir den Agenten selbstständig durch die Umgebung fahren, wobei für jeden Aufruf der \texttt{step()}-Methode eine Aufnahme mit entsprechendem Label gespeichert wird. Die Verteilung der Werte sollte demnach jener entsprechen, welche der Agent beim selbstständigen Fahren tatsächlich erlebt. \\
 
 Im zweiten Ansatz lassen wir den Agenten nur eine gewisse Anzahl von Schritten, also \texttt{step()}-Aufrufen, fahren und rufen dann die \texttt{reset()}-Methode des Simulators auf, welche den Agenten an eine zufällige, aber valide Pose zurücksetzt. Valide bedeutet, dass die Position befahrbar und frei von Kollisionen mit anderen Objekten ist.
-Der Gedanke dahinter ist, dass so die Verteilung der Werte mehr \glqq Ausnahmefälle\grqq{} beinhaltet. Denn sollte das Netz nicht im Stande sein, die Spur ähnlich gut halten zu können wie der \acs{pd}-Regler oder das Expertensystem, wird es oft in Situationen geraten, auf welche es nicht trainiert wurde. Die Werteverteilung sollte so ähnlich sein zu dem, was der Agent erlebt, falls er öfters \glqq crashen\grqq{} sollte.
+Auf diese Weise beinhaltet die Verteilung der Werte mehr \glqq Ausnahmefälle\grqq{}. Denn sollte das Netz nicht im Stande sein, die Spur ähnlich gut halten zu können wie der \acs{pd}-Regler oder das Expertensystem, wird es oft in Situationen geraten, auf welche es nicht trainiert wurde. Die Werteverteilung sollte so ähnlich sein zu dem, was der Agent erlebt, falls er öfters \glqq crashen\grqq{} sollte.
 
 \subsection{Datensätze}
 

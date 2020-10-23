@@ -11,22 +11,21 @@ venv
 neural_perception/model/saved_model/
 neural_perception/model/caches/
 
-documentation/Dokumentation_Teamprojekt.aux
-documentation/Dokumentation_Teamprojekt.bbl
-documentation/Dokumentation_Teamprojekt.blg
-documentation/Dokumentation_Teamprojekt.lof
-documentation/Dokumentation_Teamprojekt.log
-documentation/Dokumentation_Teamprojekt.out
-documentation/Dokumentation_Teamprojekt.pdf
-documentation/Dokumentation_Teamprojekt.synctex.gz
-documentation/Dokumentation_Teamprojekt.toc
-documentation/htwg/cover.aux
-documentation/kapitel1/Einleitung.aux
-documentation/kapitel2/DuckieTown.aux
-documentation/kapitel3/DeepLearning.aux
-documentation/kapitel4/Vorgehensweise.aux
-documentation/kapitel5/Ergebnisse.aux
-documentation/kapitel6/Fazit.aux
-documentation/Dokumentation_Teamprojekt.lol
+neural_perception/documentation/Dokumentation_Teamprojekt.aux
+neural_perception/documentation/Dokumentation_Teamprojekt.bbl
+neural_perception/documentation/Dokumentation_Teamprojekt.blg
+neural_perception/documentation/Dokumentation_Teamprojekt.lof
+neural_perception/documentation/Dokumentation_Teamprojekt.log
+neural_perception/documentation/Dokumentation_Teamprojekt.out
+neural_perception/documentation/Dokumentation_Teamprojekt.synctex.gz
+neural_perception/documentation/Dokumentation_Teamprojekt.toc
+neural_perception/documentation/htwg/cover.aux
+neural_perception/documentation/kapitel1/Einleitung.aux
+neural_perception/documentation/kapitel2/DuckieTown.aux
+neural_perception/documentation/kapitel3/DeepLearning.aux
+neural_perception/documentation/kapitel4/Vorgehensweise.aux
+neural_perception/documentation/kapitel5/Ergebnisse.aux
+neural_perception/documentation/kapitel6/Fazit.aux
+neural_perception/documentation/Dokumentation_Teamprojekt.lol
 
 

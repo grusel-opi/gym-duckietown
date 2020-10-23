@@ -20,7 +20,7 @@ Nach dieser Erklärung müsste das Training mit kombiniertem Datensatz eigentlic
 
 \subsection{1D-Pose}
 
-Das Entfernen der Winkeldifferenz $\theta$ aus dem zu inferierenden Zustandsvektor verbesserte den Fehler in $d$ mit den Datensätzen \glqq\acs{pd}-Rand\grqq{} und \glqq\acs{pd}-Concat\grqq{} um etwa die Hälfte (siehe \ref{2d-pose-performance} und \ref{1d-pose-performance}). Dies könnte bedeuten, dass das Minimieren der Fehler in den einzelnen Dimensionen des \acs{2d} Zustandes in Konkurrenz zueinander steht.
+Das Entfernen der Winkeldifferenz $\theta$ aus dem zu inferierenden Zustandsvektor verbesserte den Fehler in $d$ mit den Datensätzen \glqq\acs{pd}-Rand\grqq{} und \glqq\acs{pd}-Concat\grqq{} um etwa die Hälfte (siehe Abb. \ref{2d-pose-performance} und \ref{1d-pose-performance}). Dies könnte bedeuten, dass das Minimieren der Fehler in den einzelnen Dimensionen des \acs{2d} Zustandes in Konkurrenz zueinander steht.
 
 Während der Integration in den Simulator lieferte der \acs{1d} Ansatz sehr gute Ergebnisse. Hier führte das Training mit \glqq\acs{pd}\grqq{} zum besten Ergebnis an Crashes und \acs{mae}. Das Training mit kombiniertem Datensatz verunglückte dagegen am häufigsten, obwohl es einen besseren mittleren Fehler hervorbrachte als das Training mit \glqq\acs{pd}-Rand\grqq.
 
@@ -32,25 +32,24 @@ Bei dem Training auf Steuerbefehle führte der erhöhte Anteil an Zufallsposen i
 
 Ohne den zusätzlichen Aufwand eines \acs{pid}-Reglers kann hier die Spur so gut gehalten werden, dass ein Training mit besonderem Fokus auf Ausnahmefälle (also Zufallsposen) keine Verbesserung, sondern eine Verschlechterung mit sich bringt. Dass das Training mit kombiniertem Datensatz ebenfalls schlechter Abschneidet, zeigt, dass die Menge an Zufallsposen den Lernprozess behindern und das Netz von den eigentlich zu erlernenden Merkmalen ablenken.
 
-\newpage
 \section{Verbesserungen}
 
 Abschließend diskutieren wir mögliche Verbesserungen der verfolgten Ansätze.
 
 \subsection{2D-Pose}
 
-Die anscheinend konkurrierende Minimierung der Fehler in den einzelnen Dimensionen des Zustandsvektors lässt Zweifel an der Eignung der Netzarchitektur für diese Art von Problem aufkommen. Andere Ansätze zur Schätzung einer Pose verwenden meißt komplexere Architekturen.
+Die anscheinend konkurrierende Minimierung der Fehler in den einzelnen Dimensionen des Zustandsvektors lässt Zweifel an der Eignung der Netzarchitektur für diese Art von Problem aufkommen. Andere Ansätze zur Schätzung einer Pose verwenden meist komplexere Architekturen.
 
 Eine mögliche Verbesserung wäre mehrere parallele Regressoren in Form von vollständig verbundenen Schichten für jede Dimension des zu schätzenden Vektors zu verwenden, anstatt nur einem, wie in anderen Arbeiten zu sehen ist (siehe \cite{camposeestimation}). Eine gute Fähigkeit in beiden Dimensionen zu generalisieren könnte so ein stabiles Fahrverhalten ermöglichen.
 
 \subsection{1D-Pose}
 
-Das stabile Fahrverhalten des 1D-Posen-Netzes mit PID-Regler würde es erlauben weiter darauf aufzubauen. Wie bereits in 1.1 Aufgabenstellung erläutert, könnte in Kombination mit einer Umgebungskarte, Odometrie und einem Monte-Carlo-Verfahren das Problem der globalen Lokalisierung angegangen werden.
+Das stabile Fahrverhalten des \acs{1d}-Posen-Netzes mit \acs{pid}-Regler würde es erlauben weiter darauf aufzubauen. Wie bereits in der Aufgabenstellung (siehe \ref{aufgabenstellung}) erläutert, könnte in Kombination mit einer Umgebungskarte, Odometrie und einem Monte-Carlo-Verfahren das Problem der globalen Lokalisierung angegangen werden.
 
-Eine weitere Reduktion des Fehlers in der Schätzung wäre mit entsprechendem Datensatz und Anpassung der Hyperparameter ebenfalls denkbar.
+Eine weitere Reduktion des Fehlers in der Schätzung wäre mit entsprechendem Datensatz und einer Anpassung der Hyperparameter ebenfalls denkbar.
 
 \subsection{Steuerbefehl durch Expertensystem}
 
-Auch hier wäre eine Weiterentwicklung zum Zweck der globalen Lokalisierung denkbar. Das Erkennen der durchfahrenden Kachelart wäre langsamer als im Falle des 1D-Posen Ansatzes, da keine Distanzwerte vorhanden sind, mit Hilfe derer die Änderung der globalen Orientierung verrechnet werden kann (zur Unterscheidung von Kurvenabschnitten und dem Fahren von Schlangenlinien).
+Auch hier wäre eine Weiterentwicklung zum Zweck der globalen Lokalisierung denkbar. Das Erkennen der durchfahrenden Kachelart wäre langsamer als im Falle des \acs{1d}-Posen Ansatzes, da keine Distanzwerte vorhanden sind, mit Hilfe derer die Änderung der globalen Orientierung verrechnet werden kann (zur Unterscheidung von Kurvenabschnitten und dem Fahren von Schlangenlinien).
 
 Weiterhin kann das verwendete Expertensystem zur Generierung der Steuerbefehle weiter ausgebaut werden. Die Logik zur Berechnung der Geschwindigkeit $v$ war in unserem Fall einfach eine Halbierung der Referenz im Falle einer Kurve. Zu Gunsten der Winkelgeschwindigkeit wurde daher der Wert aus dem Training entfernt. Ein intelligenterer Ansatz zur Berechnung, womöglich in Zusammenhang mit der vorher bestimmten Winkelgeschwindigkeit, könnte dazu führen, dass eine schnellere Durchschnittsgeschwindigkeit erreicht werden kann. In unserem Ansatz wählten wir dagegen eine feste und eher langsamere Geschwindigkeit.

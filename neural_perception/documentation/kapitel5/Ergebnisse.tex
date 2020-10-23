@@ -10,22 +10,22 @@ Wie zu erwarten ist der Fehler des Netzes stark abhängig von der Verteilung der
 
 \subsection{2D-Pose}
 
-Beim Training auf eine \acs{2d}-Pose fällt auf, dass das Schätzen des Winkels $\theta$ eine größere Herausforderung darstellt, als das Schätzen der Distanz $d$. \ref{2d-poses-mse} zeigt, dass bei dem Training mit Daten mit hohem Anteil an Zufallsposen (Datensatz \glqq\acs{pd}-Rand\grqq{} in den Farben Grün und Lila) das Netz etwa ab der zehnten Epoche überstimmt ist. Im Vergleich mit den absoluten Fehlern der einzelnen Dimensionen in \ref{2d-poses-mae-d} und \ref{2d-poses-mae-a}, ist festzustellen, dass die Überstimmung vor allem auf Schwierigkeiten mit dem Schätzen des Winkels $\theta$ zurückzuführen ist.
+Beim Training auf eine \acs{2d}-Pose fällt auf, dass das Schätzen des Winkels $\theta$ eine größere Herausforderung darstellt, als das Schätzen der Distanz $d$. Abbildung \ref{2d-poses-mse} zeigt, dass bei dem Training mit Daten mit hohem Anteil an Zufallsposen (Datensatz \glqq\acs{pd}-Rand\grqq{} in den Farben Grün und Lila) das Netz etwa ab der zehnten Epoche überstimmt ist. Im Vergleich mit den absoluten Fehlern der einzelnen Dimensionen in Abb. \ref{2d-poses-mae-d} und \ref{2d-poses-mae-a}, ist festzustellen, dass die Überstimmung vor allem auf Schwierigkeiten mit dem Schätzen des Winkels $\theta$ zurückzuführen ist.
 
-Bei dem Schätzen der Distanz $d$ ist selbst mit dem \glqq\acs{pd}-Rand\grqq{} Datensatz in Epoche 50 die Überstimmung des Netzes minimal, wie in \ref{2d-poses-mae-d} zu sehen ist.
+Beim Schätzen der Distanz $d$ ist selbst mit dem \glqq\acs{pd}-Rand\grqq{} Datensatz in Epoche 50 die Überstimmung des Netzes minimal, wie in Abbildung \ref{2d-poses-mae-d} zu sehen ist.
 
 
 \begin{figure}[H]
 	\centering
 		\begin{tabular}[t]{|l|r|r|r|}
 			\hline
-			Datensatz & MSE & MAE $d$ & MAE $\theta$ \\
+			\textbf{Datensatz} & \textbf{\acs{mse}} & \textbf{\acs{mae}} $d$ & \textbf{\acs{mae}} $\theta$ \\
 			\hline
-			PD & 8.164 & 1.404 & 1.784 \\
+			\acs{pd} & 8.164 & 1.404 & 1.784 \\
 			\hline
-			PD-Rand & 274.2 & 8.312 & 12.61 \\
+			\acs{pd}-Rand & 274.2 & 8.312 & 12.61 \\
 			\hline
-			PD + PD-Rand & 143.8 & 5.353 & 8.036 \\
+			\acs{pd} + \acs{pd}-Rand & 143.8 & 5.353 & 8.036 \\
 			\hline
 		\end{tabular}
 	\caption{Performance der \acs{2d}-Posenschätzung auf Testdaten}
@@ -55,19 +55,19 @@ Bei dem Schätzen der Distanz $d$ ist selbst mit dem \glqq\acs{pd}-Rand\grqq{} D
 
 \subsection{1D-Pose}
 
-Das Entfernen des Winkels aus dem Zustandsvektor bringt eine leichte Verbesserung der Performance auf allen Datensätzen mit sich (siehe \ref{1d-pose-performance} und \ref{2d-pose-performance}). 
+Das Entfernen des Winkels aus dem Zustandsvektor bringt eine leichte Verbesserung der Performance auf allen Datensätzen mit sich (siehe Abb. \ref{1d-pose-performance} und \ref{2d-pose-performance}). 
 
 \begin{figure}[H]
 	\centering
 	\begin{tabular}[t]{|l|r|r|}
 		\hline
-		Datensatz & MSE & MAE $d$ \\
+		\textbf{Datensatz} & \textbf{\acs{mse}} & \textbf{\acs{mae}} $d$ \\
 		\hline
-		PD & 3.423 & 1.104 \\
+		\acs{pd} & 3.423 & 1.104 \\
 		\hline
-		PD-Rand & 115.4 & 6.73 \\
+		\acs{pd}-Rand & 115.4 & 6.73 \\
 		\hline
-		PD + PD-Rand & 60.0 & 4.364 \\
+		\acs{pd} + \acs{pd}-Rand & 60.0 & 4.364 \\
 		\hline
 	\end{tabular}
 	\caption{Performance der \acs{1d}-Posenschätzung auf Testdaten}
@@ -81,7 +81,7 @@ Das Entfernen des Winkels aus dem Zustandsvektor bringt eine leichte Verbesserun
 	\label{1d-poses-mse-d}
 \end{figure}
 
-Allerdings führt die Reduktion auf das Schätzen des Distanzwertes allein zu einer stärkeren Überstimmung des Netzes. In \ref{1d-poses-mse-d} ist erkennbar, dass sowohl bei dem Training mit dem \glqq\acs{pd}-Rand\grqq{} (hier in Orange für die Trainingsdaten und Grau für die Testdaten), als auch mit dem \glqq\acs{pd} + \acs{pd}-Rand\grqq{} Datensatz (Rot für Training und Blau für Test), das Netz spätestens ab Epoche 15 überstimmt ist.
+Allerdings führt die Reduktion auf das Schätzen des Distanzwertes allein zu einer stärkeren Überstimmung des Netzes. In Abbildung \ref{1d-poses-mse-d} ist erkennbar, dass sowohl bei dem Training mit dem \glqq\acs{pd}-Rand\grqq{} (hier in Orange für die Trainingsdaten und Grau für die Testdaten), als auch mit dem \glqq\acs{pd} + \acs{pd}-Rand\grqq{} Datensatz (Rot für Training und Blau für Test), das Netz spätestens ab Epoche 15 überstimmt ist.
 
 \subsection{Steuerbefehl durch Expertensystem}
 
@@ -92,14 +92,14 @@ Allerdings führt die Reduktion auf das Schätzen des Distanzwertes allein zu ei
 % 	\label{1d-poses-mae-d}
 % \end{figure}
 
-Wie zuvor zeigt sich auch hier, dass das Training mit hohem Anteil an Zufallsposen in den Daten zu einer Überstimmung des Netzes führt. So bilden sich deutliche Lücken zwischen der Performance auf Trainings- und Testdaten auf den Datensätzen \glqq Expert-Rand\grqq{} (Test Grau und Training Orange) und \glqq Expert + Expert-Rand\grqq{} (Test Blau und Training Rot) in \ref{expert-mse-omega}.
+Wie zuvor zeigt sich auch hier, dass das Training mit hohem Anteil an Zufallsposen in den Daten zu einer Überstimmung des Netzes führt. So bilden sich deutliche Lücken zwischen der Performance auf Trainings- und Testdaten auf den Datensätzen \glqq Expert-Rand\grqq{} (Test Grau und Training Orange) und \glqq Expert + Expert-Rand\grqq{} (Test Blau und Training Rot) in Abbildung \ref{expert-mse-omega}.
 
 
 \begin{figure}[H]
 	\centering
 	\begin{tabular}[t]{|l|r|r|}
 		\hline
-		Datensatz & MSE & MAE $\omega$ \\
+		\textbf{Datensatz} & \textbf{\acs{mse}} & \textbf{\acs{mae}} $\omega$ \\
 		\hline
 		Expert & 0.00536 & 0.04214 \\
 		\hline
@@ -128,7 +128,7 @@ Wie zuvor zeigt sich auch hier, dass das Training mit hohem Anteil an Zufallspos
 
 \section{Validierung}
 
-Die Validierung besteht aus der Integration des Netzes in den Simulator, wobei dieses selbst die Kontrolle übernimmt. Die Steuerung erfolgt dabei in Abhängigkeit von dem Output des Netzes. Im Falle des \acs{2d}-Posen-Netzes über einen einfachen \acs{pd}-Regler mit $d$ als Fehler und $\theta$ als Ableitung des Fehlers (siehe \ref{pd-drive-example}). Das \acs{1d}-Posen-Netz hält den Distanzwert über einen vollständigen und sorgfältig eingestellten \acs{pid}-Regler. Das Experten-Netz steuert den Agenten direkt über den inferierten Steuerbefehl.
+Die Validierung besteht aus der Integration des Netzes in den Simulator, wobei dieses selbst die Kontrolle übernimmt. Die Steuerung erfolgt dabei in Abhängigkeit von dem Output des Netzes. Im Falle des \acs{2d}-Posen-Netzes über einen einfachen \acs{pd}-Regler mit $d$ als Fehler und $\theta$ als Ableitung des Fehlers (siehe Codebeispiel \ref{pd-drive-example}). Das \acs{1d}-Posen-Netz hält den Distanzwert über einen vollständigen und sorgfältig eingestellten \acs{pid}-Regler. Das Experten-Netz steuert den Agenten direkt über den inferierten Steuerbefehl.
 
 Im Gegensatz zur Trainings- und Testphase ist bei der Integration in den Simulator die Verteilung der Werte mit denen das Netz konfrontiert wird abhängig davon, wie gut dieses die Spur halten kann. Dies ist wiederum abhängig davon, wie gut die letzten Werte geschätzt worden sind.
 
@@ -136,15 +136,15 @@ Wir lassen die Netze jeweils 100000 \texttt{step()}-Aufrufe des Simulators fahre
 
 \subsection{2D-Pose}
 
-Im ersten Fall des \acs{2d}-Posen-Netzes schnitt das Netz, welches mit dem \glqq\acs{pd}-Rand\grqq-Datensatz und damit dem höchsten Anteil an Zufallsposen trainiert wurde, in Sachen Crashes pro Schritte am besten ab (siehe \ref{2d-validation}). Auffällig ist, dass das Training mit \glqq\acs{pd}-Concat\grqq{} zwar zu einen besseren durchschnittlichen Fehler führte, was auch mit dem doppelt so großen Umfang des Datensatzes zu erklären ist, jedoch nicht zu der geringsten Anzahl an Crashes.  
+Im ersten Fall des \acs{2d}-Posen-Netzes schnitt das Netz, welches mit dem \glqq\acs{pd}-Rand\grqq-Datensatz und damit dem höchsten Anteil an Zufallsposen trainiert wurde, in Sachen Crashes pro Schritte am besten ab (siehe Tabelle \ref{2d-validation}). Auffällig ist, dass das Training mit \glqq\acs{pd}-Concat\grqq{} zwar zu einen besseren durchschnittlichen Fehler führte, was auch mit dem doppelt so großen Umfang des Datensatzes zu erklären ist, jedoch nicht zu der geringsten Anzahl an Crashes.  
 
 \begin{table}[H]
 	\centering
 	\begin{tabular}[t]{|c|l|r|r|r|}
 		\hline
-		& \textbf{Kacheltyp} & \textbf{MAE $d$, $\theta$} & \textbf{n} & Crashes \\
+		& \textbf{Kacheltyp} & \textbf{\acs{mae} $d$, $\theta$} & \textbf{n} & \textbf{Crashes} \\
 		\hline
-		\multirow{4}{*}{PD} 
+		\multirow{4}{*}{\acs{pd}} 
 		& Alle
 		& 12.59, 20.41
 		& 100000
@@ -170,7 +170,7 @@ Im ersten Fall des \acs{2d}-Posen-Netzes schnitt das Netz, welches mit dem \glqq
 		& 21528
 		&\\
 		\hline
-		\multirow{4}{*}{PD-Rand} 
+		\multirow{4}{*}{\acs{pd}-Rand} 
 		& Alle
 		& 11.63, 17.19
 		& 100000
@@ -195,7 +195,7 @@ Im ersten Fall des \acs{2d}-Posen-Netzes schnitt das Netz, welches mit dem \glqq
 		& 22366
 		&\\
 		\hline
-		\multirow{4}{*}{PD-Concat} 
+		\multirow{4}{*}{\acs{pd}-Concat} 
 		& Alle
 		& 10.62, 16.37
 		& 100000
@@ -226,7 +226,7 @@ Im ersten Fall des \acs{2d}-Posen-Netzes schnitt das Netz, welches mit dem \glqq
 	\label{2d-validation}
 \end{table}
 
-In der Verteilung der Werte, mit welchen das Netz während der Integration konfrontiert wurde, ist das bessere Fahrverhalten des mit dem \glqq\acs{pd}-Rand\grqq-Datensatz trainierten Netzes ebenfalls erkennbar (siehe \ref{2d-val-distr}). So liegt der Schwerpunkt der Entfernungswerte eher nahe 20, was der Mitte der rechten Fahrspur entspricht. Auch die Winkel streuen eher um 0, was eine gute Orientierung während des Fahrens anzeigt.
+In der Verteilung der Werte, mit welchen das Netz während der Integration konfrontiert wurde, ist das bessere Fahrverhalten des mit dem \glqq\acs{pd}-Rand\grqq-Datensatz trainierten Netzes ebenfalls erkennbar (siehe Abb. \ref{2d-val-distr}). So liegt der Schwerpunkt der Entfernungswerte eher nahe 20, was der Mitte der rechten Fahrspur entspricht. Auch die Winkel streuen eher um 0, was eine gute Orientierung während des Fahrens anzeigt.
 
 Die anderen beiden Varianten befanden sich während der Fahrt eher auf der gegenüberliegenden Fahrspur (Schwerpunkt der Distanzwerte um 60) und neigten zu einer linkslastigen Orientierung (Schwerpunkt der Winkel unter 0).
 
@@ -256,7 +256,7 @@ Die anderen beiden Varianten befanden sich während der Fahrt eher auf der gegen
 
 \subsection{1D-Pose}
 
-Bei den \acs{1d}-Posen-Netzen wurden die besten Ergebnisse mit dem \glqq\acs{pd}\grqq-Datensatz erzielt \ref{1d-validation}. Sowohl der durchschnittliche Fehler während der Validierung, als auch die Anzahl der Crashes waren in dieser Variante besonders niedrig.
+Bei den \acs{1d}-Posen-Netzen wurden die besten Ergebnisse mit dem \glqq\acs{pd}\grqq-Datensatz erzielt (siehe Tabelle \ref{1d-validation}). Sowohl der durchschnittliche Fehler während der Validierung, als auch die Anzahl der Crashes waren in dieser Variante besonders niedrig.
 
 Das Training mit kombiniertem Datensatz ergab hier die schlechteste Performance, obwohl sich wieder ein geringerer durchschnittlicher Fehler ergab, als bei dem Training mit vielen Zufallsposen im Datensatz.
 
@@ -264,9 +264,9 @@ Das Training mit kombiniertem Datensatz ergab hier die schlechteste Performance,
 	\centering
 	\begin{tabular}[t]{|c|l|r|r|r|}
 		\hline
-		& \textbf{Kacheltyp} & \textbf{MAE $d$} & \textbf{n} & Crashes \\
+		& \textbf{Kacheltyp} & \textbf{\acs{mae} $d$} & \textbf{n} & \textbf{Crashes} \\
 		\hline
-		\multirow{4}{*}{PD} 
+		\multirow{4}{*}{\acs{pd}} 
 		& Alle
 		& 5.32
 		& 100000
@@ -292,7 +292,7 @@ Das Training mit kombiniertem Datensatz ergab hier die schlechteste Performance,
 		& 15320
 		&\\
 		\hline
-		\multirow{4}{*}{PD-Rand} 
+		\multirow{4}{*}{\acs{pd}-Rand} 
 		& Alle
 		& 14.44
 		& 100000
@@ -318,7 +318,7 @@ Das Training mit kombiniertem Datensatz ergab hier die schlechteste Performance,
 		& 1474
 		&\\
 		\hline
-		\multirow{4}{*}{PD-Concat} 
+		\multirow{4}{*}{\acs{pd}-Concat} 
 		& Alle
 		& 8.37
 		& 100000
@@ -349,7 +349,7 @@ Das Training mit kombiniertem Datensatz ergab hier die schlechteste Performance,
 	\label{1d-validation}
 \end{table}
 
-Bestätigt wird das Ergebnis wieder durch die Verteilung der Posenwerte während der Validierung \ref{1d-val-distr}. Das mit dem \glqq\acs{pd}\grqq-Datensatz trainierte Netz war am besten im Stande den Abstand zur Fahrbahnbegrenzung von etwa 20-25 halten zu können. Die anderen beiden Varianten waren mit Peaks um 40 und 60 wieder eher in der Mitte der Straße bis auf der linken Fahrspur unterwegs.
+Bestätigt wird das Ergebnis wieder durch die Verteilung der Posenwerte während der Validierung (siehe Abb. \ref{1d-val-distr}). Das mit dem \glqq\acs{pd}\grqq-Datensatz trainierte Netz war am besten im Stande den Abstand zur Fahrbahnbegrenzung von etwa 20-25 halten zu können. Die anderen beiden Varianten waren mit Peaks um 40 und 60 wieder eher in der Mitte der Straße bis auf der linken Fahrspur unterwegs.
 
 \begin{figure}[H]
 	\centering
@@ -377,14 +377,14 @@ Bestätigt wird das Ergebnis wieder durch die Verteilung der Posenwerte während
 
 \subsection{Steuerbefehl durch Expertensystem}
 
-Die auf Steuerbefehle trainierten Netze lieferten bessere Ergebnisse je geringer der Anteil an Zufallsposen im Datensatz (siehe \ref{expert-validation}). Dies gilt sowohl für die Anzahl an Crashes, als auch den durchschnittlichen Fehler.
-Auch hier ist das beste Fahrverhalten wieder an der Verteilung der erlebten Werte erkennbar (siehe \ref{expert-val-distr}). So liegt das Mittel der Werte näher an 0, je geringer der Anteil an Zufallsposen im Datensatz.
+Die auf Steuerbefehle trainierten Netze lieferten bessere Ergebnisse je geringer der Anteil an Zufallsposen im Datensatz (siehe Tabelle \ref{expert-validation}). Dies gilt sowohl für die Anzahl an Crashes, als auch den durchschnittlichen Fehler.
+Auch hier ist das beste Fahrverhalten wieder an der Verteilung der erlebten Werte erkennbar (siehe Abb. \ref{expert-val-distr}). So liegt das Mittel der Werte näher an 0, je geringer der Anteil an Zufallsposen im Datensatz.
 
 \begin{table}[H]
 	\centering
 	\begin{tabular}[t]{|c|l|r|r|r|}
 		\hline
-		& \textbf{Kacheltyp} & \textbf{MAE $\omega$} & \textbf{n} & Crashes \\
+		& \textbf{Kacheltyp} & \textbf{\acs{mae} $\omega$} & \textbf{n} & \textbf{Crashes} \\
 		\hline
 		\multirow{4}{*}{Expert} 
 		& Alle

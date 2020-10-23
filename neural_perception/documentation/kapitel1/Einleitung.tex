@@ -32,12 +32,13 @@ Fahrverhalten und Erkennung von Verkehrszeichen entwickelt werden. Hierzu sollen
 Techniken wie Deep Neural Networks und Deep Reinforcement Learning zum Einsatz
 kommen.\\
 
-\noindent Das Projekt, das für etwa 4-6 Personen in zwei bis drei Teams vorgesehen ist, soll in Python realisiert werden.
-Eventuell kommt das \acf{ros} zum Einsatz.
+\noindent Das Projekt, das für etwa 4-6 Personen in zwei bis drei Teams vorgesehen ist, soll in \href{https://www.python.org/}{Python} realisiert werden.
+Eventuell kommt das \href{https://www.ros.org/}{\acf{ros}} zum Einsatz.
 
 \newpage
 
 \section{Aufgabenstellung}
+\label{aufgabenstellung}
 
 Das Ziel unseres Teams ist die Auswertung der Kamerabilder eines Agenten in einer DuckieTown-Umgebung. Mit den daraus gewonnenen Informationen soll der Agent in der Lage sein, vollständig autonom die Fahrspur halten zu können. Benötigt wird daher ein System, welches anhand einer Kameraaufnahme Steuerbefehle für den Agenten berechnet. \\
 
@@ -60,7 +61,7 @@ Wir werden zur Berechnung des Steuerbefehls auf zwei Ansätze eingehen:
 
 \newpage
 
-Der Abstand zur Seitenmarkierung $d$ wird von uns als ein hundertstel einer Kachellänge des Simulators festgelegt. Diese Kachelgröße wiederum wird in der \texttt{yaml}-Datei der entsprechenden Karte festgelegt. Die Maße einer Kachel in der physikalischen Duckietown-Umgebung betragen $61 cm^2$. Bei einer simulierten Kachelgröße von 1 und einem Fehler in $d$ von 1 würde dies einem Fehler von 0.61 cm in der physikalischen Umgebung entsprechen.
+Der Abstand zur Seitenmarkierung $d$ wird von uns als ein hundertstel einer Kachellänge des Simulators festgelegt. Diese Kachelgröße wiederum wird in der \texttt{yaml}-Datei der entsprechenden Karte festgelegt. Die Maße einer Kachel in der physikalischen Duckietown-Umgebung betragen $61 cm^2$. Bei einer simulierten Kachelgröße von 1 und einem Fehler in $d$ von 1 würde dies einem Fehler von 0.61 cm in der physikalischen Umgebung entsprechen. \\
 
 Die Winkeldifferenz $\theta$ wird von uns in Grad im Wertebereich $[-180, 180]$ erfasst. 
 

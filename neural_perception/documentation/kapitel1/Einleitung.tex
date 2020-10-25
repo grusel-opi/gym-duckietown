@@ -2,20 +2,25 @@
 
 \begin{figure}[H]
 	\centering
-	\begin{minipage}{.5\textwidth}
+	\begin{subfigure}[b]{0.45\textwidth}
 		\centering
-		\includegraphics[width=0.95\textwidth]{kapitel1/images/duckietown.png}
-		\quelle\url{https://www.duckietown.org/wp-content/uploads/2018/05/duckietown_nice-1024x683.jpg}
+		\includegraphics[width=\textwidth]{kapitel1/images/duckietown.png}
+		\caption*{\footnotemark}
 		\label{fig:duckietown}
-	\end{minipage}%
-	\begin{minipage}{.5\textwidth}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.505\textwidth}
 		\centering
-		\includegraphics[width=1.072\textwidth]{kapitel1/images/duckietown2.png}
-		\quelle\url{https://www.duckietown.org/wp-content/uploads/2018/06/data-from-img-CameraDataProcessed-fc6fd822-1024x607.png}
+		\includegraphics[width=\textwidth]{kapitel1/images/duckietown2.png}
+		\caption*{\footnotemark}
 		\label{fig:duckietown2}
-	\end{minipage}
+	\end{subfigure}
 	\caption{DuckieTown}
 \end{figure}
+
+\addtocounter{footnote}{-1}
+\footnotetext{\url{https://www.duckietown.org/wp-content/uploads/2018/05/duckietown_nice-1024x683.jpg}}
+\stepcounter{footnote}
+\footnotetext{\url{https://www.duckietown.org/wp-content/uploads/2018/06/data-from-img-CameraDataProcessed-fc6fd822-1024x607.png}}
 
 Das DuckieTown-Projekt wurde 2016 am \acf{mit} konzipiert. Das Ziel war es, eine Plattform zu
 entwickeln, die klein, kostengünstig und \grqq smart\grqq{} ist, aber dennoch die wissenschaftlichen

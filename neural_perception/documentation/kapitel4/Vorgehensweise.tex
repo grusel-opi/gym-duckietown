@@ -10,10 +10,6 @@ In der Vorverarbeitung der Daten wird die Größe der Bilder von $(640, 480, 3)$
 
 Eine Darstellung unseres Netzes mitsamt Vorverarbeitung der Daten ist in Abb. \ref{nvidia-model} zu sehen.
 
-\section{Datengewinnung}
-
-Da wir uns in einer simulierten Umgebung befinden, gestaltet sich die Gewinnung von Daten mit entsprechenden Labeln als unproblematisch.
-Im Folgenden gehen wir auf zwei Arten möglicher Label und zwei Methoden zur Generierung der Datensätze ein.
 
 \begin{figure}[H]
 	\centering
@@ -22,6 +18,11 @@ Im Folgenden gehen wir auf zwei Arten möglicher Label und zwei Methoden zur Gen
 	\label{nvidia-model}
 	\vspace{0.2cm}
 \end{figure}
+
+\section{Datengewinnung}
+
+Da wir uns in einer simulierten Umgebung befinden, gestaltet sich die Gewinnung von Daten mit entsprechenden Labeln als unproblematisch.
+Im Folgenden gehen wir auf zwei Arten möglicher Label und zwei Methoden zur Generierung der Datensätze ein.
 
 \subsection{Label}
 
@@ -44,6 +45,8 @@ Im ersten Ansatz ist die Aufgabe des Netzes die Schätzung der Pose des Agenten.
 \vspace{.5cm}
 Die magische Zahl von 20.5 ist einfach die Verschiebung des Wertes vom rechten Fahrbahnrand zur Mitte der Fahrspur, so dass das Ergebnis als Fehler zum Soll (also null) interpretiert werden kann. Das Teilen durch hundert ergibt dann einen Wert in Kachelgröße, statt hundertstel Kachelgröße.
 Zur Vollständigkeit ist im Code noch stark vereinfacht verdeutlicht, wie Aufnahme und zugehöriges Label zustande kommen und gespeichert werden.
+
+\newpage
 
 Das Schätzen der Pose hat den Vorteil, dass die Informationen anderweitig verwendet werden könnten, beispielsweise zur Lokalisierung des Agenten in einem Monte-Carlo Verfahren.\\
 
@@ -71,7 +74,7 @@ Im zweiten Ansatz trainieren wir das Netz direkt auf entsprechende Steuerbefehle
 Bei der Generierung der Datensätze verfolgen wir ebenfalls zwei Ansätze. Im ersten, naiven Ansatz lassen wir den Agenten selbstständig durch die Umgebung fahren, wobei für jeden Aufruf der \texttt{step()}-Methode eine Aufnahme mit entsprechendem Label gespeichert wird. Die Verteilung der Werte sollte demnach jener entsprechen, welche der Agent beim selbstständigen Fahren tatsächlich erlebt. \\
 
 Im zweiten Ansatz lassen wir den Agenten nur eine gewisse Anzahl von Schritten, also \texttt{step()}-Aufrufen, fahren und rufen dann die \texttt{reset()}-Methode des Simulators auf, welche den Agenten an eine zufällige, aber valide Pose zurücksetzt. Valide bedeutet, dass die Position befahrbar und frei von Kollisionen mit anderen Objekten ist.
-Der Gedanke dahinter ist, dass so die Verteilung der Werte mehr \glqq Ausnahmefälle\grqq{} beinhaltet. Denn sollte das Netz nicht im Stande sein, die Spur ähnlich gut halten zu können wie der \acs{pd}-Regler oder das Expertensystem, wird es oft in Situationen geraten, auf welche es nicht trainiert wurde. Die Werteverteilung sollte so ähnlich sein zu dem, was der Agent erlebt, falls er öfters \glqq crashen\grqq{} sollte.
+Auf diese Weise beinhaltet die Verteilung der Werte mehr \glqq Ausnahmefälle\grqq{}. Denn sollte das Netz nicht im Stande sein, die Spur ähnlich gut halten zu können wie der \acs{pd}-Regler oder das Expertensystem, wird es oft in Situationen geraten, auf welche es nicht trainiert wurde. Die Werteverteilung sollte so ähnlich sein zu dem, was der Agent erlebt, falls er öfters \glqq crashen\grqq{} sollte.
 
 \subsection{Datensätze}
 

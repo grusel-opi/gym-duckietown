@@ -10,10 +10,6 @@ In der Vorverarbeitung der Daten wird die Größe der Bilder von $(640, 480, 3)$
 
 Eine Darstellung unseres Netzes mitsamt Vorverarbeitung der Daten ist in Abb. \ref{nvidia-model} zu sehen.
 
-\section{Datengewinnung}
-
-Da wir uns in einer simulierten Umgebung befinden, gestaltet sich die Gewinnung von Daten mit entsprechenden Labeln als unproblematisch.
-Im Folgenden gehen wir auf zwei Arten möglicher Label und zwei Methoden zur Generierung der Datensätze ein.
 
 \begin{figure}[H]
 	\centering
@@ -22,6 +18,11 @@ Im Folgenden gehen wir auf zwei Arten möglicher Label und zwei Methoden zur Gen
 	\label{nvidia-model}
 	\vspace{0.2cm}
 \end{figure}
+
+\section{Datengewinnung}
+
+Da wir uns in einer simulierten Umgebung befinden, gestaltet sich die Gewinnung von Daten mit entsprechenden Labeln als unproblematisch.
+Im Folgenden gehen wir auf zwei Arten möglicher Label und zwei Methoden zur Generierung der Datensätze ein.
 
 \subsection{Label}
 
@@ -44,6 +45,8 @@ Im ersten Ansatz ist die Aufgabe des Netzes die Schätzung der Pose des Agenten.
 \vspace{.5cm}
 Die magische Zahl von 20.5 ist einfach die Verschiebung des Wertes vom rechten Fahrbahnrand zur Mitte der Fahrspur, so dass das Ergebnis als Fehler zum Soll (also null) interpretiert werden kann. Das Teilen durch hundert ergibt dann einen Wert in Kachelgröße, statt hundertstel Kachelgröße.
 Zur Vollständigkeit ist im Code noch stark vereinfacht verdeutlicht, wie Aufnahme und zugehöriges Label zustande kommen und gespeichert werden.
+
+\newpage
 
 Das Schätzen der Pose hat den Vorteil, dass die Informationen anderweitig verwendet werden könnten, beispielsweise zur Lokalisierung des Agenten in einem Monte-Carlo Verfahren.\\
 
